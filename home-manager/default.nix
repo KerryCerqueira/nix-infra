@@ -17,11 +17,6 @@
           ./users/erika/hosts/panza
         ];
       };
-      "julie@lazarus" = {
-        imports = [
-          ./users/julie
-        ];
-      };
       "kcerqueira@cruncher" = {
         imports = [
           ./users/kerry/minimal.nix
@@ -52,12 +47,6 @@
         imports = [
           ./users/kerry
           ./users/kerry/hosts/claudius
-        ];
-      };
-      "kerry@lazarus" = {
-        imports = [
-          ./users/kerry
-          ./users/kerry/hosts/lazarus
         ];
       };
       "kerry@panza" = {

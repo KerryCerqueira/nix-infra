@@ -29,32 +29,6 @@
         }
       ];
     };
-    lazarus = inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = {
-        inherit inputs;
-      };
-      modules = [
-        ./hosts/lazarus
-        inputs.sops-nix.nixosModules.sops
-        inputs.home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            extraSpecialArgs = {
-              inherit inputs;
-            };
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.julie = self.homeModules."julie@lazarus";
-            users.kerry = self.homeModules."kerry@lazarus";
-            backupFileExtension = "bkp";
-            sharedModules = [
-              inputs.sops-nix.homeManagerModules.sops
-              inputs.catppuccin.homeModules.catppuccin
-            ];
-          };
-        }
-      ];
-    };
     panza = inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {
         inherit inputs;
