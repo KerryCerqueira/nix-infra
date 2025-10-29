@@ -1,6 +1,6 @@
-{ flakeInputs, ... }:
+{ inputs, ... }:
 let
-	ee-presets = flakeInputs.easyeffects-presets;
+	ee-presets = inputs.easyeffects-presets;
 in {
 	services.easyeffects = {
 		enable = true;

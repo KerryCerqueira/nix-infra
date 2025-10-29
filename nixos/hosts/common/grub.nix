@@ -1,4 +1,4 @@
-{ pkgs, flakeInputs, ... }:
+{ pkgs, inputs, ... }:
 
 {
 	boot.loader = {
@@ -9,7 +9,7 @@
 			device = "nodev";
 			useOSProber = true;
 			efiSupport = true;
-			theme = flakeInputs.nixos-grub-themes.packages.${pkgs.system}.hyperfluent;
+			theme = inputs.nixos-grub-themes.packages.${pkgs.system}.hyperfluent;
 		};
 		efi.canTouchEfiVariables = true;
 		efi.efiSysMountPoint = "/boot";
