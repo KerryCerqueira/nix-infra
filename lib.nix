@@ -24,11 +24,7 @@ in {
         pythonEnv
         jupyter
       ];
-      shellHook =
-        /*
-        bash
-        */
-        ''
+      shellHook = ''
           export JUPYTER_PATH="${kernelSpec}:''${JUPYTER_PATH:-}"
         '';
     };
