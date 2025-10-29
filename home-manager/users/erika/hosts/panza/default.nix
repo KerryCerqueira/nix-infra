@@ -1,7 +1,6 @@
-{ ... }:
-{
-	imports = [
-		../../../common/easyeffects.nix
-	];
-	home.stateVersion = "24.11";
+{...}: {
+  imports = [
+    ../../../common/easyeffects.nix
+  ];
+  home.stateVersion = "24.11";
 }
