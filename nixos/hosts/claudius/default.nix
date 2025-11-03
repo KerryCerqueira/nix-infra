@@ -1,73 +1,40 @@
-{...}: {
-  imports = [
-    ./hardware
-    ../common/grub.nix
-    ../common/steam.nix
-    ../common/thunderbird.nix
-    ../common/shell.nix
-    ../common/gnome.nix
-  ];
-  system.stateVersion = "24.11";
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-    "pipe-operators"
-  ];
-  nixpkgs.config.allowUnfree = true;
-  networking.hostName = "claudius";
-  networking.networkmanager.enable = true;
-  time.timeZone = "America/Toronto";
-  i18n.defaultLocale = "en_CA.UTF-8";
-  sops = {
-    defaultSopsFile = ./secrets.yaml;
-    defaultSopsFormat = "yaml";
-    age.keyFile = let
-      envKey = builtins.getEnv "SOPS_AGE_KEY_FILE";
-    in
-      if envKey == ""
-      then "/etc/age/claudius.age"
-      else envKey;
-    secrets = {
-      "ageKeys/kerryMaster" = {
-        path = "/home/kerry/.config/sops/age/kerry_master.age";
-        owner = "kerry";
-      };
-      "ageKeys/kerryPotato" = {
-        path = "/home/kerry/.config/sops/age/kerry_potato.age";
-        owner = "kerry";
-      };
-      "ageKeys/kerryLazarus" = {
-        path = "/home/kerry/.config/sops/age/kerry_lazarus.age";
-        owner = "kerry";
-      };
-      "ageKeys/kerryClaudius" = {
-        path = "/home/kerry/.config/sops/age/kerry_claudius.age";
-        owner = "kerry";
-      };
-    };
-  };
-  services = {
-    displayManager.gdm.enable = true;
-    xserver = {
-      enable = true;
-      xkb.layout = "us";
-      xkb.variant = "";
-    };
-    fwupd.enable = true;
-    printing.enable = true;
-  };
-  users = {
-    users = {
-      kerry = {
-        isNormalUser = true;
-        description = "Kerry Cerqueira";
-        extraGroups = ["networkmanager" "wheel"];
-      };
-      erika = {
-        isNormalUser = true;
-        description = "Erika Titley";
-        extraGroups = ["networkmanager" "wheel"];
-      };
-    };
+{
+  self,
+  inputs,
+  ...
+}: let
+  hardwareModule = import ./_hardware;
+  kerryHmModule = import ./_home/kerry;
+in {
+  flake.nixosConfigurations.claudius = inputs.nixpkgs.lib.nixosSystem {
+    modules = with self.nixosModules; [
+      hardwareModule
+      bluetooth
+      gnome
+      grub
+      nix
+      shell
+      steam
+      thunderbird
+      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen2
+      inputs.sops-nix.nixosModules.sops
+      inputs.home-manager.nixosModules.home-manager
+      {
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users.kerry = {
+            imports = [
+              self.homeModules.kerry
+              kerryHmModule
+            ];
+          };
+          backupFileExtension = "bkp";
+          sharedModules = [
+            inputs.sops-nix.homeManagerModules.sops
+          ];
+        };
+      }
+    ];
   };
 }

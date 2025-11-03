@@ -1,0 +1,8 @@
+{...}: {
+  flake.homeModules.zathura = {...}: {
+    programs.zathura = {
+      enable = true;
+      extraConfig = builtins.readFile ./zathurarc;
+    };
+  };
+}

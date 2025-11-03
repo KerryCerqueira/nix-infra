@@ -1,86 +1,12 @@
 {
-  self,
-  inputs,
-  ...
-}: {
-  flake = {
-    homeModules = {
-      "erika@potato" = {
-        imports = [
-          ./users/erika
-          ./users/erika/hosts/potato
-        ];
-      };
-      "erika@panza" = {
-        imports = [
-          ./users/erika
-          ./users/erika/hosts/panza
-        ];
-      };
-      "kcerqueira@cruncher" = {
-        imports = [
-          ./users/kerry/minimal.nix
-        ];
-        home = {
-          stateVersion = "25.05";
-          username = "kcerqueira";
-          homeDirectory = "/home/kcerqueira";
-        };
-      };
-      "kerry@counter" = {
-        imports = [
-          ./users/kerry/minimal.nix
-        ];
-        home = {
-          stateVersion = "25.05";
-          username = "kerry";
-          homeDirectory = "/home/kerry";
-        };
-      };
-      "kerry@sigmund" = {
-        imports = [
-          ./users/kerry
-          ./users/kerry/hosts/sigmund
-        ];
-      };
-      "kerry@claudius" = {
-        imports = [
-          ./users/kerry
-          ./users/kerry/hosts/claudius
-        ];
-      };
-      "kerry@panza" = {
-        imports = [
-          ./users/kerry
-          ./users/kerry/hosts/panza
-        ];
-      };
-      "kerry@potato" = {
-        imports = [
-          ./users/kerry
-          ./users/kerry/hosts/potato
-        ];
-      };
-    };
-    homeConfigurations = {
-      "kerry@counter" = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import inputs.nixpkgs {system = "x86_64-linux";};
-        modules = [
-          self.homeModules."kerry@counter"
-        ];
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-      };
-      "kcerqueira@cruncher" = inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import inputs.nixpkgs {system = "x86_64-linux";};
-        modules = [
-          self.homeModules."kcerqueira@cruncher"
-        ];
-        extraSpecialArgs = {
-          inherit inputs;
-        };
-      };
-    };
-  };
+  imports = [
+    ./common/easyeffects.nix
+    ./common/kitty.nix
+    ./common/libreoffice.nix
+    ./common/vscode.nix
+    ./common/zathura.nix
+    ./users/erika
+    ./users/julie
+    ./users/kerry
+  ];
 }

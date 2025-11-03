@@ -18,47 +18,37 @@ age_keys:
   # Kerry's secrets on potato
   - &kerry_ptto age1hwc68rmnfxj4uz3w8qjedmx2jzjfpuv7mzsra8zhfk2ughxy83gsqttkcp
 creation_rules:
-  - path_regex: ^hosts/lazarus/secrets.yaml$
-    key_groups:
-      - age:
-        - *lazarus
-        - *kerry_master
-  - path_regex: ^hosts/panza/secrets.yaml$
+  - path_regex: ^nixos/hosts/panza/secrets.yaml$
     key_groups:
       - age:
         - *panza
         - *kerry_master
-  - path_regex: ^hosts/potato/secrets.yaml$
+  - path_regex: ^nixos/hosts/potato/_hardware/secrets.yaml$
     key_groups:
       - age:
         - *potato
         - *erika_master
         - *kerry_master
-  - path_regex: ^users/kerry/hosts/panza/secrets.yaml$
+  - path_regex: ^nixos/hosts/panza/_home/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
-  - path_regex: ^hosts/claudius/secrets.yaml$
+  - path_regex: ^nixos/hosts/claudius/_hardware/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *claudius
-  - path_regex: ^users/kerry/hosts/claudius/secrets.yaml$
+  - path_regex: ^nixos/hosts/claudius/_home/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_clds
-  - path_regex: ^users/kerry/hosts/potato/secrets.yaml$
+  - path_regex: ^nixos/hosts/potato/_home/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_ptto
-  - path_regex: ^users/kerry/hosts/lazarus/secrets.yaml$
-    key_groups:
-      - age:
-        - *kerry_master
-        - *kerry_lzrs
-  - path_regex: ^users/erika/hosts/potato/secrets.yaml$
+  - path_regex: ^nixos/hosts/potato/_home/erika/secrets.yaml$
     key_groups:
       - age:
         - *erika_master

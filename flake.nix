@@ -32,9 +32,10 @@
     flake-parts.lib.mkFlake {inherit inputs;} (
       {...}: {
         imports = [
+          inputs.home-manager.flakeModules.home-manager
+          ./devenvs
           ./home-manager
           ./nixos
-          ./devenvs
         ];
         flake = {
           lib = import ./lib.nix;
