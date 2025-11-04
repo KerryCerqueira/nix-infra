@@ -15,6 +15,12 @@
               username = "kerry";
               homeDirectory = "/home/kerry";
             };
+            nix.settings.experimental-features = [
+              "nix-command"
+              "flakes"
+              "pipe-operators"
+            ];
+            nixpkgs.config.allowUnfree = true;
           }
           self.homeModules.nvim
           self.homeModules.shell
@@ -30,6 +36,12 @@
               username = "kcerqueira";
               homeDirectory = "/home/kcerqueira";
             };
+            nix.settings.experimental-features = [
+              "nix-command"
+              "flakes"
+              "pipe-operators"
+            ];
+            nixpkgs.config.allowUnfree = true;
           }
           self.homeModules.nvim
           self.homeModules.zsh
