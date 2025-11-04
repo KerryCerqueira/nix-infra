@@ -9,17 +9,20 @@
         pkgs = import inputs.nixpkgs {system = "x86_64-linux";};
         modules = [
           {
-            programs.homeManager.enable = true;
+            programs.home-manager.enable = true;
             home = {
               stateVersion = "25.05";
               username = "kerry";
               homeDirectory = "/home/kerry";
             };
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-              "pipe-operators"
-            ];
+            nix = {
+              package = inputs.nixpkgs.legacyPackages.x86_64-linux.nix;
+              settings.experimental-features = [
+                "nix-command"
+                "flakes"
+                "pipe-operators"
+              ];
+            };
             nixpkgs.config.allowUnfree = true;
           }
           self.homeModules.nvim
@@ -30,17 +33,20 @@
         pkgs = import inputs.nixpkgs {system = "x86_64-linux";};
         modules = [
           {
-            programs.homeManager.enable = true;
+            programs.home-manager.enable = true;
             home = {
               stateVersion = "25.05";
               username = "kcerqueira";
               homeDirectory = "/home/kcerqueira";
             };
-            nix.settings.experimental-features = [
-              "nix-command"
-              "flakes"
-              "pipe-operators"
-            ];
+            nix = {
+              package = inputs.nixpkgs.legacyPackages.x86_64-linux.nix;
+              settings.experimental-features = [
+                "nix-command"
+                "flakes"
+                "pipe-operators"
+              ];
+            };
             nixpkgs.config.allowUnfree = true;
           }
           self.homeModules.nvim
