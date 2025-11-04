@@ -1,10 +1,20 @@
 {
   imports = [
+    ./common/bat
     ./common/easyeffects.nix
+    ./common/eza
+    ./common/fish
     ./common/kitty.nix
     ./common/libreoffice.nix
+    ./common/moor
+    ./common/nvim
+    ./common/nvim/lazynixcompat.nix
+    ./common/oh-my-posh
+    ./common/shell.nix
+    ./common/shell-utils
     ./common/vscode.nix
-    ./common/zathura.nix
+    ./common/zathura
+    ./common/zsh
     ./users/erika
     ./users/julie
     ./users/kerry

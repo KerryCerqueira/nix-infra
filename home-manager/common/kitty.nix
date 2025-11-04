@@ -15,12 +15,14 @@
         enable_audio_bell = false;
         visual_bell_duration = 0.1;
         cursor_trail = 1;
-        scrollback_pager = "moar --statusbar=bold --no-linenumbers";
+        scrollback_pager = "moor --statusbar=bold --no-linenumbers";
         background_opacity = 0.90;
       };
-      extraConfig = ''
-        include ./extra.conf
-      '';
+      extraConfig =
+        # kitty
+        ''
+          include ./extra.conf
+        '';
     };
   };
 }

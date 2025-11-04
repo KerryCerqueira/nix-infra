@@ -16,8 +16,8 @@
               homeDirectory = "/home/kerry";
             };
           }
-          inputs.nvim-config.homeManagerModules.nvim-config
-          inputs.shell-config.homeManagerModules.shell-config
+          self.homeModules.nvim
+          self.homeModules.shell
         ];
       };
       "kcerqueira@cruncher" = inputs.home-manager.lib.homeManagerConfiguration {
@@ -31,8 +31,10 @@
               homeDirectory = "/home/kcerqueira";
             };
           }
-          inputs.nvim-config.homeManagerModules.nvim-config
-          inputs.shell-config.homeManagerModules.shell-config
+          self.homeModules.nvim
+          self.homeModules.zsh
+          self.homeModules.fish
+          self.homeModules.shell-utils
         ];
       };
     };
@@ -41,8 +43,10 @@
         libreoffice
         zathura
         kitty
-        inputs.nvim-config.homeManagerModules.nvim-config
-        inputs.shell-config.homeManagerModules.shell-config
+        self.homeModules.nvim
+        self.homeModules.zsh
+        self.homeModules.fish
+        self.homeModules.shell-utils
       ];
       programs = {
         home-manager.enable = true;
@@ -65,7 +69,7 @@
           rnote
           vlc
           spotify
-          whatsapp-for-linux
+          wasistlos
         ];
       };
     };

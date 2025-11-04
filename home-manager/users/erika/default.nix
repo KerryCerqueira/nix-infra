@@ -1,14 +1,10 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{self, ...}: {
   flake.homeModules.erika = {pkgs, ...}: {
     imports = with self.homeModules; [
       kitty
       libreoffice
-      inputs.nvim-config.homeManagerModules.nvim-config
-      inputs.shell-config.homeManagerModules.shell-config
+      nvim
+      shell
     ];
     programs = {
       home-manager.enable = true;
@@ -25,7 +21,7 @@
         rnote
         vlc
         spotify
-        whatsapp-for-linux
+        wasistlos
       ];
     };
   };

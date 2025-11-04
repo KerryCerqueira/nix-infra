@@ -1,0 +1,216 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "palette": {
+    "os": "#ACB0BE",
+    "pink": "#F5BDE6",
+    "lavender": "#CBA6F7",
+    "blue": "#89B4FA",
+    "peach": "#FAB387",
+    "red": "#F38BA8",
+    "teal": "#94E2D5",
+    "rosewater": "#F5E0DC",
+    "wight": "#FFFFFF",
+    "text": "#CDD6F4",
+    "yellow": "#F9E2AF",
+    "overlay": "#6C7086",
+    "surface": "#313244",
+    "base": "#1E1E2E",
+    "crust": "#11111B"
+  },
+  "transient_prompt": {
+    "background": "transparent",
+    "foreground": "p:peach",
+    "template": "𝝀: "
+  },
+  "secondary_prompt": {
+    "background": "transparent",
+    "foreground": "p:text",
+    "template": "-> "
+  },
+  "blocks": [
+    {
+      "alignment": "left",
+      "leading_diamond": "╭─",
+      "segments": [
+        {
+          "background": "p:rosewater",
+          "foreground": "p:surface",
+          "style": "diamond",
+          "template": "{{ if .WSL }}WSL at {{ end }}{{.Icon}} ",
+          "type": "os"
+        },
+        {
+          "background": "p:lavender",
+          "foreground": "p:crust",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "template": "<p:overlay> {{ if .SSHSession }}  {{ end }} </>{{ .UserName }}</><p:overlay>@</>{{ .HostName }}",
+          "type": "session"
+        },
+        {
+          "background": "p:lavender",
+          "foreground": "p:surface",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "template": "  {{ .Name }} ",
+          "type": "shell"
+        },
+        {
+          "type": "python",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "p:surface",
+          "background": "p:teal",
+          "template": "  {{ .Full }}{{ if .Venv}} ({{ .Venv }}){{ end }}",
+          "min_width": 90
+        },
+        {
+          "type": "nix-shell",
+          "style": "powerline",
+          "powerline_symbol": "",
+          "foreground": "p:surface",
+          "background": "p:blue",
+          "template": " nix-{{ .Type }} ",
+          "min_width": 90
+        },
+        {
+          "background": "p:yellow",
+          "foreground": "p:surface",
+          "style": "powerline",
+          "properties": {
+            "branch_icon": " ",
+            "cherry_pick_icon": " ",
+            "commit_icon": " ",
+            "fetch_status": true,
+            "fetch_upstream_icon": true,
+            "merge_icon": " ",
+            "no_commits_icon": " ",
+            "rebase_icon": " ",
+            "revert_icon": " ",
+            "tag_icon": " "
+          },
+          "powerline_symbol": "",
+          "template": "  {{ .HEAD }}{{ if .Staging.Changed }}<#FF6F00>  {{ .Staging.String }}</>{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }} ",
+          "type": "git",
+          "min_width": 90
+        }
+      ],
+      "type": "prompt"
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "filler": "<p:overlay>·</>",
+      "overflow": "break",
+      "segments": [
+        {
+          "background": "transparent",
+          "foreground": "p:white",
+          "properties": {
+            "folder_icon": "",
+            "folder_separator_template": "<p:blue> » </>",
+            "home_icon": "",
+            "style": "agnoster_short",
+            "max_depth": 6
+          },
+          "style": "plain",
+          "template": "<p:blue>[</> {{.Path}} <p:blue>]</>",
+          "type": "path",
+          "min_width": 130
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "background": "transparent",
+          "foreground": "p:surface",
+          "template": "<p:overlay>···</>",
+          "min_width": 130
+        },
+        {
+          "type": "status",
+          "style": "diamond",
+          "leading_diamond": "◥",
+          "trailing_diamond": "◣",
+          "properties": {
+            "always_enabled": true
+          },
+          "background": "p:teal",
+          "background_templates": ["{{if gt .Code 0}}p:red{{end}}"],
+          "foreground": "p:surface",
+          "template": "{{ if eq .Code 0 }}  {{ else }}  {{ reason .Code }} {{ end }}"
+        },
+        {
+          "background": "p:rosewater",
+          "foreground": "p:surface",
+          "properties": {
+            "style": "austin",
+            "threshold": 0
+          },
+          "style": "diamond",
+          "template": " {{.FormattedMs}} ",
+          "trailing_diamond": "◣",
+          "type": "executiontime"
+        },
+        {
+          "type": "text",
+          "style": "plain",
+          "background": "transparent",
+          "foreground": "p:surface",
+          "template": "<p:overlay>···</>"
+        },
+        {
+          "background": "p:overlay",
+          "foreground": "p:wight",
+          "trailing_diamond": "",
+          "leading_diamond": "",
+          "style": "diamond",
+          "template": "<#fff>  </>{{ .CurrentDate | date .Format }} ",
+          "type": "time"
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "background": "transparent",
+          "foreground": "p:rosewater",
+          "template": "╰─"
+        },
+        {
+          "type": "text",
+          "style": "diamond",
+          "leading_diamond": "",
+          "trailing_diamond": "",
+          "foreground": "p:base",
+          "background": "p:blue",
+          "template": "<b>{{ if eq .Env.FISH__BIND_MODE \"default\" }}NORMAL{{ else if eq .Env.FISH__BIND_MODE \"insert\" }}INSERT{{ else if eq .Env.FISH__BIND_MODE \"replace\" }}REPLACE{{ else if eq .Env.FISH__BIND_MODE \"visual\"}}VISUAL{{ else }}{{ end }}</b>"
+        },
+        {
+          "type": "root",
+          "style": "diamond",
+          "foreground": "p:red",
+          "background": "transparent",
+          "template": " "
+        },
+        {
+          "background": "transparent",
+          "foreground": "p:yellow",
+          "foreground_templates": ["{{if gt .Code 0}}p:red{{end}}"],
+          "properties": {
+            "always_enabled": true
+          },
+          "style": "diamond",
+          "template": " 𝝀:",
+          "type": "status"
+        }
+      ]
+    }
+  ],
+  "final_space": true,
+  "version": 3
+}
