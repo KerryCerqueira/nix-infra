@@ -1,19 +1,8 @@
 {config, ...}: {
   home = {
     stateVersion = "24.11";
-    file.".ssh/config".text =
-      # sshconfig
-      ''
-        Host *
-        	IdentityFile ~/.ssh/id_ed25519
-        	IdentitiesOnly yes
-        	ServerAliveInterval 15
-        	ServerAliveCountMax 3
-        	AddKeysToAgent yes
-
-        Include ~/.ssh/config.d/*.conf
-      '';
   };
+  programs.ssh.matchBlocks."*".identityFile = "~/.ssh/id_ed25519";
   sops = {
     defaultSopsFile = ./secrets.yaml;
     defaultSopsFormat = "yaml";

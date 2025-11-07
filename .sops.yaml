@@ -1,24 +1,24 @@
 age_keys:
-  # System-level secrets on lazarus
-  - &lazarus age1aldvtm9hpcj4e2mh7c2eca7d79yyf3vx0zwywj4a02xy0vv4zcwsw3jnwd
   # System-level secrets on panza
   - &panza age15c0a468t76uw2su43y4c7cmryjn3lt36r0p2fc5vmpmzm322aymq4ntcm6
   # System-level secrets on potato
   - &potato age1dmcrmq23arugj8h8zlr663v6hqfp58apj90ynarahl2w56jlfcdqfnsue4
   # System-level secrets on claudius
   - &claudius age13gyz57l2wmglle0kkhsm38uzv3rx2ej3c6svzlzqqc8a3jp7lcgshrzjvz
+  # System-level secrets on sigmund
+  - &sigmund age1v8al4y2ad7fm0f97vgu6yzjrmtaya5gwmlh6q4jf5x05spkqru4qj4jpur
   # Erika's master encryption key
   - &erika_master age1vcf4ntqgukhxf6pjyf2uqqw3jn260npg4q4f6wwup8xr2kq9v3sq0hmtjx
   # Kerry's master encryption key
   - &kerry_master age1xvyp63kuszp4u0ke4lf84wstgt6td04v6w605twh3mwqaedv9u8sdm8g4j
   # Kerry's secrets on claudius
   - &kerry_clds age1g22a6lrcwsj9h2c4y9dfa5d3zkfcjrt36r3gzhq3jdpgeqc0r9yqq7x567
-  # Kerry's secrets on lazarus
-  - &kerry_lzrs age1msmzvr4y5sutl3rxwmj94cmyraj4zpjypmyauvzar6nk3htgds5q6smt4h
   # Kerry's secrets on potato
   - &kerry_ptto age1hwc68rmnfxj4uz3w8qjedmx2jzjfpuv7mzsra8zhfk2ughxy83gsqttkcp
+  # Kerry's secrets on sigmund
+  - &kerry_sgmd age1p9ld9unnr6eknac26p87gp4hp7zexq666h09u0d03tvy5uh63e2q8xqmsz
 creation_rules:
-  - path_regex: ^nixos/hosts/panza/secrets.yaml$
+  - path_regex: ^nixos/hosts/panza/_hardware/secrets.yaml$
     key_groups:
       - age:
         - *panza
@@ -52,3 +52,13 @@ creation_rules:
     key_groups:
       - age:
         - *erika_master
+  - path_regex: ^nixos/hosts/sigmund/_hardware/secrets.yaml$
+    key_groups:
+      - age:
+        - *kerry_master
+        - *sigmund
+  - path_regex: ^nixos/hosts/sigmund/_home/kerry/secrets.yaml$
+    key_groups:
+      - age:
+        - *kerry_master
+        - *kerry_sgmd

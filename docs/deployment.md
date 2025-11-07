@@ -1,11 +1,12 @@
 # Notes on Deployment
 ## Key Generation
 
-Each host needs an age private key to decrypt its system secrets. Generate one
-with
+Each host needs an age private key to decrypt its system secrets, and a ssh key.
+Generate one with
 
 ```sh
 nix-shell -p age --run "age-keygen -o <hostname>.age"
+ssh-keygen -t ed25519 -C "<hostname>"
 ```
 
 I'm running with the convention of placing these system level keys in
@@ -22,6 +23,31 @@ Generate a key for user secrets in the same way. The user key unlike the system
 key is deployed by sops itself during the boot process by encrypting it in the
 system `secrets.yaml` and deploying it to `/home/<user>/.config/sops/age`. Make
 sure to make the user the owner of the keyfile for home-manager to pick it up.
+
+You'll then need to add the age keys to the sops policy file. e.g.
+
+```{yaml}
+age_keys:
+  # System-level secrets on <host>
+  - &host age1234abcd
+  # User's secrets on sigmund
+  - &user_host age5678efgh
+creation_rules:
+  - path_regex: ^nixos/hosts/<host>/_hardware/secrets.yaml$
+    key_groups:
+      - age:
+        - *host
+  - path_regex: ^nixos/hosts/<host>/_home/<user>/secrets.yaml$
+    key_groups:
+      - age:
+        - *user_host
+        - *user_master
+```
+
+If you want to add user secrets before deploying the user encryption key with
+a rebuild, you'll need to do it yourself the first time manually, or your first
+rebuild will need to be invoked with SOPS_AGE_KEYFILE set. Move the user key to
+~/.config/sops/age/keys.txt if you want to do the former.
 
 If the user needs a declarative login password, its hash can be deployed by
 sops. To get the hash save the password into a file (say `pwd.txt`) and run

@@ -10,6 +10,7 @@
     ./common/nvim
     ./common/nvim/lazynixcompat.nix
     ./common/oh-my-posh
+    ./common/ssh.nix
     ./common/shell.nix
     ./common/shell-utils
     ./common/vscode.nix

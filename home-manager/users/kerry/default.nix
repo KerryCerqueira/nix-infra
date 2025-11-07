@@ -34,6 +34,7 @@
         modules = [
           {
             programs.home-manager.enable = true;
+            nixpkgs.config.allowUnfree = true;
             home = {
               stateVersion = "25.05";
               username = "kcerqueira";
@@ -47,12 +48,9 @@
                 "pipe-operators"
               ];
             };
-            nixpkgs.config.allowUnfree = true;
           }
           self.homeModules.nvim
-          self.homeModules.zsh
-          self.homeModules.fish
-          self.homeModules.shell-utils
+          self.homeModules.shell
         ];
       };
     };
@@ -61,10 +59,9 @@
         libreoffice
         zathura
         kitty
-        self.homeModules.nvim
-        self.homeModules.zsh
-        self.homeModules.fish
-        self.homeModules.shell-utils
+        nvim
+        shell
+        ssh
       ];
       programs = {
         home-manager.enable = true;
