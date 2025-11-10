@@ -5,6 +5,8 @@ age_keys:
   - &potato age1dmcrmq23arugj8h8zlr663v6hqfp58apj90ynarahl2w56jlfcdqfnsue4
   # System-level secrets on claudius
   - &claudius age13gyz57l2wmglle0kkhsm38uzv3rx2ej3c6svzlzqqc8a3jp7lcgshrzjvz
+  # System-level secrets on prometheus
+  - &prometheus age15r59wkf2xzg6r844m86yuklk65xw6vrkdptr0vpzpms6ukrsaalqalee7k
   # System-level secrets on sigmund
   - &sigmund age1v8al4y2ad7fm0f97vgu6yzjrmtaya5gwmlh6q4jf5x05spkqru4qj4jpur
   # Erika's master encryption key
@@ -13,6 +15,8 @@ age_keys:
   - &kerry_master age1xvyp63kuszp4u0ke4lf84wstgt6td04v6w605twh3mwqaedv9u8sdm8g4j
   # Kerry's secrets on claudius
   - &kerry_clds age1g22a6lrcwsj9h2c4y9dfa5d3zkfcjrt36r3gzhq3jdpgeqc0r9yqq7x567
+  # Kerry's secrets on prometheus
+  - &kerry_pmts age1vqn62ymk3g06u789u9ku609face4lnmlf4gsnw7lxjdet3wsv5yq68cnrf
   # Kerry's secrets on potato
   - &kerry_ptto age1hwc68rmnfxj4uz3w8qjedmx2jzjfpuv7mzsra8zhfk2ughxy83gsqttkcp
   # Kerry's secrets on sigmund
@@ -62,3 +66,13 @@ creation_rules:
       - age:
         - *kerry_master
         - *kerry_sgmd
+  - path_regex: ^nixos/hosts/prometheus/_hardware/secrets.yaml$
+    key_groups:
+      - age:
+        - *kerry_master
+        - *prometheus
+  - path_regex: ^nixos/hosts/prometheus/_home/kerry/secrets.yaml$
+    key_groups:
+      - age:
+        - *kerry_master
+        - *kerry_pmts

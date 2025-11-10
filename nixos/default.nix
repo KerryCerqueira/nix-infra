@@ -10,6 +10,7 @@
     ./hosts/claudius
     ./hosts/panza
     ./hosts/potato
+    ./hosts/prometheus
     ./hosts/sigmund
   ];
 }

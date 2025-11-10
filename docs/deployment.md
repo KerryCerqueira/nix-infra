@@ -59,10 +59,17 @@ cat pwd.txt | mkpasswd -s
 If the user needs a declarative syncthing ID, you can generate a keypair with
 
 ```sh
-syncthing -generate=myconfig
+syncthing generate --home=./myconfig
 ```
 
 You can then find the keypair in `./myconfig/key.pem` etc.
+
+You'll also probably need API keys for various services, generated through some
+web interface. Here's a list of the ones I use:
+
+- Tavily
+- Huggingface
+- OpenAI
 
 ## Non-declarative setup
 
@@ -78,4 +85,3 @@ microsoft accounts
 - Log into steam
 - Add empty `extra.lua` to `~/.config/nvim/lua/extra/`
 - deploy git config
-
