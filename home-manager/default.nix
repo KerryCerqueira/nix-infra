@@ -13,6 +13,7 @@
     ./common/ssh.nix
     ./common/shell.nix
     ./common/shell-utils
+    ./common/syncthing.nix
     ./common/vscode.nix
     ./common/zathura
     ./common/zsh

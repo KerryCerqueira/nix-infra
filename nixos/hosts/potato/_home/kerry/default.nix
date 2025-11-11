@@ -10,9 +10,4 @@
       "ssh/github/private".path = "/home/kerry/.ssh/github";
     };
   };
-  services.syncthing = {
-    enable = true;
-    tray.enable = true;
-    tray.command = "syncthingtray --wait";
-  };
 }

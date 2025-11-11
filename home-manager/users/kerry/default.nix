@@ -62,6 +62,7 @@
         nvim
         shell
         ssh
+        syncthing
       ];
       programs = {
         home-manager.enable = true;

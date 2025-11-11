@@ -6,22 +6,22 @@
   sops = {
     defaultSopsFile = ./secrets.yaml;
     defaultSopsFormat = "yaml";
-    age.keyFile = "/home/kerry/.config/sops/age/kerry_claudius.age";
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/kerry_claudius.age";
     secrets = {
       "syncthing/cert" = {
-        path = "/home/kerry/.config/syncthing/cert.pem";
+        path = "${config.home.homeDirectory}/.config/syncthing/cert.pem";
       };
       "syncthing/key" = {
-        path = "/home/kerry/.config/syncthing/key.pem";
+        path = "${config.home.homeDirectory}/.config/syncthing/key.pem";
       };
       "apiKeys/tavily" = {};
       "apiKeys/huggingface" = {};
       "apiKeys/openai" = {};
       "ssh/identity/private" = {
-        path = "/home/kerry/.ssh/id_ed25519";
+        path = "${config.home.homeDirectory}/.ssh/id_ed25519";
       };
       "ssh/identity/public" = {
-        path = "/home/kerry/.ssh/id_ed25519.pub";
+        path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
       };
     };
   };
@@ -53,11 +53,4 @@
       	end,
       }
     '';
-  services = {
-    syncthing = {
-      enable = true;
-      tray.enable = true;
-      tray.command = "syncthingtray --wait";
-    };
-  };
 }
