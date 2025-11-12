@@ -58,6 +58,7 @@
       imports = with self.homeModules; [
         libreoffice
         zathura
+        keepassxc
         kitty
         nvim
         shell
@@ -75,7 +76,6 @@
           obsidian
           inkscape-with-extensions
           ipe
-          keepassxc
           gimp
           discord
           slack

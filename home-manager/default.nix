@@ -4,6 +4,7 @@
     ./common/easyeffects.nix
     ./common/eza
     ./common/fish
+    ./common/keepassxc.nix
     ./common/kitty.nix
     ./common/libreoffice.nix
     ./common/moor
