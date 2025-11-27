@@ -1,9 +1,9 @@
 {pkgs, ...}: let
   videre-nvim = let
-    commitDate = "2025-09-07T15:07:20-04:00";
+    commitDate = "2025-09-21T15:24:55-04:00";
     version = "unstable-" + commitDate;
-    rev = "1c75b447eb0b34884544090df5eb9be871dced5a";
-    hash = "sha256-CQHmoKXh1ckKDt85owaEUpkTk0VBihu1ZPSwuOCrxz8=";
+    rev = "224bfb4909d833f6b2282a14ca65464279d34b33";
+    hash = "sha256-REv8rD9s6g1VbUsfR2xrHZNXePETXPrw83cIHAk1HoQ=";
   in
     pkgs.vimUtils.buildVimPlugin {
       pname = "videre.nvim";

@@ -1,9 +1,9 @@
 {pkgs, ...}: let
   colorful-winsep-nvim = let
-    commitDate = "2025-09-05T15:11:21+08:00";
+    commitDate = "2025-09-30T07:38:50Z";
     version = "unstable-" + commitDate;
-    rev = "1d5d1e33a4e1b8d692a63bf400e837e9b294d239";
-    hash = "sha256-T+PfRGyo0QjpKmlJiN8C4+Hk4TWL/UO91NWHrXX62RQ=";
+    rev = "e555611c8f39918e30d033a97ea1a5af457ce75e";
+    hash = "sha256-BNQ/MklqSGcyOeozytq1B71jnj85Bb+QQX7rAj//tjg=";
   in
     pkgs.vimUtils.buildVimPlugin {
       pname = "colorful-winsep.nvim";
