@@ -59,9 +59,7 @@
         libreoffice
         zathura
         keepassxc
-        kitty
-        nvim
-        shell
+        terminal
         ssh
         syncthing
       ];

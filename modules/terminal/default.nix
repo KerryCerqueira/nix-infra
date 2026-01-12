@@ -1,5 +1,9 @@
 {self, ...}: {
   flake.nixosModules.terminal = {pkgs, ...}: {
+    imports = with self.nixosModules; [
+      zsh
+      fish
+    ];
     programs = {
       neovim = {
         defaultEditor = true;

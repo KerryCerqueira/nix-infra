@@ -22,56 +22,56 @@ age_keys:
   # Kerry's secrets on sigmund
   - &kerry_sgmd age1p9ld9unnr6eknac26p87gp4hp7zexq666h09u0d03tvy5uh63e2q8xqmsz
 creation_rules:
-  - path_regex: ^nixos/hosts/panza/_hardware/secrets.yaml$
+  - path_regex: ^modules/hosts/panza/_hardware/secrets.yaml$
     key_groups:
       - age:
         - *panza
         - *kerry_master
-  - path_regex: ^nixos/hosts/potato/_hardware/secrets.yaml$
+  - path_regex: ^modules/hosts/potato/_hardware/secrets.yaml$
     key_groups:
       - age:
         - *potato
         - *erika_master
         - *kerry_master
-  - path_regex: ^nixos/hosts/panza/_home/kerry/secrets.yaml$
+  - path_regex: ^modules/hosts/panza/_home/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
-  - path_regex: ^nixos/hosts/claudius/_hardware/secrets.yaml$
+  - path_regex: ^modules/hosts/claudius/_hardware/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *claudius
-  - path_regex: ^nixos/hosts/claudius/_home/kerry/secrets.yaml$
+  - path_regex: ^modules/hosts/claudius/_home/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_clds
-  - path_regex: ^nixos/hosts/potato/_home/kerry/secrets.yaml$
+  - path_regex: ^modules/hosts/potato/_home/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_ptto
-  - path_regex: ^nixos/hosts/potato/_home/erika/secrets.yaml$
+  - path_regex: ^modules/hosts/potato/_home/erika/secrets.yaml$
     key_groups:
       - age:
         - *erika_master
-  - path_regex: ^nixos/hosts/sigmund/_hardware/secrets.yaml$
+  - path_regex: ^modules/hosts/sigmund/_hardware/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *sigmund
-  - path_regex: ^nixos/hosts/sigmund/_home/kerry/secrets.yaml$
+  - path_regex: ^modules/hosts/sigmund/_home/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_sgmd
-  - path_regex: ^nixos/hosts/prometheus/_hardware/secrets.yaml$
+  - path_regex: ^modules/hosts/prometheus/_hardware/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *prometheus
-  - path_regex: ^nixos/hosts/prometheus/_home/kerry/secrets.yaml$
+  - path_regex: ^modules/hosts/prometheus/_home/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master

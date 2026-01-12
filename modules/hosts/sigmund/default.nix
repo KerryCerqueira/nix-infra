@@ -12,7 +12,7 @@ in {
       gnome
       grub
       nix
-      shell
+      terminal
       thunderbird
       inputs.sops-nix.nixosModules.sops
       inputs.home-manager.nixosModules.home-manager

@@ -1,4 +1,7 @@
 {...}: {
+  flake.nixosModules.fish = {
+    programs.fish.enable = true;
+  };
   flake.homeModules.fish = {pkgs, ...}: {
     xdg.configFile = {
       "fish/conf.d/" = {

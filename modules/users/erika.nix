@@ -1,10 +1,8 @@
 {self, ...}: {
   flake.homeModules.erika = {pkgs, ...}: {
     imports = with self.homeModules; [
-      kitty
       libreoffice
-      nvim
-      shell
+      terminal
     ];
     programs = {
       home-manager.enable = true;

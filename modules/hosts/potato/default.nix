@@ -4,28 +4,32 @@
   ...
 }: let
   hardwareModule = import ./_hardware;
-  kerryHmModule = import ./_home/kerry;
 in {
-  flake.nixosConfigurations.prometheus = inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.potato = inputs.nixpkgs.lib.nixosSystem {
     modules = with self.nixosModules; [
       hardwareModule
       bluetooth
       gnome
       grub
       nix
-      shell
       steam
-      thunderbird
       inputs.sops-nix.nixosModules.sops
       inputs.home-manager.nixosModules.home-manager
+      terminal
       {
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
+          users.erika = {
+            imports = [
+              self.homeModules.erika
+              ./_home/erika
+            ];
+          };
           users.kerry = {
             imports = [
               self.homeModules.kerry
-              kerryHmModule
+              ./_home/kerry
             ];
           };
           backupFileExtension = "bkp";
