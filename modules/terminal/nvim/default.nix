@@ -1,4 +1,9 @@
 {self, ...}: {
+  flake.nixosModules.nvim = {
+    programs.neovim = {
+      enable = true;
+    };
+  };
   flake.homeModules.nvim = {pkgs, ...}: {
     imports = [
       ./_plugins

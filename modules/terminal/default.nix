@@ -1,10 +1,7 @@
 {self, ...}: {
   flake.nixosModules.terminal = {pkgs, ...}: {
     programs = {
-      zsh.enable = true;
-      fish.enable = true;
       neovim = {
-        enable = true;
         defaultEditor = true;
       };
     };
@@ -13,8 +10,10 @@
   flake.homeModules.terminal = {pkgs, ...}: {
     imports = with self.homeModules; [
       bat
+      direnv
       eza
       fish
+      gh
       kitty
       moor
       nvim
@@ -34,18 +33,5 @@
       timg
       yazi
     ];
-    programs = {
-      direnv = {
-        enable = true;
-        nix-direnv.enable = true;
-      };
-      gh = {
-        enable = true;
-        extensions = with pkgs; [
-          gh-dash
-          gh-copilot
-        ];
-      };
-    };
   };
 }

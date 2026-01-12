@@ -1,4 +1,7 @@
 {...}: {
+  flake.nixosModules.zsh = {
+    programs.zsh.enable = true;
+  };
   flake.homeModules.zsh = {
     pkgs,
     config,
