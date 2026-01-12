@@ -11,7 +11,6 @@
         theme = inputs.nixos-grub-themes.packages.${pkgs.system}.hyperfluent;
       };
       efi.canTouchEfiVariables = true;
-      efi.efiSysMountPoint = "/boot";
     };
   };
 }
