@@ -14,6 +14,7 @@
     };
     hyprland-config.url = "github:KerryCerqueira/hyprland-config";
     hyprls.url = "github:hyprland-community/hyprls";
+    import-tree.url = "github:vic/import-tree";
     nixos-grub-themes.url = "github:jeslie0/nixos-grub-themes";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -28,13 +29,9 @@
       {...}: {
         imports = [
           inputs.home-manager.flakeModules.home-manager
-          ./devenvs
-          ./home-manager
-          ./nixos
+          (inputs.import-tree ./modules)
         ];
-        flake = {
-          lib = import ./lib.nix;
-        };
+        flake.lib = import ./lib.nix;
         systems = ["x86_64-linux"];
       }
     );

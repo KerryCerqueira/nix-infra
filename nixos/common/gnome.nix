@@ -12,7 +12,6 @@
         geary
         gnome-tour
         gnome-music
-        gnome-terminal
         epiphany
         gnome-calendar
         gnome-console
@@ -21,24 +20,20 @@
         gnome-music
         totem
       ];
-      systemPackages =
-        (with pkgs; [
-          kitty
-        ])
-        ++ (with pkgs.gnomeExtensions; [
-          appindicator
-          auto-move-windows
-          caffeine
-          clipboard-indicator
-          easyeffects-preset-selector
-          paperwm
-          places-status-indicator
-          launch-new-instance
-          removable-drive-menu
-          vitals
-          impatience
-          runcat
-        ]);
+      systemPackages = with pkgs.gnomeExtensions; [
+        appindicator
+        auto-move-windows
+        caffeine
+        clipboard-indicator
+        easyeffects-preset-selector
+        paperwm
+        places-status-indicator
+        launch-new-instance
+        removable-drive-menu
+        vitals
+        impatience
+        runcat
+      ];
     };
     programs = {
       dconf.enable = true;

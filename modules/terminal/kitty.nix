@@ -1,4 +1,14 @@
 {inputs, ...}: {
+  flake.nixosModules.kitty = {pkgs, ...}: {
+    environment = {
+      gnome.excludePackages = with pkgs; [
+        gnome-terminal
+      ];
+      systemPackages = with pkgs; [
+        kitty
+      ];
+    };
+  };
   flake.homeModules.kitty = {pkgs, ...}: {
     imports = [
       inputs.catppuccin.homeModules.catppuccin

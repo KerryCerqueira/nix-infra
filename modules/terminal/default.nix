@@ -1,10 +1,25 @@
 {self, ...}: {
-  flake.homeModules.shell-utils = {pkgs, ...}: {
+  flake.nixosModules.terminal = {pkgs, ...}: {
+    programs = {
+      zsh.enable = true;
+      fish.enable = true;
+      neovim = {
+        enable = true;
+        defaultEditor = true;
+      };
+    };
+    users.defaultUserShell = pkgs.zsh;
+  };
+  flake.homeModules.terminal = {pkgs, ...}: {
     imports = with self.homeModules; [
       bat
       eza
+      fish
+      kitty
       moor
+      nvim
       oh-my-posh
+      zsh
     ];
     home.packages = with pkgs; [
       git
