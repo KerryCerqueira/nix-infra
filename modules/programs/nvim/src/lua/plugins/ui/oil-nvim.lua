@@ -25,6 +25,7 @@ return {
 		},
 		dependencies = {
 			"echasnovski/mini.icons",
+      "nvim-treesitter/nvim-treesitter",
 		},
 		lazy = false,
 	},

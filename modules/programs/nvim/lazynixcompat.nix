@@ -9,7 +9,7 @@
     lazyIdFromGithubUrl = url:
       url
       |> toString
-      |> lib.strings.match ".*/github\\.com/([^/]+)/([^/#?\\.]+).*"
+      |> lib.strings.match ".*/github\\.com/([^/]+)/([^/#?]+).*"
       |> (
         ms:
           if ms == null
@@ -39,7 +39,6 @@
        {
       	"${lazyIdFor plugin}",
       	dir = "${plugin}",
-      	optional = true,
       },
     '';
     compatSpecModuleFrom = plugins:
@@ -49,8 +48,19 @@
       	${builtins.concatStringsSep "\n\t" (map compatSpecFrom plugins)}
       }
     '';
-    plugins = config.programs.neovim.plugins or [];
-    unresolvedPlugins = lib.filter (p: lazyIdFor p == null) plugins;
+    rawPlugins = config.programs.neovim.plugins or [];
+    pluginsById =
+      lib.foldl' (
+        acc: p: let
+          id = lazyIdFor p;
+        in
+          if id != null
+          then acc // {"${id}" = p;}
+          else acc
+      ) {}
+      rawPlugins;
+    uniquePlugins = lib.attrValues pluginsById;
+    unresolvedPlugins = lib.filter (p: lazyIdFor p == null) rawPlugins;
   in {
     options.programs.neovim.lazyNixCompat = {
       enable = lib.mkEnableOption ''
@@ -86,7 +96,7 @@
           '';
         }
       ];
-      xdg.configFile."${nvimCfg.lazyNixCompatPath}".text = compatSpecModuleFrom plugins;
+      xdg.configFile."${nvimCfg.lazyNixCompatPath}".text = compatSpecModuleFrom uniquePlugins;
     };
   };
 }
