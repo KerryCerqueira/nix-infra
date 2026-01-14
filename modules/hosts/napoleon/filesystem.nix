@@ -3,25 +3,25 @@
     services.fstrim.enable = true;
     fileSystems = {
       "/" = {
-        label = "napoleon-root";
+        label = "npln-root";
         fsType = "ext4";
       };
       "/home" = {
-        label = "napoleon-home";
+        label = "npln-home";
         fsType = "ext4";
       };
       "/boot" = {
-        label = "napoleon-boot";
+        label = "npln-boot";
         fsType = "vfat";
         options = ["fmask=0077" "dmask=0077"];
       };
       "/nix" = {
-        label = "napoleon-nix";
+        label = "npln-nix";
         fsType = "ext4";
       };
     };
     swapDevices = [
-      {label = "napoleon-swap";}
+      {label = "npln-swap";}
     ];
   };
 }
