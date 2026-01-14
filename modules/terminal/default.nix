@@ -5,11 +5,6 @@
       fish
       kitty
     ];
-    programs = {
-      neovim = {
-        defaultEditor = true;
-      };
-    };
     users.defaultUserShell = pkgs.zsh;
   };
   flake.homeModules.terminal = {pkgs, ...}: {
@@ -21,7 +16,6 @@
       gh
       kitty
       moor
-      nvim
       oh-my-posh
       zsh
     ];
