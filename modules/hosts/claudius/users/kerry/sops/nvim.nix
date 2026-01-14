@@ -1,5 +1,5 @@
 {...}: {
-  flake.homeModules."kerry@napoleon" = {
+  flake.homeModules."kerry@claudius" = {
     config,
     pkgs,
     ...
