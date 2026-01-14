@@ -6,6 +6,7 @@
       xserver.excludePackages = [pkgs.xterm];
       udev.packages = with pkgs; [gnome-settings-daemon];
     };
+    displayManager.gdm.enable = true;
     environment = {
       gnome.excludePackages = with pkgs; [
         orca

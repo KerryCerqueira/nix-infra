@@ -3,6 +3,7 @@
     imports = with self.nixosModules; [
       zsh
       fish
+      kitty
     ];
     programs = {
       neovim = {
