@@ -12,6 +12,7 @@
       gnome
       grub
       nix
+      nvim
       terminal
       steam
       thunderbird

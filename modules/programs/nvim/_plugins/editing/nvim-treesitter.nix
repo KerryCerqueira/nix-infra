@@ -2,9 +2,9 @@
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
       nvim-treesitter.withAllGrammars
-      nvim-treesitter-context
-      nvim-treesitter-endwise
-      nvim-treesitter-textobjects
+      (nvim-treesitter-context.overrideAttrs (old: {dependencies = [];}))
+      (nvim-treesitter-endwise.overrideAttrs (old: {dependencies = [];}))
+      (nvim-treesitter-textobjects.overrideAttrs (old: {dependencies = [];}))
     ];
   };
   xdg.configFile = {

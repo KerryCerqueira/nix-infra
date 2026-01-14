@@ -12,6 +12,9 @@
     };
   };
   flake.homeModules."kerry@claudius" = {
+    imports = [
+      self.homeModules.kerry
+    ];
     home.stateVersion = "24.11";
   };
 }
