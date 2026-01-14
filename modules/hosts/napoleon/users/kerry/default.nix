@@ -3,8 +3,9 @@
     users.users.kerry = {
       isNormalUser = true;
       description = "Kerry Cerqueira";
-      hashedPasswordFile = config.sops.secrets."hashedUserPasswords/kerry".path;
       extraGroups = ["networkmanager" "wheel"];
+      hashedPasswordFile = config.sops.secrets."hashedUserPasswords/kerry".path;
+      uid = 1000;
     };
     home-manager.users.kerry = {
       imports = [

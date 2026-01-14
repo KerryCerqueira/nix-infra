@@ -4,6 +4,7 @@
       isNormalUser = true;
       description = "Erika Titley";
       extraGroups = ["networkmanager" "wheel"];
+      uid = 1001;
     };
     home-manager.users.erika = {
       imports = [
