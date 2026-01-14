@@ -18,7 +18,7 @@ age_keys:
   # Kerry's secrets on claudius
   - &kerry_clds age1g22a6lrcwsj9h2c4y9dfa5d3zkfcjrt36r3gzhq3jdpgeqc0r9yqq7x567
   # Kerry's secrets on napoleon
-  - &kerry_npln age1syj565p2dt8v4ctvwxetprzjxjhjlcnra40ddjkdwng8hhaegycs46ku2l
+  - &kerry_npln  age18nul6x4g8mxauj8damj2u0a483uhv622p8h00t2tgv6z92gc64xsda7t6t
   # Kerry's secrets on prometheus
   - &kerry_pmts age1vqn62ymk3g06u789u9ku609face4lnmlf4gsnw7lxjdet3wsv5yq68cnrf
   # Kerry's secrets on potato

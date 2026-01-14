@@ -11,6 +11,10 @@
         "/etc/ssh/ssh_host_ed25519_key"
       ];
       secrets = {
+        "ageKeys/kerryNapoleon" = {
+          path = "/home/kerry/.config/sops/age/keys.txt";
+          owner = "kerry";
+        };
         "sshKeys/kerry/public" = {
           path = "/home/kerry/.ssh/id_ed25519.pub";
           owner = "kerry";
