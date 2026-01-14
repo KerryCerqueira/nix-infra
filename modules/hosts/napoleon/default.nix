@@ -5,6 +5,17 @@
 }: {
   flake = {
     nixosModules.napoleon = {config, ...}: {
+      imports = with self.nixosModules; [
+        gnome
+        grub
+        nix
+        nvim
+        steam
+        terminal
+        thunderbird
+        inputs.sops-nix.nixosModules.sops
+        inputs.home-manager.nixosModules.home-manager
+      ];
       home-manager = {
         backupFileExtension = "bkp";
         sharedModules = [
@@ -27,16 +38,6 @@
       users.users.root.hashedPasswordFile =
         config.sops.secrets."hashedUserPasswords/root".path;
       i18n.defaultLocale = "en_CA.UTF-8";
-      imports = with self.nixosModules; [
-        gnome
-        grub
-        nix
-        steam
-        terminal
-        thunderbird
-        inputs.sops-nix.nixosModules.sops
-        inputs.home-manager.nixosModules.home-manager
-      ];
     };
     nixosConfigurations.napoleon = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
