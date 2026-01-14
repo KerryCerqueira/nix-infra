@@ -5,6 +5,8 @@ age_keys:
   - &potato age1dmcrmq23arugj8h8zlr663v6hqfp58apj90ynarahl2w56jlfcdqfnsue4
   # System-level secrets on claudius
   - &claudius age13gyz57l2wmglle0kkhsm38uzv3rx2ej3c6svzlzqqc8a3jp7lcgshrzjvz
+  # System-level secrets on napoleon
+  - &napoleon age1ktg5a2hchfng6x96tj0chskvdyr99flu3u862kv9yege93cxfeksfy3pdd
   # System-level secrets on prometheus
   - &prometheus age15r59wkf2xzg6r844m86yuklk65xw6vrkdptr0vpzpms6ukrsaalqalee7k
   # System-level secrets on sigmund
@@ -15,6 +17,8 @@ age_keys:
   - &kerry_master age1xvyp63kuszp4u0ke4lf84wstgt6td04v6w605twh3mwqaedv9u8sdm8g4j
   # Kerry's secrets on claudius
   - &kerry_clds age1g22a6lrcwsj9h2c4y9dfa5d3zkfcjrt36r3gzhq3jdpgeqc0r9yqq7x567
+  # Kerry's secrets on napoleon
+  - &kerry_npln age1syj565p2dt8v4ctvwxetprzjxjhjlcnra40ddjkdwng8hhaegycs46ku2l
   # Kerry's secrets on prometheus
   - &kerry_pmts age1vqn62ymk3g06u789u9ku609face4lnmlf4gsnw7lxjdet3wsv5yq68cnrf
   # Kerry's secrets on potato
@@ -22,6 +26,16 @@ age_keys:
   # Kerry's secrets on sigmund
   - &kerry_sgmd age1p9ld9unnr6eknac26p87gp4hp7zexq666h09u0d03tvy5uh63e2q8xqmsz
 creation_rules:
+  - path_regex: ^modules/hosts/napoleon/secrets.yaml$
+    key_groups:
+      - age:
+        - *napoleon
+        - *kerry_master
+  - path_regex: ^modules/hosts/napoleon/users/kerry/sops/secrets.yaml$
+    key_groups:
+      - age:
+        - *kerry_npln
+        - *kerry_master
   - path_regex: ^modules/hosts/panza/_hardware/secrets.yaml$
     key_groups:
       - age:
@@ -37,12 +51,12 @@ creation_rules:
     key_groups:
       - age:
         - *kerry_master
-  - path_regex: ^modules/hosts/claudius/_hardware/secrets.yaml$
+  - path_regex: ^modules/hosts/claudius/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *claudius
-  - path_regex: ^modules/hosts/claudius/_home/kerry/secrets.yaml$
+  - path_regex: ^modules/hosts/claudius/users/kerry/sops/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master

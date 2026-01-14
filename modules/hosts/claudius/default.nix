@@ -2,39 +2,48 @@
   self,
   inputs,
   ...
-}: let
-  hardwareModule = import ./_hardware;
-  kerryHmModule = import ./_home/kerry;
-in {
-  flake.nixosConfigurations.claudius = inputs.nixpkgs.lib.nixosSystem {
-    modules = with self.nixosModules; [
-      hardwareModule
-      bluetooth
+}: {
+  flake.nixosModules.claudius = {
+    config,
+    lib,
+    ...
+  }: {
+    imports = with self.nixosModules; [
       gnome
       grub
       nix
-      steam
       terminal
+      steam
       thunderbird
       inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen2
       inputs.sops-nix.nixosModules.sops
       inputs.home-manager.nixosModules.home-manager
-      {
-        home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
-          users.kerry = {
-            imports = [
-              self.homeModules.kerry
-              kerryHmModule
-            ];
-          };
-          backupFileExtension = "bkp";
-          sharedModules = [
-            inputs.sops-nix.homeManagerModules.sops
-          ];
-        };
-      }
+    ];
+    time.timeZone = "America/Toronto";
+    i18n.defaultLocale = "en_CA.UTF-8";
+    services = {
+      xserver = {
+        enable = true;
+        xkb.layout = "us";
+        xkb.variant = "";
+      };
+      fwupd.enable = true;
+      printing.enable = true;
+    };
+    system.stateVersion = "24.11";
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      backupFileExtension = "bkp";
+      sharedModules = [
+        inputs.sops-nix.homeManagerModules.sops
+      ];
+    };
+  };
+  flake.nixosConfigurations.claudius = inputs.nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    modules = with self.nixosModules; [
+      claudius
     ];
   };
 }
