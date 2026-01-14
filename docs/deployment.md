@@ -1,30 +1,24 @@
 # Notes on Deployment
 ## Key Generation
 
-Each host needs an age private key to decrypt its system secrets, and a ssh key.
-Generate one with
+Each host needs a host ssh key to establish its cryptographic identity to
+clients. This key is also what will be used to decrypt system level secrets with
+sops-nix. Each user also needs a ssh key to perform ssh connections and decrypt
+user level secrets.
 
 ```sh
-nix-shell -p age --run "age-keygen -o <hostname>.age"
-ssh-keygen -t ed25519 -C "<hostname>"
+ssh-keygen -t ed25519 -C "<hostname>" -f ssh_host_ed25519_key
+ssh-keygen -t ed25519 -C "<user>@<hostname>" -f id_ed25519
+
 ```
 
-I'm running with the convention of placing these system level keys in
-`/etc/age/` and hardcoding the path into the system config as the sops default
-decryption key. Different paths can be specified by setting the environment
-variable `SOPS_AGE_KEY_FILE`. The super user must place the keyfile in
-`/etc/age`, and be sure to set the correct permissions on the keyfile with
+The user key unlike the system key is deployed by sops itself during the boot
+process by encrypting it in the system `secrets.yaml` and deploying it to
+`/home/<user>/.config/sops/age`. Make sure to make the user the owner of the
+keyfile for home-manager to pick it up when declaring `sops.secrets`.
 
-```sh
-sudo chmod 0600 /etc/age/<hostname>.age
-```
-
-Generate a key for user secrets in the same way. The user key unlike the system
-key is deployed by sops itself during the boot process by encrypting it in the
-system `secrets.yaml` and deploying it to `/home/<user>/.config/sops/age`. Make
-sure to make the user the owner of the keyfile for home-manager to pick it up.
-
-You'll then need to add the age keys to the sops policy file. e.g.
+You'll then need to produce age targets from the ssh keys you used earlier to
+add them to the sops.yaml file, e.g.
 
 ```{yaml}
 age_keys:
@@ -44,10 +38,11 @@ creation_rules:
         - *user_master
 ```
 
-If you want to add user secrets before deploying the user encryption key with
-a rebuild, you'll need to do it yourself the first time manually, or your first
-rebuild will need to be invoked with SOPS_AGE_KEYFILE set. Move the user key to
-~/.config/sops/age/keys.txt if you want to do the former.
+To do that you can use `ssh-to-age`, available in nixpkgs, by e.g.
+
+```sh
+ssh-to-age < ssh_host_ed25519_key
+```
 
 If the user needs a declarative login password, its hash can be deployed by
 sops. To get the hash save the password into a file (say `pwd.txt`) and run
@@ -70,6 +65,36 @@ web interface. Here's a list of the ones I use:
 - Tavily
 - Huggingface
 - OpenAI
+
+Add each of these to the appropriate user secrets file.
+
+## Building the System
+
+When booting into the liveUSB environment to deploy a new host, you'll first
+need to mount the filesystem as it will be structured in the final deployment.
+As a reminder, use
+
+```sh
+lsblk -f
+```
+
+to see which devices/labels are available, and then you can mount them like so:
+
+```sh
+# mounting by label
+mount /dev/disk/by-label/NIXOS_ROOT /mnt/path
+# mounting by UUID
+mount /dev/disk/by-uuid/<UUID> /mnt/path
+# mount by device
+mount /dev/sda2 /mnt/path
+```
+
+After mounting the filesystem, copy the host ssh key to
+`/mnt/etc/ssh/ssh_host_ed25519_key` and make it only accessible by root:
+
+```sh
+sudo chmod 0600 /etc/age/<hostname>.age
+```
 
 ## Non-declarative setup
 
