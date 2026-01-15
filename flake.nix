@@ -12,8 +12,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland-config.url = "github:KerryCerqueira/hyprland-config";
-    hyprls.url = "github:hyprland-community/hyprls";
     import-tree.url = "github:vic/import-tree";
     nixos-grub-themes.url = "github:jeslie0/nixos-grub-themes";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
