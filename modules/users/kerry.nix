@@ -34,6 +34,7 @@
           nvim
           terminal
         ];
+        nixpkgs.config.allowUnfree = true;
         programs.home-manager.enable = true;
         home = {
           stateVersion = "25.11";
