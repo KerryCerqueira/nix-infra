@@ -10,6 +10,7 @@
   flake.homeModules.terminal = {pkgs, ...}: {
     imports = with self.homeModules; [
       bat
+      btop
       direnv
       eza
       fish
@@ -21,7 +22,6 @@
     ];
     home.packages = with pkgs; [
       git
-      btop
       fzf
       tldr
       dust
