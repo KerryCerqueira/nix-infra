@@ -16,7 +16,6 @@
       terminal
       steam
       thunderbird
-      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen2
       inputs.sops-nix.nixosModules.sops
       inputs.home-manager.nixosModules.home-manager
     ];

@@ -14,7 +14,6 @@
       thunderbird
       inputs.sops-nix.nixosModules.sops
       inputs.home-manager.nixosModules.home-manager
-      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-yoga
     ];
     home-manager = {
       useGlobalPkgs = true;
