@@ -36,7 +36,7 @@ creation_rules:
       - age:
         - *kerry_npln
         - *kerry_master
-  - path_regex: ^modules/hosts/panza/_hardware/secrets.yaml$
+  - path_regex: ^modules/hosts/panza/secrets.yaml$
     key_groups:
       - age:
         - *panza
@@ -47,7 +47,7 @@ creation_rules:
         - *potato
         - *erika_master
         - *kerry_master
-  - path_regex: ^modules/hosts/panza/_home/kerry/secrets.yaml$
+  - path_regex: ^modules/hosts/panza/users/kerry/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master

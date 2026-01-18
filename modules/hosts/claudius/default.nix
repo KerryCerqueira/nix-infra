@@ -28,7 +28,6 @@
         xkb.layout = "us";
         xkb.variant = "";
       };
-      fwupd.enable = true;
       printing.enable = true;
     };
     system.stateVersion = "24.11";
