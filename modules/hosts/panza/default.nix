@@ -23,6 +23,7 @@
         inputs.sops-nix.homeManagerModules.sops
       ];
     };
+    nixpkgs.config.allowUnfree = true;
     services = {
       xserver = {
         enable = true;

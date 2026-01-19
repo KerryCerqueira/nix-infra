@@ -29,6 +29,7 @@
       };
       printing.enable = true;
     };
+    nixpkgs.config.allowUnfree = true;
     system.stateVersion = "24.11";
     home-manager = {
       useGlobalPkgs = true;

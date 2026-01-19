@@ -5,6 +5,5 @@
       "flakes"
       "pipe-operators"
     ];
-    nixpkgs.config.allowUnfree = true;
   };
 }

@@ -18,6 +18,7 @@
     system.stateVersion = "24.11";
     time.timeZone = "America/Toronto";
     i18n.defaultLocale = "en_CA.UTF-8";
+    nixpkgs.config.allowUnfree = true;
     services = {
       xserver = {
         enable = true;
