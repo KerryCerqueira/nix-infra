@@ -29,6 +29,10 @@
       };
       printing.enable = true;
     };
+    nix.gc = {
+      automatic = true;
+      dates = "weekly";
+    };
     nixpkgs.config.allowUnfree = true;
     system.stateVersion = "24.11";
     home-manager = {
