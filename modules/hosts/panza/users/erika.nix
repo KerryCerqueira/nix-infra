@@ -5,6 +5,7 @@
       description = "Erika Titley";
       extraGroups = ["networkmanager" "wheel"];
     };
+    home-manager.users.erika = self.homeModules."erika@panza";
   };
   flake.homeModules."erika@panza" = {
     imports = with self.homeModules; [

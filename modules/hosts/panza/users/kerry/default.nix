@@ -6,6 +6,7 @@
       hashedPasswordFile = config.sops.secrets."hashedUserPasswords/kerry".path;
       extraGroups = ["networkmanager" "wheel"];
     };
+    home-manager.users.kerry = self.homeModules."kerry@panza";
   };
   flake.homeModules."kerry@panza" = {
     imports = with self.homeModules; [

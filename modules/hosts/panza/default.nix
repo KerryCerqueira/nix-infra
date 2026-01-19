@@ -37,8 +37,6 @@
   };
   flake.nixosConfigurations.panza = self.inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
-    modules = with self.nixosModules; [
-      panza
-    ];
+    modules = [ self.nixosModules.panza ];
   };
 }
