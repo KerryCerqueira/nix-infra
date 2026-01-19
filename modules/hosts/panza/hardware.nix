@@ -10,6 +10,7 @@
     };
     security.rtkit.enable = true;
     services = {
+      boltd.enable = true;
       throttled.enable = true;
       pipewire = {
         enable = true;
