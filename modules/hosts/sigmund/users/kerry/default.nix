@@ -7,7 +7,7 @@
     };
     home-manager.users.kerry = self.homeModules."kerry@sigmund";
   };
-  flake.nixosModules."kerry@sigmund" = {
+  flake.homeModules."kerry@sigmund" = {
     imports = with self.homeModules; [
       kerry
     ];

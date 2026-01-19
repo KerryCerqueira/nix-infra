@@ -3,7 +3,7 @@
   inputs,
   ...
 }: {
-  flake.nixosModues.sigmund = {
+  flake.nixosModules.sigmund = {
     imports = with self.nixosModules; [
       gnome
       grub
@@ -35,7 +35,7 @@
       ];
     };
   };
-  flake.nixosConfigurations.sigmund = {
+  flake.nixosConfigurations.sigmund = self.inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [ self.nixosModules.sigmund ];
   };
