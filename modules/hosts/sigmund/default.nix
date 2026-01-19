@@ -29,12 +29,6 @@
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.kerry = {
-        imports = [
-          self.homeModules.kerry
-          ./_home/kerry
-        ];
-      };
       backupFileExtension = "bkp";
       sharedModules = [
         inputs.sops-nix.homeManagerModules.sops
@@ -42,5 +36,7 @@
     };
   };
   flake.nixosConfigurations.sigmund = {
+    system = "x86_64-linux";
+    modules = [ self.nixosModules.sigmund ];
   };
 }

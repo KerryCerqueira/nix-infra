@@ -7,11 +7,7 @@
       hashedPasswordFile = config.sops.secrets."hashedUserPasswords/kerry".path;
       uid = 1000;
     };
-    home-manager.users.kerry = {
-      imports = [
-        self.homeModules."kerry@napoleon"
-      ];
-    };
+    home-manager.users.kerry = self.homeModules."kerry@napoleon";
   };
   flake.homeModules."kerry@napoleon" = {
     config,

@@ -5,11 +5,7 @@
       description = "Kerry Cerqueira";
       extraGroups = ["networkmanager" "wheel"];
     };
-    home-manager.users.kerry = {
-      imports = [
-        self.homeModules."kerry@claudius"
-      ];
-    };
+    home-manager.users.kerry = self.homeModules."kerry@claudius";
   };
   flake.homeModules."kerry@claudius" = {
     imports = [
