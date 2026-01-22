@@ -22,6 +22,14 @@
           path = "/home/kerry/.config/sops/age/kerry_claudius.age";
           owner = "kerry";
         };
+        "sshKeys/kerry/private" = {
+          path = "/home/kerry/.ssh/id_ed25519";
+          owner = "kerry";
+        };
+        "sshKeys/kerry/public" = {
+          path = "/home/kerry/.ssh/id_ed25519.pub";
+          owner = "kerry";
+        };
       };
     };
   };
