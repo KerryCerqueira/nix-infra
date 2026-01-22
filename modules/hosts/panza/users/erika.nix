@@ -1,5 +1,5 @@
 {self, ...}: {
-  flake.nixosModules.hosts.panza = {config, ...}: {
+  flake.nixosModules.panza = {config, ...}: {
     users.users.erika = {
       isNormalUser = true;
       description = "Erika Titley";
