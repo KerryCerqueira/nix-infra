@@ -16,6 +16,10 @@
         inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.home-manager
       ];
+      nix.gc = {
+        automatic = true;
+        dates = "weekly";
+      };
       home-manager = {
         backupFileExtension = "bkp";
         sharedModules = [

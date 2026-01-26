@@ -23,6 +23,10 @@
         inputs.sops-nix.homeManagerModules.sops
       ];
     };
+    nix.gc = {
+      automatic = true;
+      dates = "weekly";
+    };
     nixpkgs.config.allowUnfree = true;
     services = {
       xserver = {
