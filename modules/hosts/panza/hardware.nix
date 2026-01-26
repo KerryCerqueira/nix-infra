@@ -25,5 +25,10 @@
       bluetooth.enable = true;
       bluetooth.powerOnBoot = true;
     };
+    zramSwap = {
+      enable = true;
+      algorithm = "zstd";
+      memoryPercent = 100;
+    };
   };
 }

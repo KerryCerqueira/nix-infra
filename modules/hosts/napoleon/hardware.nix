@@ -1,9 +1,12 @@
 {
   flake.nixosModules.napoleon = {pkgs, ...}: {
-    services.xserver.videoDrivers = ["amdgpu"];
     boot = {
       initrd.kernelModules = ["amdgpu"];
-      kernelModules = ["k10temp" "nct6775" "kvm-amd"];
+      kernelModules = [
+        "k10temp"
+        "nct6775"
+        "kvm-amd"
+      ];
       kernelPackages = pkgs.linuxPackages_latest;
       initrd.availableKernelModules = [
         "nvme"
@@ -13,6 +16,15 @@
         "usbhid"
         "sd_mod"
       ];
+    };
+    services = {
+      xserver.videoDrivers = ["amdgpu"];
+      pipewire = {
+        enable = true;
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+      };
     };
     hardware = {
       bluetooth.enable = true;
@@ -26,11 +38,10 @@
       };
     };
     security.rtkit.enable = true;
-    services.pipewire = {
+    zramSwap = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
+      algorithm = "zstd";
+      memoryPercent = 100;
     };
   };
 }
