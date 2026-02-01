@@ -11,7 +11,6 @@ return {
 		'saghen/blink.cmp',
 		dependencies = {
 			{ "L3MON4D3/LuaSnip" },
-			{ "zbirenbaum/copilot.lua" },
 			{
 				"danymat/neogen",
 				opts = { snippet_engine = "luasnip" },
@@ -33,15 +32,6 @@ return {
 							return true
 						end
 					end,
-					function()
-						local sug = require("copilot.suggestion")
-						if sug.is_visible() then
-							vim.schedule(function()
-								sug.accept()
-							end)
-							return true
-						end
-					end,
 					"select_and_accept",
 					"fallback",
 				},
@@ -51,15 +41,6 @@ return {
 						if ls.choice_active() then
 							vim.schedule(function()
 								ls.change_choice(1)
-							end)
-							return true
-						end
-					end,
-					function()
-						local sug = require("copilot.suggestion")
-						if sug.is_visible() and sug.has_next() then
-							vim.schedule(function()
-								sug.next()
 							end)
 							return true
 						end
@@ -76,16 +57,6 @@ return {
 							return true
 						end
 					end,
-					function()
-						-- no "sug.has_prev()" method so we just call prev() unconditionally
-						local sug = require("copilot.suggestion")
-						if sug.is_visible() then
-							vim.schedule(function()
-								sug.prev()
-							end)
-							return true
-						end
-					end,
 					"fallback",
 				},
 				["<C-h>"] = {
@@ -93,15 +64,6 @@ return {
 						local ls = require("luasnip")
 						if ls.jumpable(-1) then
 							ls.jump(-1)
-							return true
-						end
-					end,
-					function()
-						local sug = require("copilot.suggestion")
-						if sug.is_visible() then
-							vim.schedule(function()
-								sug.accept_word()
-							end)
 							return true
 						end
 					end,
@@ -177,64 +139,6 @@ return {
 						},
 					},
 				},
-			},
-		},
-		init = function()
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "BlinkCmpMenuOpen",
-				callback = function()
-					vim.b.copilot_suggestion_hidden = true
-				end,
-			})
-			vim.api.nvim_create_autocmd("User", {
-				pattern = "BlinkCmpMenuClose",
-				callback = function()
-					vim.b.copilot_suggestion_hidden = false
-				end,
-			})
-		end
-	},
-	{
-		"zbirenbaum/copilot.lua",
-		optional = true,
-		keys = {
-			{
-				"<Leader>aa",
-				function() require("copilot.suggestion").accept() end,
-				mode = {"i", "s"},
-			},
-			{
-				"<Leader>aw",
-				function() require("copilot.suggestion").accept_word() end,
-				mode = {"i", "s"},
-				desc = "Copilot: Accept Word"
-			},
-			{
-				"<Leader>a]",
-				function() require("copilot.suggestion").next() end,
-				mode = {"i", "s"},
-				desc = "Copilot: Next"
-			},
-			{
-				"<Leader>a[",
-				function() require("copilot.suggestion").prev() end,
-				mode = {"i", "s"},
-				desc = "Copilot: Prev"
-			},
-			{
-				"<Leader>aq",
-				function() require("copilot.suggestion").dismiss() end,
-				mode = {"i", "s"},
-				desc = "Copilot: Dismiss"
-			},
-		},
-		opts = {
-			filetypes = {
-				markdown = true,
-			},
-			suggestion = {
-				enabled = true,
-				auto_trigger = true,
 			},
 		},
 	},

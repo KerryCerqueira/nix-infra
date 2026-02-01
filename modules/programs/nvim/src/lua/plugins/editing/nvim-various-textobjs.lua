@@ -10,7 +10,6 @@ return {
 					"rmarkdown",
 					"pandoc",
 					"markdown.pandoc",
-					"codecompanion",
 				},
 				callback = function()
 					vim.keymap.set(

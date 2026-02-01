@@ -11,9 +11,7 @@
     plugins = with pkgs.vimPlugins; [
       blink-cmp
       blink-cmp-git
-      blink-copilot
       colorful-menu-nvim
-      copilot-lua
       friendly-snippets
       luasnip
       neogen

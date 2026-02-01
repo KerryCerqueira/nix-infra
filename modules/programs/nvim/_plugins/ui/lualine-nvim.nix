@@ -5,7 +5,6 @@
   };
   programs.neovim = {
     plugins = with pkgs.vimPlugins; [
-      copilot-lualine
       lualine-nvim
       lualine-lsp-progress
     ];

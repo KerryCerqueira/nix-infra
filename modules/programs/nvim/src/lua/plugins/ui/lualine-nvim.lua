@@ -1,7 +1,6 @@
 return {
 	"nvim-lualine/lualine.nvim",
 	dependencies = {
-		"AndreM222/copilot-lualine",
 		"arkav/lualine-lsp-progress",
 	},
 	init = function()
@@ -42,7 +41,6 @@ return {
 			},
 			lualine_x = {
 				"lsp_progress",
-				"copilot",
 				{
 					"diff",
 					symbols = {
