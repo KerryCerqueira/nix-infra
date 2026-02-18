@@ -9,7 +9,7 @@
     plugins = with pkgs.vimPlugins; [
       conform-nvim
       img-clip-nvim
-      nvim-lint
+      # nvim-lint
       nvim-lspconfig
       render-markdown-nvim
       snacks-nvim
