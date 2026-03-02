@@ -54,6 +54,7 @@
         ];
         programs = {
           home-manager.enable = true;
+          chromium.enable = true;
           firefox.enable = true;
         };
         home = {

@@ -14,10 +14,23 @@
       ];
     };
     hardware = {
-      bluetooth.enable = true;
-      bluetooth.powerOnBoot = true;
+      bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+        settings = {
+          General = {
+            FastConnectable = true;
+            Experimental = true;
+            Enable = "Source,Sink,Media,Socket";
+          };
+        };
+      };
       cpu.amd.updateMicrocode = true;
       enableRedistributableFirmware = true;
+      keyboard.qmk = {
+        enable = true;
+        keychronSupport = true;
+      };
     };
     security.rtkit.enable = true;
     services.pipewire = {

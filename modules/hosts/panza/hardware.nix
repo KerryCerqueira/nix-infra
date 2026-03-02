@@ -22,8 +22,21 @@
     hardware = {
       enableAllFirmware = true;
       firmware = [pkgs.sof-firmware];
-      bluetooth.enable = true;
-      bluetooth.powerOnBoot = true;
+      bluetooth = {
+        enable = true;
+        powerOnBoot = true;
+        settings = {
+          General = {
+            FastConnectable = true;
+            Experimental = true;
+            Enable = "Source,Sink,Media,Socket";
+          };
+        };
+      };
+      keyboard.qmk = {
+        enable = true;
+        keychronSupport = true;
+      };
     };
     zramSwap = {
       enable = true;
