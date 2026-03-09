@@ -1,13 +1,12 @@
 {
-  flake.perSystem.packages = {pkgs, ...}: {
-    prefetch-npm-package = pkgs.writeShellApplication {
+  perSystem = {pkgs, ...}: {
+    packages.prefetch-npm-package = pkgs.writeShellApplication {
       name = "prefetch-npm-package";
       runtimeInputs = with pkgs; [
         git
         nodejs
         prefetch-npm-deps
         nix-prefetch-git
-        nix
         jq
       ];
 
@@ -34,7 +33,9 @@
         prefetch_json=$(nix-prefetch-git --quiet --fetch-submodules "$repo_url" --rev "$rev")
         src_hash=$(echo "$prefetch_json" | jq -r '.hash')
         actual_rev=$(echo "$prefetch_json" | jq -r '.rev')
+
         repo_name=$(basename "$repo_url" .git)
+        owner=$(echo "$repo_url" | cut -d'/' -f4)
 
         echo "Cloning into temp dir..." >&2
         git clone --quiet --depth 1 "$repo_url" --branch "$rev" "$tmp/src" 2>/dev/null \
@@ -51,9 +52,12 @@
           exit 1
         fi
 
-        pkg_version="0.0.0"
+        pkg_version="unstable-$(git -C "$tmp/src" log -1 --format=%cs "$actual_rev")"
         if [ -f "$tmp/src/package.json" ]; then
-          pkg_version=$(jq -r '.version // "0.0.0"' "$tmp/src/package.json")
+          pj_version=$(jq -r '.version // ""' "$tmp/src/package.json")
+          if [ -n "$pj_version" ]; then
+            pkg_version="$pj_version"
+          fi
         fi
 
         cat <<EOF
@@ -64,7 +68,7 @@
           version = "$pkg_version";
 
           src = fetchFromGitHub {
-            owner = "FIXME";
+            owner = "$owner";
             repo = "$repo_name";
             rev = "$actual_rev";
             hash = "$src_hash";
