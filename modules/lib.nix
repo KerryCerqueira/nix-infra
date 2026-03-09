@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake.lib = let
     kernelSpecFromEnv = pkgs: pythonEnv:
       pkgs.writeTextDir
@@ -58,12 +58,16 @@
       overlay = workspace.mkPyprojectOverlay {
         sourcePreference = "wheel";
       };
-      pythonSet = pkgs.python3.pkgs.overrideScope (
-        pkgs.lib.composeManyExtensions [
-          pyproject-build-systems.overlays.wheel
-          overlay
-        ]
-      );
+      pythonSet =
+        (pkgs.callPackage self.inputs.pyproject-nix.build.packages {
+          python = pkgs.python3;
+        }).overrideScope (
+          pkgs.lib.composeManyExtensions ([
+              pyproject-build-systems.overlays.default
+              overlay
+            ]
+            ++ self.mcp.pythonOverrides)
+        );
       venv = pythonSet.mkVirtualEnv "${pname}-env" workspace.deps.default;
     in
       pkgs.writeShellScriptBin pname ''
