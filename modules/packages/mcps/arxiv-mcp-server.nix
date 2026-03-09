@@ -1,4 +1,4 @@
-{self, ...}: {
+{self, inputs, ...}: {
   flake.mcp.pythonOverrides = [
     (final: prev: {
       sgmllib3k = prev.sgmllib3k.overrideAttrs (old: {
@@ -17,7 +17,7 @@
   }: let
     mkPythonMcp = self.lib.mkPythonMcp {
       inherit pkgs;
-      inherit (self.inputs) uv2nix pyproject-build-systems;
+      inherit (inputs) uv2nix pyproject-build-systems;
     };
   in {
     packages.arxiv-mcp-server = mkPythonMcp {

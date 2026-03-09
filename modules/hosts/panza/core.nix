@@ -40,7 +40,7 @@
     time.timeZone = "America/Toronto";
     i18n.defaultLocale = "en_CA.UTF-8";
   };
-  flake.nixosConfigurations.panza = self.inputs.nixpkgs.lib.nixosSystem {
+  flake.nixosConfigurations.panza = inputs.nixpkgs.lib.nixosSystem {
     system = "x86_64-linux";
     modules = [self.nixosModules.panza];
   };

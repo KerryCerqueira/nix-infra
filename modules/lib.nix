@@ -1,4 +1,4 @@
-{self, ...}: {
+{self, inputs, ...}: {
   flake.lib = let
     kernelSpecFromEnv = pkgs: pythonEnv:
       pkgs.writeTextDir
@@ -59,7 +59,7 @@
         sourcePreference = "wheel";
       };
       pythonSet =
-        (pkgs.callPackage self.inputs.pyproject-nix.build.packages {
+        (pkgs.callPackage inputs.pyproject-nix.build.packages {
           python = pkgs.python3;
         }).overrideScope (
           pkgs.lib.composeManyExtensions ([
