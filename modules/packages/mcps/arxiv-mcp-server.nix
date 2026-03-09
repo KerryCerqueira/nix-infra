@@ -1,9 +1,23 @@
 {self, ...}: {
-  perSystem = {pkgs, ...}: let
+  flake.mcp.pythonOverrides = [
+    (final: prev: {
+      sgmllib3k = prev.sgmllib3k.overrideAttrs (old: {
+        nativeBuildInputs =
+          (old.nativeBuildInputs or [])
+          ++ [
+            final.setuptools
+          ];
+      });
+    })
+  ];
+  perSystem = {
+    pkgs,
+    config,
+    ...
+  }: let
     mkPythonMcp = self.lib.mkPythonMcp {
-      pkgs = pkgs;
-      uv2nix = self.inputs.uv2nix;
-      pyproject-build-systems = self.inputs.pyproject-build-systems;
+      inherit pkgs;
+      inherit (self.inputs) uv2nix pyproject-build-systems;
     };
   in {
     packages.arxiv-mcp-server = mkPythonMcp {
