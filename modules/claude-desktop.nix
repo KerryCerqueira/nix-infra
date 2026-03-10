@@ -19,6 +19,10 @@
             command = lib.getExe self.packages.${pkgs.system}.arxiv-mcp-server;
             args = ["--storage-path" "${config.xdg.dataHome}/arxiv-mcp-server"];
           };
+          nixos = {
+            command = lib.getExe pkgs.mcp-nixos;
+            args = [];
+          };
         };
       };
       path = "${config.xdg.configHome}/Claude/claude_desktop_config.json";
