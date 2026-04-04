@@ -44,7 +44,6 @@
       };
       kerry = {pkgs, ...}: {
         imports = with self.homeModules; [
-          claude-desktop
           libreoffice
           zathura
           keepassxc
