@@ -9,7 +9,7 @@
         gnome
         grub
         nix
-        nvim
+        neovim
         steam
         terminal
         thunderbird

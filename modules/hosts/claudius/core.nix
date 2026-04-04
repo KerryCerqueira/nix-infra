@@ -12,7 +12,7 @@
       gnome
       grub
       nix
-      nvim
+      neovim
       terminal
       steam
       thunderbird

@@ -20,7 +20,7 @@
     nixos-grub-themes.url = "github:jeslie0/nixos-grub-themes";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nix-wrapper-modules = "github:BirdeeHub/nix-wrapper-modules";
+    nix-wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,9 +47,8 @@
       {...}: {
         imports = [
           inputs.home-manager.flakeModules.home-manager
-          inputs.wrappers.flakeModules.wrappers
+          inputs.nix-wrapper-modules.flakeModules.wrappers
           (inputs.import-tree ./modules)
-
         ];
         systems = ["x86_64-linux"];
       }

@@ -24,14 +24,14 @@
             ];
           };
         }
-        self.homeModules.nvim
+        self.homeModules.neovim
         self.homeModules.shell
       ];
     };
     homeModules = {
       "kerry@muncher" = {
         imports = with self.homeModules; [
-          nvim
+          neovim
           terminal
         ];
         nixpkgs.config.allowUnfree = true;
@@ -48,7 +48,7 @@
           libreoffice
           zathura
           keepassxc
-          nvim
+          neovim
           terminal
           ssh
           syncthing

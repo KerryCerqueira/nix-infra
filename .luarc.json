@@ -1,0 +1,43 @@
+{
+  "runtime": {
+    "version": "LuaJIT"
+  },
+  "workspace": {
+    "checkThirdParty": false,
+    "library": [
+      "/nix/store/cyqhaxxc2ygqvvvdm8ybcx4im4qn0asf-neovim-unwrapped-0.11.6/share/nvim/runtime/lua",
+      "/nix/store/yp5h23zarlic6qsavvcz67f28nfm5qzh-vimplugin-lazy.nvim-11.17.5-unstable-2025-12-17/lua",
+      "/nix/store/v533li8qs4sc9rb5qgzzjrpi2l0ghdfl-vimplugin-beacon.nvim-2.0.0/lua",
+      "/nix/store/vckvqsd8n9pfgq50w7fv84ww9qsgw0aq-vimplugin-blink.cmp-1.9.1/lua",
+      "/nix/store/alaas014137z24xi5b721fykvkza2z5g-vimplugin-blink-cmp-git-3.0.0-unstable-2026-02-21/lua",
+      "/nix/store/k1wx22whkw389413pv841sixs4hyfrlc-vimplugin-catppuccin-nvim-1.11.0-unstable-2026-02-15/lua",
+      "/nix/store/hbz9gl7rg7c5jk6dlr10gkcz09cy807s-vimplugin-colorful-menu.nvim-0-unstable-2025-11-25/lua",
+      "/nix/store/wdax15pick82j45yv7aks2gmczi1ish4-vimplugin-colorful-winsep.nvim-unstable-2026-02-19T12-22-25Z/lua",
+      "/nix/store/s212bz0sbjsi7alfh59jwlvpa4wyil4c-vimplugin-conform.nvim-9.1.0-unstable-2026-02-23/lua",
+      "/nix/store/ji5d81s8rgpnw7bc4cqzx35wnfqai6v6-vimplugin-diffview.nvim-0-unstable-2024-06-13/lua",
+      "/nix/store/iy9rfvwlh5qsgb6kvvpm2pmxi240cv1z-vimplugin-edgy.nvim-1.10.2-unstable-2025-10-28/lua",
+      "/nix/store/qwh6iaqfww9w8sipyz0alhd4jbzib9w7-vimplugin-friendly-snippets-0-unstable-2026-01-23/lua",
+      "/nix/store/qa9b91v8yds6da0wl27hch9pk8g1mvnm-vimplugin-luajit2.1-fzf-lua-0.0.2516-1-unstable-0.0.2516-1/lua",
+      "/nix/store/c0s5l77xkq6iaxl2kngnw8zxhbcz45gn-vimplugin-luajit2.1-gitsigns.nvim-2.0.0-1-unstable-2.0.0-1/lua",
+      "/nix/store/rn60lana6nnqcm92qhki27ciakli85w5-vimplugin-lazydev.nvim-1.10.0-unstable-2025-11-06/lua",
+      "/nix/store/468pga63n2h1mh2wksan8rkxpzhwndl4-vimplugin-lualine-lsp-progress-0-unstable-2021-10-23/lua",
+      "/nix/store/jssmlr8yz6ay2wzcm46dss18azn726ac-vimplugin-luajit2.1-lualine.nvim-scm-1-unstable-scm-1/lua",
+      "/nix/store/p7fbs2m66xvvrzifpq9kcz13j585fard-vimplugin-luajit2.1-luasnip-2.4.1-1-unstable-2.4.1-1/lua",
+      "/nix/store/j0y5izpmxn8spcwhs4y8y8v89gxr7c3g-vimplugin-mini.basics-0.17.0-unstable-2026-02-21/lua",
+      "/nix/store/l00wy43ffi5y4yalriqd01vwbnk1b1bk-vimplugin-mini.icons-0.17.0-unstable-2026-02-21/lua",
+      "/nix/store/1rqn9j4k6sy05j10c8y12n4sap5s6w02-vimplugin-neogit-3.0.0-unstable-2026-02-27/lua",
+      "/nix/store/7xd7q0416gjw79kf67plq2li7rj8vj0z-vimplugin-neominimap.nvim-3.15.2/lua",
+      "/nix/store/9liyvap2hym261ich0xa90jc1bg0ymaw-vimplugin-nvim-treesitter-0.10.0-unstable-2026-02-28/lua",
+      "/nix/store/38sjkfmjs3b1bjbgb7xnl4cbwzgrabpg-vimplugin-nvim-treesitter-context-1.0.0-unstable-2025-12-06/lua",
+      "/nix/store/755fc1ywh4bvsrj3ih9ixsi3c5r4ksm4-vimplugin-nvim-treesitter-endwise-0-unstable-2025-12-29/lua",
+      "/nix/store/i0zhxi0fbwq4nnmcfl589xkxgb8a00zh-vimplugin-nvim-treesitter-textobjects-0-unstable-2026-01-28/lua",
+      "/nix/store/wlwglhjcdgj1wsybmk7lk9j328ix2lis-vimplugin-nvim-ufo-1.5.0-unstable-2026-01-11/lua",
+      "/nix/store/nf0i539b2vp48crf2nw9c0jzqjfhf20x-vimplugin-luajit2.1-plenary.nvim-scm-1-unstable-scm-1/lua",
+      "/nix/store/1bp953wd0wzp1d3nswlhqksif9jg4mah-vimplugin-promise-async-1.0.0-unstable-2024-08-04/lua",
+      "/nix/store/p5raxnppyw636gy0b23j16w78nppbpm6-vimplugin-snacks.nvim-2.30.0-unstable-2025-11-18/lua",
+      "/nix/store/wyfnc925v172hcs0hhxyav4g23q1fwxd-vimplugin-treesitter-modules.nvim-0-unstable-2026-02-05/lua",
+      "/nix/store/ixjhpnr3flv9jxmss536avxk9ir6cjbj-vimplugin-visual-whitespace.nvim-unstable-2026-02-21T16-05-55-07-00/lua",
+      "/nix/store/8ja02jjc45g4dhgi8087fnf8x5kfkha4-vimplugin-which-key.nvim-3.17.0-unstable-2025-10-28/lua"
+    ]
+  }
+}

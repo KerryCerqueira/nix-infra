@@ -1,4 +1,8 @@
-{self, inputs, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: {
   flake.lib = let
     kernelSpecFromEnv = pkgs: pythonEnv:
       pkgs.writeTextDir
