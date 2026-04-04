@@ -78,13 +78,41 @@ return {
         end,
       }
     )
-    vim.keymap.set("n", "go", "o<Esc>k", { desc = "Add empty line below" })
-    vim.keymap.set("n", "gO", "O<Esc>j", { desc = "Add empty line above" })
+    vim.keymap.set(
+      "n",
+      "go",
+      "o<Esc>k",
+      { desc = "Add empty line below" }
+    )
+    vim.keymap.set(
+      "n",
+      "gO",
+      "O<Esc>j",
+      { desc = "Add empty line above" }
+    )
     vim.keymap.set(
       "n",
       "gV",
       '"`[" .. getregtype()[0] .. "`]"',
       { expr = true, desc = "Select last pasted text" }
+    )
+    vim.keymap.set(
+      { 'n', 'x' },
+      'gy',
+      '"+y',
+      { desc = 'Copy to system clipboard' }
+    )
+    vim.keymap.set(
+      'n',
+      'gp',
+      '"+p',
+      { desc = 'Paste from system clipboard' }
+    )
+    vim.keymap.set(
+      'x',
+      'gp',
+      '"+P',
+      { desc = 'Paste from system clipboard' }
     )
 	end,
 }
