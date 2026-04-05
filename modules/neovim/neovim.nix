@@ -5,7 +5,7 @@
 }: {
   flake = {
     wrappers.neovim = {...}: {
-      imports = [self.wrapperModules.lazy-neovim];
+      imports = [self.lib.wrapperModules.lazy-neovim];
       lazy.configSrc = ./src;
       lazy.configInitExtra = ''
         require("options").setup()

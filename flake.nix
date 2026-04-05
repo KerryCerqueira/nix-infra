@@ -48,6 +48,12 @@
         imports = [
           inputs.home-manager.flakeModules.home-manager
           inputs.nix-wrapper-modules.flakeModules.wrappers
+          ({lib, ...}: {
+            options.flake.lib = lib.mkOption {
+              type = lib.types.attrsOf lib.types.raw;
+              default = {};
+            };
+          })
           (inputs.import-tree ./modules)
         ];
         systems = ["x86_64-linux"];
