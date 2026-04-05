@@ -1,7 +1,7 @@
 {...}: {
-  flake.homeModules.moor = {pkgs, ...}: {
+  flake.homeModules.moor = {pkgs, lib, ...}: {
     home.sessionVariables = {
-      PAGER = "${pkgs.moor}/bin/moar";
+      PAGER = "${lib.getExe pkgs.moor}";
       MOOR = "--statusbar=bold --no-linenumbers";
     };
     home.packages = with pkgs; [moor];
