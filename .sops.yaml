@@ -25,7 +25,7 @@ creation_rules:
       - age:
         - *napoleon
         - *kerry_master
-  - path_regex: ^modules/users/kerry/napoleon/sops/secrets.yaml$
+  - path_regex: ^modules/users/kerry/napoleon_secrets.yaml$
     key_groups:
       - age:
         - *kerry_npln
@@ -35,13 +35,13 @@ creation_rules:
       - age:
         - *panza
         - *kerry_master
-  - path_regex: ^modules/hosts/potato/secrets.yaml$
+  - path_regex: ^modules/hosts/potato_secrets.yaml$
     key_groups:
       - age:
         - *potato
         - *erika_master
         - *kerry_master
-  - path_regex: ^modules/users/kerry/panza/secrets.yaml$
+  - path_regex: ^modules/users/kerry/panza_secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
@@ -50,17 +50,17 @@ creation_rules:
       - age:
         - *kerry_master
         - *claudius
-  - path_regex: ^modules/users/kerry/claudius/sops/secrets.yaml$
+  - path_regex: ^modules/users/kerry/claudius_secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_clds
-  - path_regex: ^modules/users/kerry/potato/secrets.yaml$
+  - path_regex: ^modules/users/kerry/potato_secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_ptto
-  - path_regex: ^modules/users/erika/potato/secrets.yaml$
+  - path_regex: ^modules/users/erika/potato_secrets.yaml$
     key_groups:
       - age:
         - *erika_master

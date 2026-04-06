@@ -10,7 +10,7 @@
   flake.homeModules."erika@potato" = {...}: {
     home.stateVersion = "23.11";
     sops = {
-      defaultSopsFile = ./secrets.yaml;
+      defaultSopsFile = ./potato_secrets.yaml;
       defaultSopsFormat = "yaml";
       age.keyFile = "/home/erika/.config/sops/age/erika_master.age";
       secrets = {

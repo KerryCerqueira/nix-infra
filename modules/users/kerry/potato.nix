@@ -11,7 +11,7 @@
     imports = [self.homeModules.kerry];
     home.stateVersion = "23.11";
     sops = {
-      defaultSopsFile = ./secrets.yaml;
+      defaultSopsFile = ./potato_secrets.yaml;
       defaultSopsFormat = "yaml";
       age.keyFile = "/home/kerry/.config/sops/age/kerry_potato.age";
       secrets = {
