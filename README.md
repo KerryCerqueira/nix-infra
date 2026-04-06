@@ -33,6 +33,8 @@ shell utilies.
 neovim derivation using lazy as a plugin configuration manager. See
 `neovim/README.md` for additional details.
 
+See `docs/` for some ad-hoc bootstrapping notes.
+
 ## Usage
 
 Various nixOS and home-manager modules are exported as flake outputs and can be

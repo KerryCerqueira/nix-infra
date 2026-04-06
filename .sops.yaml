@@ -7,10 +7,6 @@ age_keys:
   - &claudius age13gyz57l2wmglle0kkhsm38uzv3rx2ej3c6svzlzqqc8a3jp7lcgshrzjvz
   # System-level secrets on napoleon
   - &napoleon age1ktg5a2hchfng6x96tj0chskvdyr99flu3u862kv9yege93cxfeksfy3pdd
-  # System-level secrets on prometheus
-  - &prometheus age15r59wkf2xzg6r844m86yuklk65xw6vrkdptr0vpzpms6ukrsaalqalee7k
-  # System-level secrets on sigmund
-  - &sigmund age1v8al4y2ad7fm0f97vgu6yzjrmtaya5gwmlh6q4jf5x05spkqru4qj4jpur
   # Erika's master encryption key
   - &erika_master age1vcf4ntqgukhxf6pjyf2uqqw3jn260npg4q4f6wwup8xr2kq9v3sq0hmtjx
   # Kerry's master encryption key
@@ -23,15 +19,13 @@ age_keys:
   - &kerry_pmts age1vqn62ymk3g06u789u9ku609face4lnmlf4gsnw7lxjdet3wsv5yq68cnrf
   # Kerry's secrets on potato
   - &kerry_ptto age1hwc68rmnfxj4uz3w8qjedmx2jzjfpuv7mzsra8zhfk2ughxy83gsqttkcp
-  # Kerry's secrets on sigmund
-  - &kerry_sgmd age1p9ld9unnr6eknac26p87gp4hp7zexq666h09u0d03tvy5uh63e2q8xqmsz
 creation_rules:
   - path_regex: ^modules/hosts/napoleon/secrets.yaml$
     key_groups:
       - age:
         - *napoleon
         - *kerry_master
-  - path_regex: ^modules/hosts/napoleon/users/kerry/sops/secrets.yaml$
+  - path_regex: ^modules/users/kerry/napoleon/sops/secrets.yaml$
     key_groups:
       - age:
         - *kerry_npln
@@ -41,13 +35,13 @@ creation_rules:
       - age:
         - *panza
         - *kerry_master
-  - path_regex: ^modules/hosts/potato/_hardware/secrets.yaml$
+  - path_regex: ^modules/hosts/potato/secrets.yaml$
     key_groups:
       - age:
         - *potato
         - *erika_master
         - *kerry_master
-  - path_regex: ^modules/hosts/panza/users/kerry/secrets.yaml$
+  - path_regex: ^modules/users/kerry/panza/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
@@ -56,37 +50,17 @@ creation_rules:
       - age:
         - *kerry_master
         - *claudius
-  - path_regex: ^modules/hosts/claudius/users/kerry/sops/secrets.yaml$
+  - path_regex: ^modules/users/kerry/claudius/sops/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_clds
-  - path_regex: ^modules/hosts/potato/_home/kerry/secrets.yaml$
+  - path_regex: ^modules/users/kerry/potato/secrets.yaml$
     key_groups:
       - age:
         - *kerry_master
         - *kerry_ptto
-  - path_regex: ^modules/hosts/potato/_home/erika/secrets.yaml$
+  - path_regex: ^modules/users/erika/potato/secrets.yaml$
     key_groups:
       - age:
         - *erika_master
-  - path_regex: ^modules/hosts/sigmund/_hardware/secrets.yaml$
-    key_groups:
-      - age:
-        - *kerry_master
-        - *sigmund
-  - path_regex: ^modules/hosts/sigmund/_home/kerry/secrets.yaml$
-    key_groups:
-      - age:
-        - *kerry_master
-        - *kerry_sgmd
-  - path_regex: ^modules/hosts/prometheus/_hardware/secrets.yaml$
-    key_groups:
-      - age:
-        - *kerry_master
-        - *prometheus
-  - path_regex: ^modules/hosts/prometheus/_home/kerry/secrets.yaml$
-    key_groups:
-      - age:
-        - *kerry_master
-        - *kerry_pmts
