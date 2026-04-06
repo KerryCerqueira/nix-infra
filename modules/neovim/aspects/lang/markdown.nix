@@ -8,7 +8,7 @@
       markdownlint-cli2
       marksman
       python312Packages.pylatexenc
-      nodePackages.prettier
+      prettier
     ];
     lazy = {
       plugins = {
