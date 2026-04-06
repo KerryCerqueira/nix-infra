@@ -30,21 +30,16 @@
         hash = "sha256-xZKDP/9iG2+tt8nqNpirvCe5olNj/jLYrVV9D6o+UXk=";
       };
     };
-    neominimap-nvim = let
-      tag = "v3.15.2";
-      version = lib.removePrefix "v" tag;
-      hash = "sha256-HiP0xH4NyrX4lvmTDFbwYv0Hfl176Au9Q/ellJSPCuw=";
-    in
-      pkgs.vimUtils.buildVimPlugin {
-        pname = "neominimap.nvim";
-        inherit version;
-        src = pkgs.fetchFromGitHub {
-          owner = "Isrothy";
-          repo = "neominimap.nvim";
-          rev = tag;
-          inherit hash;
-        };
+    neominimap-nvim = pkgs.vimUtils.buildVimPlugin {
+      pname = "neominimap.nvim";
+      version = "3.15.6";
+      src = pkgs.fetchFromGitHub {
+        owner = "isrothy";
+        repo = "neominimap.nvim";
+        rev = "5538a69ecf833c705973d5fb8c2bccd3f2cecf93";
+        hash = "sha256-TZGIVY/KJ3XWP3+AxCWb3vl0uycSXNwIMisxDf74C9g=";
       };
+    };
     tiny-glimmer-nvim = let
       commitDate = "2025-11-22T23:49:03+01:00";
       version = "unstable-" + commitDate;
