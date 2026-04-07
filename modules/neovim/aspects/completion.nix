@@ -27,5 +27,6 @@
         (config.lazy.configSrc + "/lua/lazyspecs/completion.lua")
       ];
     };
+    settings.nvim_lua_env = lp: [lp.jsregexp];
   };
 }

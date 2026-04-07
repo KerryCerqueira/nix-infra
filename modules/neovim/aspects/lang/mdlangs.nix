@@ -68,6 +68,11 @@
     extraPackages = with pkgs; [
       python312Packages.jupytext
       quarto
+      markdown-oxide
+      prettier
+      yaml-language-server
+      taplo
+      vscode-json-languageserver
     ];
     lazy = {
       plugins = {
