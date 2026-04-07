@@ -52,38 +52,43 @@
       };
     };
   in {
-    lazy = {
-      specs = [
-        (config.lazy.configSrc + "/lua/lazyspecs/appearance.lua")
-      ];
-      plugins = {
-        catppuccin-nvim = {
-          name = "catppuccin";
-          pkg = pkgs.vimPlugins.catppuccin-nvim;
-        };
-        colorful-winsep-nvim = {
-          name = "colorful-winsep.nvim";
-          pkg = colorful-winsep-nvim;
-        };
-        edgy-nvim = {
-          name = "edgy.nvim";
-          pkg = pkgs.vimPlugins.edgy-nvim;
-        };
-        mini-icons = {
-          name = "mini.icons";
-          pkg = pkgs.vimPlugins.mini-icons;
-        };
-        neominimap-nvim = {
-          name = "neominimap.nvim";
-          pkg = neominimap-nvim;
-        };
-        tiny-glimmer-nvim = {
-          name = "tiny-glimmer.nvim";
-          pkg = tiny-glimmer-nvim;
-        };
-        visual-whitespace-nvim = {
-          name = "visual-whitespace.nvim";
-          pkg = visual-whitespace-nvim;
+    options.aspects.appearance.enable =
+      lib.mkEnableOption
+      "Appearance features";
+    config = lib.mkIf config.aspects.appearance.enable {
+      lazy = {
+        specs = [
+          (config.lazy.configSrc + "/lua/lazyspecs/appearance.lua")
+        ];
+        plugins = {
+          catppuccin-nvim = {
+            name = "catppuccin";
+            pkg = pkgs.vimPlugins.catppuccin-nvim;
+          };
+          colorful-winsep-nvim = {
+            name = "colorful-winsep.nvim";
+            pkg = colorful-winsep-nvim;
+          };
+          edgy-nvim = {
+            name = "edgy.nvim";
+            pkg = pkgs.vimPlugins.edgy-nvim;
+          };
+          mini-icons = {
+            name = "mini.icons";
+            pkg = pkgs.vimPlugins.mini-icons;
+          };
+          neominimap-nvim = {
+            name = "neominimap.nvim";
+            pkg = neominimap-nvim;
+          };
+          tiny-glimmer-nvim = {
+            name = "tiny-glimmer.nvim";
+            pkg = tiny-glimmer-nvim;
+          };
+          visual-whitespace-nvim = {
+            name = "visual-whitespace.nvim";
+            pkg = visual-whitespace-nvim;
+          };
         };
       };
     };

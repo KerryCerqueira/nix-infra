@@ -1,32 +1,38 @@
 {...}: {
   flake.wrappers.neovim = {
     pkgs,
+    lib,
     config,
     ...
   }: {
-    lazy = {
-      plugins = {
-        blink-cmp = {
-          name = "blink.cmp";
-          pkg = pkgs.vimPlugins.blink-cmp;
+    options.aspects.completion.enable =
+      lib.mkEnableOption
+      "Completion features";
+    config = lib.mkIf config.aspects.completion.enable {
+      lazy = {
+        plugins = {
+          blink-cmp = {
+            name = "blink.cmp";
+            pkg = pkgs.vimPlugins.blink-cmp;
+          };
+          colorful-menu-nvim = {
+            name = "colorful-menu.nvim";
+            pkg = pkgs.vimPlugins.colorful-menu-nvim;
+          };
+          friendly-snippets = {
+            name = "friendly-snippets";
+            pkg = pkgs.vimPlugins.friendly-snippets;
+          };
+          luasnip = {
+            name = "LuaSnip";
+            pkg = pkgs.vimPlugins.luasnip;
+          };
         };
-        colorful-menu-nvim = {
-          name = "colorful-menu.nvim";
-          pkg = pkgs.vimPlugins.colorful-menu-nvim;
-        };
-        friendly-snippets = {
-          name = "friendly-snippets";
-          pkg = pkgs.vimPlugins.friendly-snippets;
-        };
-        luasnip = {
-          name = "LuaSnip";
-          pkg = pkgs.vimPlugins.luasnip;
-        };
+        specs = [
+          (config.lazy.configSrc + "/lua/lazyspecs/completion.lua")
+        ];
       };
-      specs = [
-        (config.lazy.configSrc + "/lua/lazyspecs/completion.lua")
-      ];
+      settings.nvim_lua_env = lp: [lp.jsregexp];
     };
-    settings.nvim_lua_env = lp: [lp.jsregexp];
   };
 }

@@ -1,6 +1,7 @@
 {...}: {
   flake.wrappers.neovim = {
     pkgs,
+    lib,
     config,
     ...
   }: let
@@ -65,56 +66,61 @@
         };
       };
   in {
-    extraPackages = with pkgs; [
-      python312Packages.jupytext
-      quarto
-      markdown-oxide
-      prettier
-      yaml-language-server
-      taplo
-      vscode-json-languageserver
-    ];
-    lazy = {
-      plugins = {
-        conform-nvim = {
-          name = "conform.nvim";
-          pkg = pkgs.vimPlugins.conform-nvim;
+    options.aspects.lang.mdlangs.enable =
+      lib.mkEnableOption
+      "Data languages editing features";
+    config = lib.mkIf config.aspects.lang.mdlangs.enable {
+      extraPackages = with pkgs; [
+        python312Packages.jupytext
+        quarto
+        markdown-oxide
+        prettier
+        yaml-language-server
+        taplo
+        vscode-json-languageserver
+      ];
+      lazy = {
+        plugins = {
+          conform-nvim = {
+            name = "conform.nvim";
+            pkg = pkgs.vimPlugins.conform-nvim;
+          };
+          videre-nvim = {
+            name = "videre.nvim";
+            pkg = videre-nvim;
+          };
+          graph-view-toml-parser = {
+            name = "graph_view_toml_parser";
+            pkg = graph-view-toml-parser;
+          };
+          graph-view-yaml-parser = {
+            name = "graph_view_yaml_parser";
+            pkg = graph-view-yaml-parser;
+          };
+          SchemaStore-nvim = {
+            name = "SchemaStore.nvim";
+            pkg = pkgs.vimPlugins.SchemaStore-nvim;
+          };
+          xml2lua-nvim = {
+            name = "xml2lua.nvim";
+            pkg = xml2lua-nvim;
+          };
         };
-        videre-nvim = {
-          name = "videre.nvim";
-          pkg = videre-nvim;
-        };
-        graph-view-toml-parser = {
-          name = "graph_view_toml_parser";
-          pkg = graph-view-toml-parser;
-        };
-        graph-view-yaml-parser = {
-          name = "graph_view_yaml_parser";
-          pkg = graph-view-yaml-parser;
-        };
-        SchemaStore-nvim = {
-          name = "SchemaStore.nvim";
-          pkg = pkgs.vimPlugins.SchemaStore-nvim;
-        };
-        xml2lua-nvim = {
-          name = "xml2lua.nvim";
-          pkg = xml2lua-nvim;
-        };
+        specs = [
+          (config.lazy.configSrc + "/lua/lazyspecs/lang/mdlangs.lua")
+        ];
       };
-      specs = [
-        (config.lazy.configSrc + "/lua/lazyspecs/lang/mdlangs.lua")
-      ];
-    };
-    treesitter = {
-      enable = true;
-      grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-        csv
-        json
-        toml
-        tsv
-        xml
-        yaml
-      ];
+      treesitter = {
+        enable = true;
+        grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+          csv
+          json
+          toml
+          tsv
+          xml
+          yaml
+        ];
+      };
     };
   };
 }

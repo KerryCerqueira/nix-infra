@@ -21,29 +21,34 @@
         };
       };
   in {
-    lazy = {
-      plugins = {
-        fyler-nvim = {
-          name = "fyler.nvim";
-          pkg = pkgs.vimPlugins.fyler-nvim;
+    options.aspects.filetree.enable =
+      lib.mkEnableOption
+      "Filetree exploration features";
+    config = lib.mkIf config.aspects.filetree.enable {
+      lazy = {
+        plugins = {
+          fyler-nvim = {
+            name = "fyler.nvim";
+            pkg = pkgs.vimPlugins.fyler-nvim;
+          };
+          mini-icons = {
+            name = "mini.icons";
+            pkg = pkgs.vimPlugins.mini-icons;
+          };
+          sshfs-nvim = {
+            name = "sshfs.nvim";
+            pkg = sshfs-nvim;
+          };
         };
-        mini-icons = {
-          name = "mini.icons";
-          pkg = pkgs.vimPlugins.mini-icons;
-        };
-        sshfs-nvim = {
-          name = "sshfs.nvim";
-          pkg = sshfs-nvim;
-        };
+        specs = [
+          (config.lazy.configSrc + "/lua/lazyspecs/filetree.lua")
+        ];
       };
-      specs = [
-        (config.lazy.configSrc + "/lua/lazyspecs/filetree.lua")
+      extraPackages = with pkgs; [
+        delta
+        fd
+        ripgrep
       ];
     };
-    extraPackages = with pkgs; [
-      delta
-      fd
-      ripgrep
-    ];
   };
 }
