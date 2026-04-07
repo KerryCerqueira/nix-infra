@@ -7,10 +7,6 @@
       url = "github:aaddrick/claude-desktop-debian";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    easyeffects-presets = {
-      url = "github:JackHack96/EasyEffects-Presets";
-      flake = false;
-    };
     flake-parts.url = "github:hercules-ci/flake-parts";
     home-manager = {
       url = "github:nix-community/home-manager";

@@ -1,7 +1,4 @@
-{
-  self,
-  ...
-}: {
+{self, ...}: {
   flake = {
     homeModules = {
       "kerry@muncher" = {
@@ -29,6 +26,7 @@
         ];
         programs = {
           home-manager.enable = true;
+          thunderbird.enable = true;
           chromium.enable = true;
           firefox.enable = true;
         };
@@ -42,7 +40,6 @@
             gimp
             discord
             slack
-            thunderbird
             zoom-us
             teams-for-linux
             rnote

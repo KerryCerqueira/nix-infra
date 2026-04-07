@@ -1,7 +1,12 @@
-{inputs, ...}: {
-  flake.homeModules.easyeffects = {...}: let
-    ee-presets = inputs.easyeffects-presets;
-  in {
+{...}: {
+  flake.homeModules.easyeffects = {pkgs, ...}: let
+    ee-presets = pkgs.fetchFromGitHub {
+      owner = "JackHack96";
+      repo = "EasyEffects-Presets";
+      rev = "a1a2dc6f5052ca14dccbed8228f7b29ae90e4238";
+      hash = "sha256-9lSYaWGIQ9K53NwQULmbdDxnS4NijmnOEUvFQWjEF08=";
+    };
+      in {
     services.easyeffects = {
       enable = true;
       preset = "AdvancedAutoGain";
