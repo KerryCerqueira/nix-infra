@@ -114,5 +114,23 @@ return {
       '"+P',
       { desc = 'Paste from system clipboard' }
     )
+    vim.keymap.set(
+      'n',
+      '<Tab>',
+      'van',
+      { remap = true, desc = 'Init treesitter selection' }
+    )
+    vim.keymap.set(
+      'x',
+      '<Tab>',
+      'an',
+      { remap = true, desc = 'Expand node' }
+    )
+    vim.keymap.set(
+      'x',
+      '<S-Tab>',
+      'in',
+      { remap = true, desc = 'Shrink node' }
+    )
 	end,
 }

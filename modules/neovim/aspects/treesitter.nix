@@ -22,10 +22,6 @@
           name = "nvim-treesitter-textobjects";
           pkg = pkgs.vimPlugins.nvim-treesitter-textobjects;
         };
-        treesitter-modules-nvim = {
-          name = "treesitter-modules.nvim";
-          pkg = pkgs.vimPlugins.treesitter-modules-nvim;
-        };
         nvim-ufo = {
           name = "nvim-ufo";
           pkg = pkgs.vimPlugins.nvim-ufo;

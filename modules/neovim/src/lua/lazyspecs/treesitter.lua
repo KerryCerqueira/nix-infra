@@ -62,24 +62,6 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 	},
 	{
-		"MeanderingProgrammer/treesitter-modules.nvim",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		---@module 'treesitter-modules'
-		---@type ts.mod.UserConfig
-		opts = {
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<Tab>",
-					node_incremental = "<Tab>",
-					scope_incremental = "<S-Tab>",
-					node_decremental = "<BS>",
-				},
-			},
-		},
-	},
-	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
