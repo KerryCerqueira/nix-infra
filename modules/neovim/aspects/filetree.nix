@@ -54,33 +54,13 @@
   in {
     lazy = {
       plugins = {
-        neo-tree-nvim = {
-          name = "neo-tree.nvim";
-          pkg = pkgs.vimPlugins.neo-tree-nvim;
-        };
-        plenary-nvim = {
-          name = "plenary.nvim";
-          pkg = pkgs.vimPlugins.plenary-nvim;
-        };
-        nui-nvim = {
-          name = "nui.nvim";
-          pkg = pkgs.vimPlugins.nui-nvim;
+        fyler-nvim = {
+          name = "fyler.nvim";
+          pkg = pkgs.vimPlugins.fyler-nvim;
         };
         mini-icons = {
           name = "mini.icons";
           pkg = pkgs.vimPlugins.mini-icons;
-        };
-        oil-nvim = {
-          name = "oil.nvim";
-          pkg = pkgs.vimPlugins.oil-nvim;
-        };
-        oil-git-nvim = {
-          name = "oil-git.nvim";
-          pkg = oil-git-nvim;
-        };
-        oil-lsp-diagnostics-nvim = {
-          name = "oil-lsp-diagnostics.nvim";
-          pkg = oil-lsp-diagnostics-nvim;
         };
         sshfs-nvim = {
           name = "sshfs.nvim";

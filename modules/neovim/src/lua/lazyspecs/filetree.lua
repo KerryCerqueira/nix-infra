@@ -1,174 +1,63 @@
 ---@type LazySpec
 return {
 	{
-		"nvim-neo-tree/neo-tree.nvim",
+		"A7Lavinraj/fyler.nvim",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"MunifTanjim/nui.nvim",
 			"echasnovski/mini.icons",
 		},
-		specs = {
-			"folke/edgy.nvim",
-			optional = true,
-			opts_extend = { "bottom", "left", "right" },
-			---@type Edgy.Config
-			opts = {
-				left = {
-					{
-						title = "Neo-Tree Buffers",
-						ft = "neo-tree",
-						filter = function(buf)
-							return vim.b[buf].neo_tree_source == "buffers"
-						end,
-						open = function()
-							vim.cmd("Neotree show position=top buffers dir=%s", vim.fn.getcwd())
-						end,
-					},
-				},
-			},
-		},
-		cmd = "Neotree",
+		lazy = false,
+		cmd = "Fyler",
 		keys = {
 			{
 				"<leader>-",
 				function()
-					local reveal_file = vim.fn.expand("%:p")
-					if reveal_file == "" then
-						reveal_file = vim.fn.getcwd()
-					else
-						local f = io.open(reveal_file, "r")
-						if f then
-							f.close(f)
-						else
-							reveal_file = vim.fn.getcwd()
-						end
+					local dir = vim.fn.expand("%:p:h")
+					if dir == "" or vim.fn.isdirectory(dir) == 0 then
+						dir = vim.fn.getcwd()
 					end
-					require("neo-tree.command").execute({
-						action = "focus",
-						toggle = true,
-						source = "filesystem",
-						position = "float",
-						reveal_file = reveal_file,
-						reveal_force_cwd = true,
-					})
+					require("fyler").toggle({ dir = dir, kind = "float" })
 				end,
-				desc = "Explorer NeoTree (root dir)",
+				desc = "Explorer Fyler (file dir)",
 			},
 		},
-		---@module 'neo-tree'
-		---@type neotree.Config
 		opts = {
-			window = {
-				popup = {
-					size = {
-						height = "80%",
-						width = "85%",
+			views = {
+				finder = {
+					close_on_select = true,
+					default_explorer = true,
+					follow_current_file = true,
+					git_status = {
+						enabled = true,
 					},
-				},
-			},
-			sources = {
-				"filesystem",
-				"buffers",
-				"git_status",
-				"document_symbols",
-			},
-			close_if_last_window = true,
-			popup_border_style = "rounded",
-			enable_diagnostics = true,
-			open_files_do_not_replace_types = {
-				"terminal",
-				"trouble",
-				"Trouble",
-				"Outline",
-				"qf",
-				"edgy",
-			},
-			default_component_configs = {
-				container = {
-					enable_character_fade = true,
-				},
-				type = {
-					enabled = true,
-					required_width = 88, -- min width of window required to show this column
-				},
-				last_modified = {
-					format = "relative",
-					enabled = true,
-					required_width = 64, -- min width of window required to show this column
-				},
-				created = {
-					format = "relative",
-					enabled = true,
-					required_width = 88, -- min width of window required to show this column
-				},
-				modified = {
-					symbol = "[+]",
-					highlight = "NeoTreeModified",
-				},
-				name = {
-					trailing_slash = false,
-					use_git_status_colors = true,
-					highlight = "NeoTreeFileName",
-				},
-				symlink_target = {
-					enabled = true,
-				},
-			},
-			filesystem = {
-				hijack_netrw_behavior = "disabled",
-				filtered_items = {
-					visible = true,
-					hide_dotfiles = true,
-					hide_gitignored = true,
-					always_show = { ".gitignore" },
-				},
-				follow_current_file = {
-					enabled = true,
-				},
-				window = {
+					indentscope = {
+						enabled = true,
+						marker = "│",
+					},
 					mappings = {
-						["-"] = "navigate_up",
+						["q"] = "CloseView",
+						["<CR>"] = "Select",
+						["t"] = "SelectTab",
+						["s"] = "SelectVSplit",
+						["S"] = "SelectSplit",
+						["-"] = "GotoParent",
+						["C"] = "CollapseNode",
+						["z"] = "CollapseAll",
+						["="] = "GotoCwd",
+						["."] = "GotoNode",
+					},
+					win = {
+						border = "rounded",
+						kind = "float",
+						kinds = {
+							float = {
+								height = "80%",
+								width = "85%",
+								top = "7%",
+								left = "7.5%",
+							},
+						},
 					},
 				},
-			},
-			buffers = {
-				follow_current_file = {
-					enabled = true,
-					leave_dirs_open = false,
-				},
-				group_empty_dirs = true,
-				show_unloaded = true,
-			},
-		},
-	},
-	{
-		"stevearc/oil.nvim",
-		lazy = false,
-		specs = {
-			{
-				"benomahony/oil-git.nvim",
-				dependencies = { "stevearc/oil.nvim" },
-			},
-			{
-				"JezerM/oil-lsp-diagnostics.nvim",
-				dependencies = { "stevearc/oil.nvim" },
-				opts = {},
-			},
-		},
-		keys = {
-			{
-				"-",
-				"<cmd>Oil --float<CR>",
-				desc = "Explorer Oil",
-			},
-		},
-		---@type oil.SetupOpts
-		opts = {
-			keymaps = {
-				["?"] = { "actions.show_help", mode = "n" },
-				["q"] = { "actions.close", mode = "n" },
-				["<C-r>"] = "actions.refresh",
-				["\\T"] = { "actions.toggle_trash", mode = "n" },
 			},
 		},
 	},
@@ -197,7 +86,7 @@ return {
 			lead_prefix = "<leader>M",
 			ui = {
 				file_picker = {
-					preferred_picker = "neo-tree",
+					preferred_picker = "fzf-lua",
 				},
 			},
 		},

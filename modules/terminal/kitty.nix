@@ -9,7 +9,7 @@
       ];
     };
   };
-  flake.homeModules.kitty = {pkgs, ...}: {
+  flake.homeModules.kitty = {pkgs, lib, ...}: {
     imports = [
       inputs.catppuccin.homeModules.catppuccin
     ];
@@ -17,15 +17,15 @@
     programs.kitty = {
       enable = true;
       font = {
-        package = pkgs.nerd-fonts.iosevka;
-        name = "Iosevka Nerd Font";
+        package = pkgs.iosevka;
+        name = "Iosevka";
       };
       settings = {
         hide_window_decorations = true;
         enable_audio_bell = false;
         visual_bell_duration = 0.1;
         cursor_trail = 1;
-        scrollback_pager = "moor --statusbar=bold --no-linenumbers";
+        scrollback_pager = "${lib.getExe pkgs.moor} --statusbar=bold --no-linenumbers";
         background_opacity = 0.90;
       };
       extraConfig =
