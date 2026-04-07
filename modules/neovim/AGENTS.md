@@ -11,7 +11,7 @@ store-path resolution while lazy.nvim handles the runtime plugin lifecycle
 
 ## How the nix-lazy bridge works
 
-`lazy-neovim.nix` defines a reusable wrapper module
+`neovim.nix` defines a reusable wrapper module
 (`flake.lib.wrapperModules.lazy-neovim`) that extends the base
 nix-wrapper-modules neovim wrapper with lazy.nvim-specific options. The key
 mechanism:
@@ -33,8 +33,8 @@ pattern, and plugin configuration stays in lua.
 ```
 modules/neovim/
   neovim.nix            -- Flake-level entry: defines flake.wrappers.neovim,
-                           flake.nixosModules.neovim, flake.homeModules.neovim
-  lazy-neovim.nix       -- The lazy-neovim wrapper module (options + bridge logic)
+                           flake.nixosModules.neovim, flake.homeModules.neovim,
+                           lazy-neovim wrapper module (options + bridge logic)
   aspects/              -- Nix-side aspect modules (each a flake-parts module
                            setting flake.wrappers.neovim)
     appearance.nix
@@ -69,12 +69,14 @@ modules/neovim/
 
 Each neovim concern has a **nix aspect** and a corresponding **lua spec file**.
 The nix aspect handles:
+
 - Declaring plugin packages (`lazy.plugins.<name>`)
 - Supplying runtime dependencies (`extraPackages`)
 - Registering treesitter grammars (`treesitter.grammars`)
 - Pointing to its lua spec file (`lazy.specs`)
 
 The lua spec file handles all runtime configuration:
+
 - Lazy.nvim spec fields (`opts`, `keys`, `event`, `dependencies`, etc.)
 - Plugin setup logic
 
@@ -122,6 +124,7 @@ Nix-side aspects provision three kinds of runtime dependencies for neovim:
 - **Path dependencies** (`extraPackages`): Executables placed on neovim's
   `PATH` at runtime -- LSP servers, formatters, linters, CLI tools. These are
   ordinary nix packages.
+
   ```nix
   extraPackages = with pkgs; [ alejandra nil ];
   ```
@@ -129,8 +132,9 @@ Nix-side aspects provision three kinds of runtime dependencies for neovim:
 - **Wrapped Python dependencies** (`hosts.python3.withPackages`): Python
   packages bundled into the wrapped python3 host used by python-based neovim
   plugins (e.g. molten-nvim). The python3 host itself is enabled in
-  `lazy-neovim.nix` via `hosts.python3.nvim-host.enable = true`; individual
+  `neovim.nix` via `hosts.python3.nvim-host.enable = true`; individual
   aspects extend it by appending to `withPackages`.
+
   ```nix
   hosts.python3.withPackages = pyPkgs: with pyPkgs; [
     jupyter-client
@@ -140,7 +144,7 @@ Nix-side aspects provision three kinds of runtime dependencies for neovim:
   ```
 
 - **Treesitter grammars** (`treesitter.grammars`): Parser grammars appended to
-  a custom list option defined in `lazy-neovim.nix`. Grammars are sourced from
+  a custom list option defined in `neovim.nix`. Grammars are sourced from
   `pkgs.vimPlugins.nvim-treesitter.builtGrammars` and bundled with
   nvim-treesitter at build time.
   ```nix
@@ -159,6 +163,7 @@ independently contribute packages, python deps, and grammars without conflict.
 ## Language aspects
 
 Language aspects (`aspects/lang/*.nix`) follow a focused pattern:
+
 - `extraPackages` for LSP servers, formatters, linters
 - `treesitter.grammars` for parser grammars
 - `lazy.specs` pointing to a lua spec file (if the language needs plugin config
