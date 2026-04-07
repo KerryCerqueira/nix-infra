@@ -19,6 +19,12 @@ return {
 			transparent_background = true,
 			term_colors = true,
 			auto_integrations = true,
+			custom_highlights = function(colors)
+				return {
+					FloatBorder = { fg = colors.overlay0, bg = "NONE" },
+					NormalFloat = { bg = "NONE" },
+				}
+			end,
 		},
 		config = function(_, opts)
 			require("catppuccin").setup(opts)
@@ -60,7 +66,7 @@ return {
 				{ ft = "qf", title = "QuickFix" },
 				{
 					ft = "markdown",
-          title = "Help",
+					title = "Help",
 					size = { height = 20 },
 					-- only show help buffers
 					filter = function(buf)
@@ -69,7 +75,7 @@ return {
 				},
 				{
 					ft = "text",
-          title = "Help",
+					title = "Help",
 					size = { height = 20 },
 					-- only show help buffers
 					filter = function(buf)
@@ -78,7 +84,7 @@ return {
 				},
 				{
 					ft = "help",
-          title = "Help",
+					title = "Help",
 					size = { height = 20 },
 					-- only show help buffers
 					filter = function(buf)
