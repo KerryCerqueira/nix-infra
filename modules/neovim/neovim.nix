@@ -109,6 +109,11 @@
                   rtp = { reset = false, },
                 },
               })
+              local nix_info = require(vim.g.nix_info_plugin_name)
+              for server, cfg in pairs(nix_info.lsp_config or {}) do
+                vim.lsp.config(server, cfg)
+                vim.lsp.enable(server)
+              end
             '';
             description = "Lua code for primary init logic (e.g. lazy.nvim setup).";
           };
@@ -116,11 +121,6 @@
             type = lib.types.lines;
             default = "";
             description = "Additional Lua code appended after configInit.";
-          };
-          luarcJson = lib.mkOption {
-            type = lib.types.str;
-            readOnly = true;
-            description = "Generated .luarc.json content.";
           };
           plugins = lib.mkOption {
             type = lib.types.attrsOf (lib.types.submodule {
@@ -162,19 +162,6 @@
           (lib.mapAttrsToList mkPluginSpec config.lazy.plugins)
           ++ (map mkLuaSpec config.lazy.specs);
         settings.config_directory = configDir;
-        lazy = {
-          luarcJson = builtins.toJSON {
-            runtime.version = "LuaJIT";
-            workspace = {
-              checkThirdParty = false;
-              library =
-                ["${config.package}/share/nvim/runtime/lua"]
-                ++ ["${config.specs.lazy-nvim.data}/lua"]
-                ++ map (p: "${p.pkg}/lua")
-                (builtins.attrValues config.lazy.plugins);
-            };
-          };
-        };
       };
     };
     nixosModules.neovim = {pkgs, ...}: {
@@ -233,78 +220,9 @@
           sh.enable = true;
           mdlangs.enable = true;
           markdown.enable = true;
+          nix.enable = true;
+          lua.enable = true;
         };
-      };
-    };
-  };
-  perSystem = {
-    self',
-    pkgs,
-    ...
-  }: {
-    packages = {
-      generate-luarc = let
-        luarcJson =
-          self'.packages.neovim.passthru.configuration.lazy.luarcJson;
-      in
-        pkgs.writeShellScriptBin "generate-luarc" ''
-          cat <<'EOF' | ${pkgs.jq}/bin/jq .
-          ${luarcJson}
-          EOF
-        '';
-      prefetch-vim-plugin = pkgs.writeShellApplication {
-        name = "prefetch-vim-plugin";
-        runtimeInputs = with pkgs; [
-          nix-prefetch-git
-          jq
-          coreutils
-          gnugrep
-        ];
-        text = ''
-          usage() {
-            echo "Usage: prefetch-vim-plugin <github-url> [rev]" >&2
-            exit 1
-          }
-
-          if [ $# -lt 1 ]; then
-            usage
-          fi
-
-          repo_url="$1"
-          rev="''${2:-HEAD}"
-
-          stripped="''${repo_url##*github.com/}"
-          owner="''${stripped%%/*}"
-          repo_name=$(basename "$repo_url" .git)
-
-          echo "Prefetching $repo_url at $rev..." >&2
-          prefetch_json=$(nix-prefetch-git --quiet --fetch-submodules "$repo_url" --rev "$rev")
-          src_hash=$(echo "$prefetch_json" | jq -r '.hash')
-          actual_rev=$(echo "$prefetch_json" | jq -r '.rev')
-          commit_date=$(echo "$prefetch_json" | jq -r '.date')
-
-          version=""
-          if echo "$rev" | grep -qE '^v?[0-9]'; then
-            version="''${rev#v}"
-          fi
-
-          if [ -z "$version" ]; then
-            version="unstable-$commit_date"
-          fi
-
-          cat <<EOF
-          pkgs.vimUtils.buildVimPlugin {
-            pname = "$repo_name";
-            version = "$version";
-            src = pkgs.fetchFromGitHub {
-              owner = "$owner";
-              repo = "$repo_name";
-              rev = "$actual_rev";
-              hash = "$src_hash";
-            };
-          }
-          EOF
-        '';
       };
     };
   };
