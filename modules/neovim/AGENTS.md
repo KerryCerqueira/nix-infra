@@ -157,7 +157,14 @@ Nix-side aspects provision three kinds of runtime dependencies for neovim:
   };
   ```
 
-All three are list-like and merge across aspects -- multiple aspects can
+- **Lua packages** (`settings.nvim_lua_env`): Lua packages appended to the lua
+runtime.
+
+```{nix}
+settings.nvim_lua_env = lp: [ lp.jsregexp ];
+```
+
+All four are list-like and merge across aspects -- multiple aspects can
 independently contribute packages, python deps, and grammars without conflict.
 
 ## Language aspects
