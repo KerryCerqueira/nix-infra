@@ -25,7 +25,6 @@ return {
 		vim.lsp.enable({
 			"bashls",
 			"fish_lsp",
-			"hypr_ls",
 			"jsonls",
 			"lua_ls",
 			"markdown_oxide",
@@ -61,7 +60,6 @@ return {
 			pattern = {
 				[".*/waybar/config"] = "jsonc",
 				[".*/kitty/.+%.conf"] = "kitty",
-				[".*/hypr/.+%.conf"] = "hyprlang",
 				["%.env%.[%w_.-]+"] = "sh",
 			},
 		})
