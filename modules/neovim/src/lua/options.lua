@@ -21,6 +21,7 @@ return {
 		vim.opt.listchars = "tab:> ,trail:·,extends:…,precedes:…,nbsp:␣"
 		vim.opt.pumblend = 10
 		vim.opt.pumheight = 10
+    vim.opt.winborder = "rounded"
 		vim.lsp.enable({
 			"bashls",
 			"fish_lsp",

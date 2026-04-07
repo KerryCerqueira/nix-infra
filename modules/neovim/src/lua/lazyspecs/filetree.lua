@@ -11,13 +11,10 @@ return {
 			{
 				"<leader>-",
 				function()
-					local dir = vim.fn.expand("%:p:h")
-					if dir == "" or vim.fn.isdirectory(dir) == 0 then
-						dir = vim.fn.getcwd()
-					end
-					require("fyler").toggle({ dir = dir, kind = "float" })
+					local root = vim.fs.root(0, { ".git", "flake.nix", ".luarc.json" }) or vim.fn.getcwd()
+					require("fyler").toggle({ dir = root, kind = "float" })
 				end,
-				desc = "Explorer Fyler (file dir)",
+				desc = "Explorer Fyler (project root)",
 			},
 		},
 		opts = {
@@ -46,7 +43,6 @@ return {
 						["."] = "GotoNode",
 					},
 					win = {
-						border = "rounded",
 						kind = "float",
 						kinds = {
 							float = {

@@ -5,21 +5,6 @@
     config,
     ...
   }: let
-    beacon-nvim = let
-      tag = "v2.0.0";
-      version = lib.removePrefix "v" tag;
-      hash = "sha256-w5uhTVYRgkVCbJ5wrNTKs8bwSpH+4REAr9gaZrbknH8=";
-    in
-      pkgs.vimUtils.buildVimPlugin {
-        pname = "beacon.nvim";
-        inherit version;
-        src = pkgs.fetchFromGitHub {
-          owner = "DanilaMihailov";
-          repo = "beacon.nvim";
-          rev = tag;
-          inherit hash;
-        };
-      };
     colorful-winsep-nvim = pkgs.vimUtils.buildVimPlugin {
       pname = "colorful-winsep.nvim";
       version = "unstable-2026-02-19T12:22:25Z";
@@ -72,10 +57,6 @@
         (config.lazy.configSrc + "/lua/lazyspecs/appearance.lua")
       ];
       plugins = {
-        beacon-nvim = {
-          name = "beacon.nvim";
-          pkg = beacon-nvim;
-        };
         catppuccin-nvim = {
           name = "catppuccin";
           pkg = pkgs.vimPlugins.catppuccin-nvim;

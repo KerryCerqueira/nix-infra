@@ -1,15 +1,6 @@
 ---@type LazySpec
 return {
 	{
-		"danilamihailov/beacon.nvim",
-		opts = {},
-		event = {
-			"CursorMoved",
-			"WinEnter",
-			"FocusGained",
-		},
-	},
-	{
 		"catppuccin/nvim",
 		lazy = false,
 		name = "catppuccin",
@@ -132,9 +123,6 @@ return {
 			---@type Neominimap.UserConfig
 			vim.g.neominimap = {
 				layout = "float",
-				float = {
-					window_border = "rounded",
-				},
 				auto_enable = true,
 				close_if_last_window = true,
 				exclude_filetypes = {
