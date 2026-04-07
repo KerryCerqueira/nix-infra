@@ -75,59 +75,6 @@ return {
 		version = false,
 	},
 	{
-		"chrisgrieser/nvim-various-textobjs",
-		event = "VeryLazy",
-		opts = {
-			keymaps = {
-				useDefaults = true,
-			},
-		},
-		keys = {
-			{
-				"il",
-				'<cmd>lua require("various-textobjs").mdLink("inner")<CR>',
-				mode = { "x", "o" },
-				ft = md_ft,
-				desc = "MD link (inner)",
-			},
-			{
-				"al",
-				'<cmd>lua require("various-textobjs").mdLink("outer")<CR>',
-				mode = { "x", "o" },
-				ft = md_ft,
-				desc = "MD link (outer)",
-			},
-			{
-				"ie",
-				'<cmd>lua require("various-textobjs").mdEmphasis("inner")<CR>',
-				mode = { "x", "o" },
-				ft = md_ft,
-				desc = "MD emphasis (inner)",
-			},
-			{
-				"ae",
-				'<cmd>lua require("various-textobjs").mdEmphasis("outer")<CR>',
-				mode = { "x", "o" },
-				ft = md_ft,
-				desc = "MD emphasis (outer)",
-			},
-			{
-				"iC",
-				'<cmd>lua require("various-textobjs").mdFencedCodeBlock("inner")<CR>',
-				mode = { "x", "o" },
-				ft = md_ft,
-				desc = "MD code block (inner)",
-			},
-			{
-				"aC",
-				'<cmd>lua require("various-textobjs").mdFencedCodeBlock("outer")<CR>',
-				mode = { "x", "o" },
-				ft = md_ft,
-				desc = "MD code block (outer)",
-			},
-		},
-	},
-	{
 		"gbprod/substitute.nvim",
 		specs = {
 			"rachartier/tiny-glimmer.nvim",

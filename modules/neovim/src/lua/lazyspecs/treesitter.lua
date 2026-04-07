@@ -229,6 +229,24 @@ return {
         ft = md_ft,
         desc = "Emphasis (outer)",
       },
+      {
+        "il",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@mdlink.inner", "textobjects")
+        end,
+        mode = { "x", "o" },
+        ft = md_ft,
+        desc = "Markdown link (inner)",
+      },
+      {
+        "al",
+        function()
+          require("nvim-treesitter-textobjects.select").select_textobject("@mdlink.outer", "textobjects")
+        end,
+        mode = { "x", "o" },
+        ft = md_ft,
+        desc = "Markdown link (outer)",
+      },
 		},
 		opts = {
 			select = {

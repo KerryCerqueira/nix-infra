@@ -30,10 +30,6 @@
           name = "nvim-ts-context-commentstring";
           pkg = pkgs.vimPlugins.nvim-ts-context-commentstring;
         };
-        nvim-various-textobjs = {
-          name = "nvim-various-textobjs";
-          pkg = pkgs.vimPlugins.nvim-various-textobjs;
-        };
         substitute-nvim = {
           name = "substitute.nvim";
           pkg = pkgs.vimPlugins.substitute-nvim;
