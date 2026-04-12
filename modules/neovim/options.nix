@@ -1,8 +1,4 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{...}: {
   flake = {
     lib.wrapperModules.lazy-neovim = {
       pkgs,
@@ -109,10 +105,8 @@
                   rtp = { reset = false, },
                 },
               })
-              local nix_info = require(vim.g.nix_info_plugin_name)
-              for server, cfg in pairs(nix_info.lsp_config or {}) do
+              for server, cfg in pairs(nix_info(nil, "info", "lsp_config") or {}) do
                 vim.lsp.config(server, cfg)
-                vim.lsp.enable(server)
               end
             '';
             description = "Lua code for primary init logic (e.g. lazy.nvim setup).";
@@ -143,7 +137,7 @@
             default = [];
             description = ''
               Lazy.nvim spec sources. Each element can be:
-              - a path to a lua file returning a lazy spec table (or list of specs)
+              # - a path to a lua file returning a lazy spec table (or list of specs)
               - a raw lua string evaluating to a spec table
               - an attrset of lazy.nvim fields translated via nixToLua
             '';
@@ -162,67 +156,6 @@
           (lib.mapAttrsToList mkPluginSpec config.lazy.plugins)
           ++ (map mkLuaSpec config.lazy.specs);
         settings.config_directory = configDir;
-      };
-    };
-    nixosModules.neovim = {pkgs, ...}: {
-      imports = [
-        (inputs.nix-wrapper-modules.lib.mkInstallModule {
-          loc = ["environment" "systemPackages"];
-          name = "neovim";
-          value = self.wrapperModules.neovim;
-        })
-      ];
-      wrappers.neovim = {
-        enable = true;
-      };
-      environment.variables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
-      };
-    };
-    homeModules.neovim = {pkgs, ...}: {
-      imports = [
-        (inputs.nix-wrapper-modules.lib.mkInstallModule {
-          loc = ["home" "packages"];
-          name = "neovim";
-          value = self.wrapperModules.neovim;
-        })
-      ];
-      wrappers.neovim = {
-        enable = true;
-        extraPackages = [pkgs.wl-clipboard];
-        settings.block_normal_config = false;
-      };
-      home.sessionVariables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
-      };
-    };
-    wrappers.neovim = {...}: {
-      imports = [self.lib.wrapperModules.lazy-neovim];
-      lazy.configSrc = ./src;
-      lazy.configInitExtra = ''
-        require("options").setup()
-        require("keymaps").setup()
-        require("autocommands").setup()
-      '';
-      aspects = {
-        appearance.enable = true;
-        completion.enable = true;
-        editing.enable = true;
-        filetree.enable = true;
-        formatting.enable = true;
-        git.enable = true;
-        picker.enable = true;
-        treesitter.enable = true;
-        ui.enable = true;
-        lang = {
-          sh.enable = true;
-          mdlangs.enable = true;
-          markdown.enable = true;
-          nix.enable = true;
-          lua.enable = true;
-        };
       };
     };
   };
