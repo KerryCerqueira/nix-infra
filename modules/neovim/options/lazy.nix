@@ -1,4 +1,4 @@
-{...}: {
+{self, ...}: {
   flake = {
     lib.wrapperModules.lazy-neovim = {
       pkgs,
@@ -37,48 +37,10 @@
         ${config.lazy.configInit}
         EOF
       '';
-      mkConvergentType = base:
-        base
-        // {
-          merge = loc: defs: let
-            vals = map (d: d.value) defs;
-            first = builtins.head vals;
-            equal = v:
-              if base.name == "package"
-              then v.outPath == first.outPath
-              else v == first;
-          in
-            if lib.all equal vals
-            then first
-            else throw "Conflicting definitions for ${lib.concatStringsSep "." loc}";
-        };
+      mkConvergentType = self.lib.mkConvergentType pkgs;
     in {
       imports = [wlib.wrapperModules.neovim];
       options = {
-        treesitter = {
-          enable = lib.mkEnableOption "treesitter integration";
-          pkg = lib.mkOption {
-            type = lib.types.package;
-            default = pkgs.vimPlugins.nvim-treesitter;
-            description = "The nvim-treesitter package to use.";
-          };
-          grammars = lib.mkOption {
-            type = lib.types.listOf lib.types.package;
-            default = [];
-            description = ''
-              Treesitter grammar packages to bundle with nvim-treesitter.
-              Each language aspect can append to this list.
-            '';
-          };
-          withAllGrammars = lib.mkOption {
-            type = lib.types.bool;
-            default = false;
-            description = ''
-              Bundle all available grammars. Overrides the grammars list.
-              Increases closure size significantly.
-            '';
-          };
-        };
         lazy = {
           configSrc = lib.mkOption {
             type = lib.types.path;
@@ -107,6 +69,7 @@
               })
               for server, cfg in pairs(nix_info(nil, "info", "lsp_config") or {}) do
                 vim.lsp.config(server, cfg)
+                vim.lsp.enable(server)
               end
             '';
             description = "Lua code for primary init logic (e.g. lazy.nvim setup).";
@@ -118,15 +81,17 @@
           };
           plugins = lib.mkOption {
             type = lib.types.attrsOf (lib.types.submodule {
-              options.pkg = lib.mkOption {
-                type = mkConvergentType lib.types.package;
-                description = "Plugin derivation.";
-              };
-              options.name = lib.mkOption {
-                type = mkConvergentType lib.types.str;
-                description = ''
-                  Plugin name used as the lazy.nvim merge key.
-                '';
+              options = {
+                pkg = lib.mkOption {
+                  type = mkConvergentType lib.types.package;
+                  description = "Plugin derivation.";
+                };
+                name = lib.mkOption {
+                  type = mkConvergentType lib.types.str;
+                  description = ''
+                    Plugin name used as the lazy.nvim merge key.
+                  '';
+                };
               };
             });
             default = {};
@@ -146,12 +111,7 @@
       };
       config = {
         hosts.python3.nvim-host.enable = true;
-        specs = {
-          lazy-nvim = pkgs.vimPlugins.lazy-nvim;
-          nvim-treesitter = {
-            data = pkgs.vimPlugins.nvim-treesitter.withPlugins (_: config.treesitter.grammars);
-          };
-        };
+        specs.lazy-nvim = pkgs.vimPlugins.lazy-nvim;
         info.lazy_specs =
           (lib.mapAttrsToList mkPluginSpec config.lazy.plugins)
           ++ (map mkLuaSpec config.lazy.specs);
