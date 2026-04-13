@@ -66,18 +66,11 @@
         };
       };
   in {
-    options.aspects.lang.mdlangs.enable =
-      lib.mkEnableOption
-      "Data languages editing features";
     config = lib.mkIf config.aspects.lang.mdlangs.enable {
       extraPackages = with pkgs; [
         python312Packages.jupytext
         quarto
-        markdown-oxide
         prettier
-        yaml-language-server
-        taplo
-        vscode-json-languageserver
       ];
       lazy = {
         plugins = {
@@ -109,6 +102,11 @@
         specs = [
           (config.lazy.configSrc + "/lua/lazyspecs/lang/mdlangs.lua")
         ];
+      };
+      lspConfig = {
+        yamlls.pkg = pkgs.yaml-language-server;
+        taplo.pkg = pkgs.taplo;
+        jsonls.pkg = pkgs.vscode-json-languageserver;
       };
       treesitter = {
         enable = true;

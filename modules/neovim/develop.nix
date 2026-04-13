@@ -6,12 +6,12 @@
   }: {
     packages = {
       generate-luarc = let
-        luarcJson =
-          self'.packages.neovim.passthru.configuration.lazy.luarcJson;
+        wrapperCfg = self'.packages.neovim.passthru.configuration;
+        luarcJson = wrapperCfg.aspects.lang.lua.luarc;
       in
         pkgs.writeShellScriptBin "generate-luarc" ''
           cat <<'EOF' | ${pkgs.jq}/bin/jq .
-          ${luarcJson}
+          ${builtins.toJSON luarcJson}
           EOF
         '';
       prefetch-vim-plugin = pkgs.writeShellApplication {

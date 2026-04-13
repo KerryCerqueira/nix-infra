@@ -5,9 +5,6 @@
     config,
     ...
   }: {
-    options.aspects.lang.tex.enable =
-      lib.mkEnableOption
-      "TeX code editing features";
     config = lib.mkIf config.aspects.lang.tex.enable {
       extraPackages = with pkgs; [
         texlab
@@ -28,6 +25,7 @@
           (config.lazy.configSrc + "/lua/lazyspecs/lang/tex.lua")
         ];
       };
+      lspConfig.texlab.pkg = pkgs.texlab;
       treesitter = {
         enable = true;
         grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [

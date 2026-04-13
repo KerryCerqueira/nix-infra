@@ -5,13 +5,9 @@
     config,
     ...
   }: {
-    options.aspects.lang.markdown.enable =
-      lib.mkEnableOption
-      "markdown editing features";
     config = lib.mkIf config.aspects.lang.markdown.enable {
       extraPackages = with pkgs; [
         markdownlint-cli2
-        marksman
         python312Packages.pylatexenc
         prettier
       ];
@@ -38,6 +34,7 @@
           (config.lazy.configSrc + "/lua/lazyspecs/lang/markdown.lua")
         ];
       };
+      lspConfig.marksman.pkg = pkgs.marksman;
       treesitter = {
         enable = true;
         grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [

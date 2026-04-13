@@ -5,9 +5,6 @@
     config,
     ...
   }: {
-    options.aspects.lang.rust.enable =
-      lib.mkEnableOption
-      "rust code editing features";
     config = lib.mkIf config.aspects.lang.rust.enable {
       lazy = {
         plugins = {

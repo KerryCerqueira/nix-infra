@@ -5,13 +5,8 @@
     config,
     ...
   }: {
-    options.aspects.lang.sh.enable =
-      lib.mkEnableOption
-      "shell script editing features";
     config = lib.mkIf config.aspects.lang.sh.enable {
       extraPackages = with pkgs; [
-        bash-language-server
-        fish-lsp
         shellcheck
       ];
       lazy = {
@@ -24,6 +19,10 @@
         specs = [
           (config.lazy.configSrc + "/lua/lazyspecs/lang/sh.lua")
         ];
+      };
+      lspConfig = {
+        bashls.pkg = pkgs.bash-language-server;
+        fish_lsp.pkg = pkgs.fish-lsp;
       };
       treesitter = {
         enable = true;

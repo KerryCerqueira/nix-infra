@@ -5,24 +5,19 @@
     config,
     ...
   }: {
-    options = {
-      aspects.lang.lua.enable =
+    options.aspects.lang.lua = {
+      enable =
         lib.mkEnableOption
         "lua code editing features";
-      aspects.lang.lua.passLuaRc = lib.mkOption {
+      passLuaRc = lib.mkOption {
         type = lib.types.bool;
         description = "Whether to configure lua_ls with neovim plugin workspace.";
         default = false;
       };
-      aspects.lang.lua.luarc = lib.mkOption {
+      luarc = lib.mkOption {
         type = lib.types.attrsOf lib.types.anything;
         default = {};
         description = "lua_ls configuration to be passed via info";
-      };
-      luarcJson = lib.mkOption {
-        type = lib.types.str;
-        readOnly = true;
-        description = "Generated .luarc.json content.";
       };
     };
     config.info.lsp_config.lua_ls.settings.Lua =

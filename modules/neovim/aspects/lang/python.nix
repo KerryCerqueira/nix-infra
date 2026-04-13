@@ -5,14 +5,11 @@
     config,
     ...
   }: {
-    options.aspects.lang.python.enable =
-      lib.mkEnableOption
-      "python code editing features";
     config = lib.mkIf config.aspects.lang.python.enable {
-      extraPackages = with pkgs; [
-        pyright
-        ruff
-      ];
+      lspConfig = {
+        pyright.pkg = pkgs.pyright;
+        ruff.pkg = pkgs.ruff;
+      };
       treesitter = {
         enable = true;
         grammars = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [

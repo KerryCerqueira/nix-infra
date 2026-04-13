@@ -5,9 +5,6 @@
     config,
     ...
   }: {
-    options.aspects.lang.ipynb.enable =
-      lib.mkEnableOption
-      "iPython notebook features";
     config = lib.mkIf config.aspects.lang.ipynb.enable {
       extraPackages = with pkgs; [
         python312Packages.jupytext
