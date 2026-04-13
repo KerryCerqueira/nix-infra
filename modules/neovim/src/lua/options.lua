@@ -22,20 +22,20 @@ return {
 		vim.opt.pumblend = 10
 		vim.opt.pumheight = 10
     vim.opt.winborder = "rounded"
-		vim.lsp.enable({
-			"bashls",
-			"fish_lsp",
-			"jsonls",
-			"lua_ls",
-			"markdown_oxide",
-			"marksman",
-			"nil_ls",
-			"pyright",
-			"ruff",
-			"taplo",
-			"texlab",
-			"yamlls",
-		})
+		-- vim.lsp.enable({
+		-- 	"bashls",
+		-- 	"fish_lsp",
+		-- 	"jsonls",
+		-- 	"lua_ls",
+		-- 	"markdown_oxide",
+		-- 	"marksman",
+		-- 	"nil_ls",
+		-- 	"pyright",
+		-- 	"ruff",
+		-- 	"taplo",
+		-- 	"texlab",
+		-- 	"yamlls",
+		-- })
 		vim.diagnostic.config({
 			signs = {
 				text = {
