@@ -60,7 +60,6 @@
           sh.enable = true;
           mdlangs.enable = true;
           markdown.enable = true;
-          nix.enable = true;
         };
       };
     };
