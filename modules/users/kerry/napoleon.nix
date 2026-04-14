@@ -3,7 +3,7 @@
     users.users.kerry = {
       isNormalUser = true;
       description = "Kerry Cerqueira";
-      extraGroups = ["networkmanager" "wheel"];
+      extraGroups = ["networkmanager" "wheel" "extra-store"];
       hashedPasswordFile = config.sops.secrets."hashedUserPasswords/kerry".path;
       uid = 1000;
     };

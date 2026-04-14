@@ -27,5 +27,10 @@
     swapDevices = [
       {label = "npln-swap";}
     ];
+    systemd.tmpfiles.rules = [
+      "d /mnt/extra 2775 root extra-store -"
+      "a+ /mnt/extra - - - - default:group:extra-store:rwx"
+    ];
+    users.groups.extra-store.gid = 900;
   };
 }

@@ -3,7 +3,7 @@
     users.users.erika = {
       isNormalUser = true;
       description = "Erika Titley";
-      extraGroups = ["networkmanager" "wheel"];
+      extraGroups = ["networkmanager" "wheel" "extra-store"];
       uid = 1001;
     };
     home-manager.users.erika = {
