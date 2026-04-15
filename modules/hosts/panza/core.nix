@@ -8,7 +8,6 @@
       gnome
       grub
       nix
-      neovim
       terminal
       steam
       inputs.sops-nix.nixosModules.sops

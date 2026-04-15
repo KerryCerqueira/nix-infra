@@ -19,7 +19,6 @@
           libreoffice
           zathura
           keepassxc
-          neovim
           terminal
           ssh
           syncthing

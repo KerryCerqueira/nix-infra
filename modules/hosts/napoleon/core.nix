@@ -9,7 +9,6 @@
         gnome
         grub
         nix
-        neovim
         steam
         terminal
         inputs.sops-nix.nixosModules.sops

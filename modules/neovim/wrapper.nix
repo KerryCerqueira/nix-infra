@@ -1,43 +1,5 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{self, ...}: {
   flake = {
-    nixosModules.neovim = {pkgs, ...}: {
-      imports = [
-        (inputs.nix-wrapper-modules.lib.mkInstallModule {
-          loc = ["environment" "systemPackages"];
-          name = "neovim";
-          value = self.wrapperModules.neovim;
-        })
-      ];
-      wrappers.neovim = {
-        enable = true;
-      };
-      environment.variables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
-      };
-    };
-    homeModules.neovim = {pkgs, ...}: {
-      imports = [
-        (inputs.nix-wrapper-modules.lib.mkInstallModule {
-          loc = ["home" "packages"];
-          name = "neovim";
-          value = self.wrapperModules.neovim;
-        })
-      ];
-      wrappers.neovim = {
-        enable = true;
-        extraPackages = [pkgs.wl-clipboard];
-        settings.block_normal_config = false;
-      };
-      home.sessionVariables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
-      };
-    };
     wrappers.neovim = {...}: {
       imports = [self.lib.wrapperModules.lazy-neovim];
       lazy.configSrc = ./src;
