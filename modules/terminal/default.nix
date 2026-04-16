@@ -7,30 +7,34 @@
     ];
     users.defaultUserShell = pkgs.zsh;
   };
-  flake.homeModules.terminal = {pkgs, ...}: {
-    imports = with self.homeModules; [
-      bat
-      btop
-      direnv
-      eza
-      fish
-      gh
-      kitty
-      moor
-      oh-my-posh
-      zsh
-    ];
-    home.packages = with pkgs; [
-      git
-      fzf
-      tldr
-      dust
-      fd
-      ripgrep
-      sshfs
-      tmux
-      timg
-      yazi
-    ];
+  flake.homeModules = {
+    terminal = {pkgs, ...}: {
+      imports = with self.homeModules; [
+        bat
+        btop
+        direnv
+        eza
+        fish
+        gh
+        kitty
+        moor
+        oh-my-posh
+        zsh
+      ];
+      home.packages = with pkgs; [
+        git
+        fzf
+        tldr
+        dust
+        fd
+        ripgrep
+        sshfs
+        tmux
+        timg
+        yazi
+      ];
+    };
+    kerry = {imports = [self.homeModules.terminal];};
+    erika = {imports = [self.homeModules.terminal];};
   };
 }

@@ -5,11 +5,8 @@
 }: {
   flake.nixosModules.panza = {
     imports = with self.nixosModules; [
-      gnome
-      grub
       nix
       terminal
-      steam
       inputs.sops-nix.nixosModules.sops
       inputs.home-manager.nixosModules.home-manager
     ];

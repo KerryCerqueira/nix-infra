@@ -1,10 +1,6 @@
 {self, ...}: {
   flake.nixosModules.potato = {...}: {
-    users.users.kerry = {
-      isNormalUser = true;
-      description = "Kerry Cerqueira";
-      extraGroups = ["networkmanager" "wheel"];
-    };
+    imports = [self.nixosModules.kerry];
     home-manager.users.kerry = self.homeModules."kerry@potato";
   };
   flake.homeModules."kerry@potato" = {...}: {

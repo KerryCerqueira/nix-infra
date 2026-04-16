@@ -1,9 +1,8 @@
 {self, ...}: {
   flake.nixosModules.napoleon = {config, ...}: {
+    imports = [self.nixosModules.kerry];
     users.users.kerry = {
-      isNormalUser = true;
-      description = "Kerry Cerqueira";
-      extraGroups = ["networkmanager" "wheel" "extra-store"];
+      extraGroups = ["extra-store"];
       hashedPasswordFile = config.sops.secrets."hashedUserPasswords/kerry".path;
       uid = 1000;
     };

@@ -1,10 +1,8 @@
 {self, ...}: {
   flake.nixosModules.panza = {config, ...}: {
+    imports = [self.nixosModules.kerry];
     users.users.kerry = {
-      isNormalUser = true;
-      description = "Kerry Cerqueira";
       hashedPasswordFile = config.sops.secrets."hashedUserPasswords/kerry".path;
-      extraGroups = ["networkmanager" "wheel"];
     };
     home-manager.users.kerry = self.homeModules."kerry@panza";
   };

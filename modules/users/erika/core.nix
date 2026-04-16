@@ -1,9 +1,5 @@
-{self, ...}: {
+{...}: {
   flake.homeModules.erika = {pkgs, ...}: {
-    imports = with self.homeModules; [
-      libreoffice
-      terminal
-    ];
     programs = {
       home-manager.enable = true;
       chromium.enable = true;

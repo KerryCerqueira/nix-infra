@@ -9,10 +9,7 @@
     ...
   }: {
     imports = with self.nixosModules; [
-      gnome
-      grub
       nix
-      steam
       inputs.sops-nix.nixosModules.sops
       inputs.home-manager.nixosModules.home-manager
       terminal

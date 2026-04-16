@@ -6,10 +6,7 @@
   flake = {
     nixosModules.napoleon = {config, ...}: {
       imports = with self.nixosModules; [
-        gnome
-        grub
         nix
-        steam
         terminal
         inputs.sops-nix.nixosModules.sops
         inputs.home-manager.nixosModules.home-manager

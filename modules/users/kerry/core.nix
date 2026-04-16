@@ -1,28 +1,17 @@
-{self, ...}: {
+{...}: {
   flake = {
-    homeModules = {
-      "kerry@muncher" = {
-        imports = with self.homeModules; [
-          neovim
-          terminal
+    nixosModules.kerry = {
+      users.users.kerry = {
+        isNormalUser = true;
+        description = "Kerry Cerqueira";
+        extraGroups = ["networkmanager" "wheel"];
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMwTe1Ww3BY5CcRxWdNZkDd6V7SOPtgI8SgkF1WAIUs kerry@muncher"
         ];
-        nixpkgs.config.allowUnfree = true;
-        programs.home-manager.enable = true;
-        home = {
-          stateVersion = "25.11";
-          username = "kerry";
-          homeDirectory = "/home/kerry";
-        };
       };
+    };
+    homeModules = {
       kerry = {pkgs, ...}: {
-        imports = with self.homeModules; [
-          libreoffice
-          zathura
-          keepassxc
-          terminal
-          ssh
-          syncthing
-        ];
         programs = {
           home-manager.enable = true;
           thunderbird.enable = true;
