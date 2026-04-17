@@ -5,10 +5,5 @@
       erika = 1001;
       julie = 1002;
     };
-    gids = {
-    };
-    publicKeys = {
-      builtins.
-    };
   };
 }
