@@ -16,5 +16,6 @@
       };
     };
     kerry = {imports = [self.homeModules.keepassxc];};
+    erika = {imports = [self.homeModuels.keepassxc];};
   };
 }
