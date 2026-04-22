@@ -9,7 +9,7 @@
     }: let
       mkLazySpecFromFile = path:
         lib.generators.mkLuaInline
-        "dofile(${lib.generators.toLua {} (builtins.toString path)})";
+        "dofile(${lib.generators.toLua {} "${path}"})";
       mkLazySpecFromString = name: str: let
         file = pkgs.writeText "lazy-spec-${name}.lua" str;
       in
