@@ -1,13 +1,8 @@
 {
   self,
   inputs,
-  lib,
   ...
 }: {
-  options.flake.mcp.pythonOverrides = lib.mkOption {
-    type = lib.types.listOf lib.types.raw;
-    default = [];
-  };
   config.flake.lib.mkPythonMcp = {
     pkgs,
     uv2nix,
