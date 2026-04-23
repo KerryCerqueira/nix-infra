@@ -37,32 +37,15 @@
     };
   };
 
-  outputs = {flake-parts, ...} @ inputs:
+  outputs = {self, flake-parts, ...} @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} (
       {...}: {
         imports = [
           inputs.home-manager.flakeModules.home-manager
           inputs.nix-wrapper-modules.flakeModules.wrappers
-          ({lib, ...}: {
-            options.flake.lib = lib.mkOption {
-              type = lib.types.submodule {
-                freeformType = lib.types.attrsOf lib.types.raw;
-                options.constants = lib.mkOption {
-                  type = lib.types.submodule {
-                    freeformType = lib.types.attrsOf lib.types.anything;
-                  };
-                  default = {};
-                };
-                options.wrapperModules = lib.mkOption {
-                  type = lib.types.attrsOf lib.types.deferredModule;
-                  default = {};
-                };
-              };
-              default = {};
-            };
-          })
           (inputs.import-tree ./modules)
         ];
+        flake.flakeModules.lib = ./modules/lib.nix;
         systems = ["x86_64-linux"];
       }
     );
