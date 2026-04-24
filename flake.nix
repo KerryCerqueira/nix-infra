@@ -1,7 +1,6 @@
 {
   description = "Kerry Cerqueira's NixOS system configurations.";
   inputs = {
-    catppuccin.url = "github:catppuccin/nix";
     claude-desktop = {
       url = "github:aaddrick/claude-desktop-debian";
       inputs.nixpkgs.follows = "nixpkgs";

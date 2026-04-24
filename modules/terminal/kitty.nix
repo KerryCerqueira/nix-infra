@@ -10,10 +10,6 @@
     };
   };
   flake.homeModules.kitty = {pkgs, lib, ...}: {
-    imports = [
-      inputs.catppuccin.homeModules.catppuccin
-    ];
-    catppuccin.kitty.enable = true;
     programs.kitty = {
       enable = true;
       font = {
