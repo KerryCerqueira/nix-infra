@@ -18,6 +18,10 @@
           command = lib.getExe pkgs.mcp-nixos;
           args = [];
         };
+        github = {
+          command = lib.getExe pkgs.github-mcp-server;
+          args = ["stdio"];
+        };
       };
     };
     options.programs.claude-desktop.mcpServers = lib.mkOption {

@@ -18,7 +18,7 @@
       defaultSopsFormat = "yaml";
       age.keyFile = "${config.home.homeDirectory}/.config/sops/age/kerry_claudius.age";
       secrets = {
-        "apiKeys/github/claude-code" = {};
+        "apiKeys/github" = {};
         "apiKeys/tavily" = {};
         "apiKeys/huggingface" = {};
         "apiKeys/openai" = {};
@@ -44,14 +44,13 @@
     };
     home.stateVersion = "24.11";
     programs = {
-      claude-desktop.mcpServers = {
-        github = {
-          command = lib.getExe pkgs.github-mcp-server;
-          args = ["stdio"];
-          env = {
-            GITHUB_PERSONAL_ACCESS_TOKEN = config.sops.placeholder."apiKeys/github/claude-code";
-          };
-        };
+      claude-desktop.mcpServers.github.env = {
+        GITHUB_PERSONAL_ACCESS_TOKEN = config.sops.placeholder."apiKeys/github";
+      };
+      mcp.servers.github.env = let
+        secretPath = config.sops.secrets."apiKeys/github".path;
+      in {
+        GITHUB_PERSONAL_ACCESS_TOKEN = "{file:${secretPath}}";
       };
       ssh.matchBlocks."*".identityFile = "~/.ssh/id_ed25519";
     };
