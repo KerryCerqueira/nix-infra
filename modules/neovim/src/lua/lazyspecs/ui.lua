@@ -308,7 +308,7 @@ return {
 				desc = "Show Keymaps (which-key)",
 			},
 			{
-				"<c-w><space>",
+				"<c-w><c-w>",
 				function()
 					require("which-key").show({ keys = "<c-w>", loop = true })
 				end,
