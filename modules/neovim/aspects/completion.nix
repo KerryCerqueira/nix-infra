@@ -27,6 +27,10 @@
             name = "LuaSnip";
             pkg = pkgs.vimPlugins.luasnip;
           };
+          minuet-ai-nvim = {
+            name = "minuet-ai.nvim";
+            pkg = pkgs.vimPlugins.minuet-ai-nvim;
+          };
         };
         specs = [
           (config.lazy.configSrc + "/lua/lazyspecs/completion.lua")

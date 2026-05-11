@@ -1,9 +1,22 @@
+local function minuet_if_visible(method)
+	return function()
+		local vt = require("minuet.virtualtext")
+		if vt.action.is_visible() then
+			vim.schedule(function()
+				vt.action[method]()
+			end)
+			return true
+		end
+	end
+end
+
 ---@type LazySpec
 return {
 	{
 		"saghen/blink.cmp",
 		dependencies = {
 			{ "L3MON4D3/LuaSnip" },
+			{ "milanglacier/minuet-ai.nvim" },
 			{ "xzbdmw/colorful-menu.nvim" },
 		},
 		opts_extend = { "sources.default" },
@@ -21,6 +34,7 @@ return {
 							return true
 						end
 					end,
+					minuet_if_visible("accept"),
 					"select_and_accept",
 					"fallback",
 				},
@@ -34,6 +48,7 @@ return {
 							return true
 						end
 					end,
+					minuet_if_visible("next"),
 					"fallback",
 				},
 				["<C-k>"] = {
@@ -46,6 +61,7 @@ return {
 							return true
 						end
 					end,
+					minuet_if_visible("prev"),
 					"fallback",
 				},
 				["<C-h>"] = {
@@ -56,7 +72,13 @@ return {
 							return true
 						end
 					end,
+					minuet_if_visible("accept_line"),
 					"fallback",
+				},
+				["<C-S-Space>"] = {
+					function(cmp)
+						cmp.show({ providers = { "minuet" } })
+					end,
 				},
 			},
 			cmdline = {
@@ -89,6 +111,13 @@ return {
 				providers = {
 					lsp = {
 						timeout_ms = 2000,
+					},
+					minuet = {
+						name = "minuet",
+						module = "minuet.blink",
+						score_offset = 100,
+						async = true,
+						timeout_ms = 5000,
 					},
 				},
 			},
@@ -127,6 +156,99 @@ return {
 							},
 						},
 					},
+				},
+			},
+		},
+	},
+	{
+		"milanglacier/minuet-ai.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		event = "InsertEnter",
+		keys = {
+			{
+				"<leader>ap",
+				function()
+					local minuet = require("minuet")
+					local presets = vim.tbl_keys(minuet.presets or {})
+					vim.ui.select(presets, { prompt = "Minuet preset:" }, function(choice)
+						if choice then
+							minuet.change_preset(choice)
+						end
+					end)
+				end,
+				desc = "Minuet: Switch preset",
+			},
+			{
+				"<leader>ap",
+				function()
+					require("minuet.duet").action.predict()
+					vim.schedule(function()
+						require("which-key").show({
+							keys = "<leader>md",
+							loop = true,
+						})
+					end)
+				end,
+				desc = "Minuet duet",
+			},
+			{
+				"<leader>\\a",
+				function()
+					require("minuet.virtualtext").action.toggle_auto_trigger()
+				end,
+				mode = { "n", "i" },
+				desc = "Minuet: Toggle auto-trigger",
+			},
+			{
+				"<leader>app",
+				function()
+					require("minuet.duet").action.predict()
+				end,
+				desc = "Minuet duet: Predict edit",
+			},
+			{
+				"<leader>apa",
+				function()
+					require("minuet.duet").action.apply()
+				end,
+				desc = "Minuet duet: Apply edit",
+			},
+			{
+				"<leader>apx",
+				function()
+					require("minuet.duet").action.dismiss()
+				end,
+				desc = "Minuet duet: Dismiss",
+			},
+		},
+		opts = {
+			virtualtext = {
+				auto_trigger_ft = {},
+				keymap = {
+					accept = nil,
+					accept_line = nil,
+					next = nil,
+					prev = nil,
+					dismiss = nil,
+				},
+			},
+			presets = {
+				local_ollama = {
+					provider = "openai_fim_compatible",
+					provider_options = {
+						openai_fim_compatible = {
+							api_key = "TERM",
+							name = "Ollama",
+							end_point = "http://localhost:11434/v1/completions",
+							model = "qwen2.5-coder:14b-instruct-q8_0",
+							optional = {
+								max_tokens = 256,
+								top_p = 0.9,
+							},
+						},
+					},
+					throttle = 500,
+					debounce = 300,
 				},
 			},
 		},
