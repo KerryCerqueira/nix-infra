@@ -37,7 +37,6 @@
         ];
         wrappers.neovim = {
           enable = true;
-          extraPackages = [pkgs.wl-clipboard];
           settings.block_normal_config = false;
         };
         home.sessionVariables = {

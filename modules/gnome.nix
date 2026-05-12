@@ -35,6 +35,7 @@
           vitals
           impatience
           runcat
+          pkgs.wl-clipboard
         ];
       };
       programs = {
