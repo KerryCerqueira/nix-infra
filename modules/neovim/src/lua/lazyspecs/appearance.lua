@@ -24,6 +24,13 @@ return {
 	},
 	{
 		"nvim-zh/colorful-winsep.nvim",
+		init = function()
+			vim.api.nvim_create_autocmd("VimLeavePre", {
+				callback = function()
+					require("colorful-winsep").disable()
+				end,
+			})
+		end,
 		event = { "WinLeave" },
 		opts = {},
 	},
