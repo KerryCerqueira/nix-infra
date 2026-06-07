@@ -33,7 +33,7 @@
             rnote
             vlc
             spotify
-            wasistlos
+            karere
           ];
         };
       };
