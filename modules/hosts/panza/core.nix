@@ -4,12 +4,6 @@
   ...
 }: {
   flake.nixosModules.panza = {
-    imports = with self.nixosModules; [
-      nix
-      terminal
-      inputs.sops-nix.nixosModules.sops
-      inputs.home-manager.nixosModules.home-manager
-    ];
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
@@ -17,10 +11,6 @@
       sharedModules = [
         inputs.sops-nix.homeManagerModules.sops
       ];
-    };
-    nix.gc = {
-      automatic = true;
-      dates = "weekly";
     };
     nixpkgs.config.allowUnfree = true;
     services = {
