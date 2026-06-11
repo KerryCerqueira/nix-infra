@@ -19,6 +19,10 @@
         label = "npln-nix";
         fsType = "ext4";
       };
+      "/var" = {
+        label = "npln-var";
+        fsType = "ext4";
+      };
       "/mnt/extra" = {
         label = "extra";
         fsType = "ext4";
