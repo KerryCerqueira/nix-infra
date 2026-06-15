@@ -33,10 +33,6 @@
           };
         };
       };
-      keyboard.qmk = {
-        enable = true;
-        keychronSupport = true;
-      };
     };
     zramSwap = {
       enable = true;

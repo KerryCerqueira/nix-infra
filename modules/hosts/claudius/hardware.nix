@@ -27,10 +27,6 @@
       };
       cpu.amd.updateMicrocode = true;
       enableRedistributableFirmware = true;
-      keyboard.qmk = {
-        enable = true;
-        keychronSupport = true;
-      };
     };
     security.rtkit.enable = true;
     services.pipewire = {
