@@ -70,7 +70,9 @@
       };
     };
     devShells.default = pkgs.mkShell {
-      packages = [
+      packages = with pkgs; [
+          sops
+          age
         (self'.packages.neovim.wrap {
           aspects.lang.lua.enable = true;
           aspects.lang.lua.passLuaRc = true;
