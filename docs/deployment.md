@@ -41,7 +41,13 @@ creation_rules:
 To do that you can use `ssh-to-age`, available in nixpkgs, by e.g.
 
 ```sh
-ssh-to-age < ssh_host_ed25519_key
+ssh-to-age < ssh_host_ed25519_key.pub
+```
+
+You'll also need an age key for the user to run e.g. sops edit:
+
+```{sh}
+age-keygen -o keys.txt
 ```
 
 If the user needs a declarative login password, its hash can be deployed by
