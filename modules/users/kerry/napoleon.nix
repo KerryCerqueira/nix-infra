@@ -24,10 +24,10 @@
       age.keyFile = "/home/kerry/.config/sops/age/keys.txt";
       secrets = {
         "syncthing/cert" = {
-          path = "${config.home.homeDirectory}/.config/syncthing/cert.pem";
+          path = "${config.xdg.configHome}/.config/syncthing/cert.pem";
         };
         "syncthing/key" = {
-          path = "${config.home.homeDirectory}/.config/syncthing/key.pem";
+          path = "${config.xdg.configHome}/.config/syncthing/key.pem";
         };
         "apiKeys/tavily" = {};
         "apiKeys/huggingface" = {};

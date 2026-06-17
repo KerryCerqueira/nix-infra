@@ -1,8 +1,6 @@
 {inputs, ...}: {
   flake.nixosModules.panza = {pkgs, ...}: {
-    imports = [
-      inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-yoga
-    ];
+    imports = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-yoga];
     boot = {
       initrd.availableKernelModules = ["xhci_pci" "nvme" "usb_storage" "sd_mod"];
       kernelModules = ["kvm-intel"];
