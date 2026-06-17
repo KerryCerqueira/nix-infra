@@ -38,7 +38,7 @@
       lazy.specs = [
         (config.lazy.configSrc + "/lua/lazyspecs/git.lua")
       ];
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         git
         curl
       ];

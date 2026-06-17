@@ -42,5 +42,6 @@
     napoleon = {imports = [self.nixosModules.boot];};
     panza = {imports = [self.nixosModules.boot];};
     potato = {imports = [self.nixosModules.boot];};
+    sebastiao = {imports = [self.nixosModules.boot];};
   };
 }

@@ -6,7 +6,7 @@
     ...
   }: {
     config = lib.mkIf config.aspects.lang.ipynb.enable {
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         python312Packages.jupytext
         quarto
       ];

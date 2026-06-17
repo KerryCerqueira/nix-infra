@@ -6,7 +6,7 @@
     ...
   }: {
     config = lib.mkIf config.aspects.lang.nix.enable {
-      extraPackages = with pkgs; [alejandra];
+      runtimePkgs = with pkgs; [alejandra];
       lazy = {
         specs = [
           (config.lazy.configSrc + "/lua/lazyspecs/lang/nix.lua")

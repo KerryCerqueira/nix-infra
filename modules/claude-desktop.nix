@@ -9,14 +9,22 @@
       lib,
       config,
       ...
-    }: {
+    }: let
+      inherit (pkgs.stdenv.hostPlatform) system;
+      inherit (inputs.claude-desktop.packages.${system}) claude-desktop-fhs;
+      inherit (self.packages.${system}) arxiv-mcp-server;
+    in {
       config = {
-        home.packages = [
-          inputs.claude-desktop.packages.${pkgs.system}.claude-desktop-fhs
-        ];
+        home.packages = [claude-desktop-fhs];
+        sops.templates."claude_desktop_config.json" = {
+          content = builtins.toJSON {
+            mcpServers = config.programs.claude-desktop.mcpServers;
+          };
+          path = "${config.xdg.configHome}/Claude/claude_desktop_config.json";
+        };
         programs.claude-desktop.mcpServers = {
           arxiv = {
-            command = lib.getExe self.packages.${pkgs.system}.arxiv-mcp-server;
+            command = lib.getExe arxiv-mcp-server;
             args = ["--storage-path" "${config.xdg.dataHome}/arxiv-mcp-server"];
           };
           nixos = {
@@ -35,6 +43,6 @@
         description = "MCP server declarations merged into claude_desktop_config.json.";
       };
     };
-    "kerry@claudius" = {imports = [self.homeModules.claude-desktop];};
+    kerry = {imports = [self.homeModules.claude-desktop];};
   };
 }

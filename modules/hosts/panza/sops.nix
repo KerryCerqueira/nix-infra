@@ -8,7 +8,7 @@
       secrets = {
         "hashedUserPasswords/kerry".neededForUsers = true;
         "ageKeys/kerryMaster" = {
-          path = "/home/kerry/.config/sops/age/kerry_master.age";
+          path = "/home/kerry/.config/sops/age/keys.txt";
           owner = "kerry";
         };
         "ageKeys/kerryPotato" = {

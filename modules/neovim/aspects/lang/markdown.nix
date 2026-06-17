@@ -6,7 +6,7 @@
     ...
   }: {
     config = lib.mkIf config.aspects.lang.markdown.enable {
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         markdownlint-cli2
         python312Packages.pylatexenc
         prettier

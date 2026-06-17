@@ -4,15 +4,10 @@
     sops = {
       defaultSopsFile = ./secrets.yaml;
       defaultSopsFormat = "yaml";
-      age.keyFile = let
-        envKey = builtins.getEnv "SOPS_AGE_KEY_FILE";
-      in
-        if envKey == ""
-        then "/etc/age/claudius.age"
-        else envKey;
+      age.keyFile = "/etc/age/claudius.age";
       secrets = {
         "ageKeys/kerryMaster" = {
-          path = "/home/kerry/.config/sops/age/kerry_master.age";
+          path = "/home/kerry/.config/sops/age/keys.txt";
           owner = "kerry";
         };
         "ageKeys/kerryPotato" = {

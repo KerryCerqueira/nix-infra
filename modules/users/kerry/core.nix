@@ -16,12 +16,12 @@
           home-manager.enable = true;
           thunderbird.enable = true;
           chromium.enable = true;
-          firefox.enable = true;
         };
         home = {
           username = "kerry";
           homeDirectory = "/home/kerry";
           packages = with pkgs; [
+            claude-code
             obsidian
             inkscape-with-extensions
             ipe

@@ -42,7 +42,7 @@
           (config.lazy.configSrc + "/lua/lazyspecs/ui.lua")
         ];
       };
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         ghostscript
         imagemagick
         mermaid-cli

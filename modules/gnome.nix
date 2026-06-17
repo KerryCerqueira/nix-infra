@@ -53,5 +53,6 @@
     napoleon = {imports = [self.nixosModules.gnome];};
     panza = {imports = [self.nixosModules.gnome];};
     potato = {imports = [self.nixosModules.gnome];};
+    sebastiao = {imports = [self.nixosModules.gnome];};
   };
 }

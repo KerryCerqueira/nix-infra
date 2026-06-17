@@ -73,6 +73,7 @@
       packages = with pkgs; [
           sops
           age
+          ssh-to-age
         (self'.packages.neovim.wrap {
           aspects.lang.lua.enable = true;
           aspects.lang.lua.passLuaRc = true;

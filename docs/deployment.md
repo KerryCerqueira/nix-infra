@@ -76,9 +76,10 @@ Add each of these to the appropriate user secrets file.
 
 ## Building the System
 
-When booting into the liveUSB environment to deploy a new host, you'll first
-need to mount the filesystem as it will be structured in the final deployment.
-As a reminder, use
+### Traditional `filesystems` options
+When booting into the liveUSB environment to deploy a new host, you'll first need
+to format (e.g. with `gparted`) and mount the filesystem as it will be structured
+in the final deployment. As a reminder, use
 
 ```sh
 lsblk -f
@@ -95,12 +96,37 @@ mount /dev/disk/by-uuid/<UUID> /mnt/path
 mount /dev/sda2 /mnt/path
 ```
 
-After mounting the filesystem, copy the host ssh key to
+These mounts need to match your filesystem declaration relative to `/mnt`.
+
+After mounting the volumes, copy the host ssh key to
 `/mnt/etc/ssh/ssh_host_ed25519_key` and make it only accessible by root:
 
 ```sh
-sudo chmod 0600 /etc/age/<hostname>.age
+sudo chmod 0600 /etc/ssh/ssh_host_ed25519_key
 ```
+
+Then you can install your system with
+
+```{sh}
+sudo nixos-install  \
+  NIX_CONFIG="extra-experimental-features = pipe-operators nix-command flakes" \
+  --flake "github:kerrycerqueira/nix-infra#<your-host>
+```
+
+### With `disko`
+
+The formatting and mounting step simplifies to
+
+```{sh}
+sudo nix \
+  NIX_CONFIG="extra-experimental-features = pipe-operators nix-command flakes" \
+  run github:nix-community/disko/latest -- \
+  --mode destroy,format,mount \
+  --flake github:KerryCerqueira/nix-infra#<your-host>
+```
+
+If you specified disk encryption, this is when your encryption passwords will be
+specified. Then deploy your SSH key and install as before.
 
 ## Non-declarative setup
 
@@ -114,5 +140,5 @@ microsoft accounts
 - run `gh auth login`
 - Set background image and profile image
 - Log into steam
-- Add empty `extra.lua` to `~/.config/nvim/lua/extra/`
 - deploy git config
+- Enrol biometric data, e.g. fingerprints

@@ -6,7 +6,7 @@
     ...
   }: {
     config = lib.mkIf config.aspects.lang.sh.enable {
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         shellcheck
       ];
       lazy = {

@@ -13,7 +13,7 @@
     sops = {
       defaultSopsFile = ./claudius_secrets.yaml;
       defaultSopsFormat = "yaml";
-      age.keyFile = "${config.home.homeDirectory}/.config/sops/age/kerry_claudius.age";
+      age.keyFile = "${config.xdg.configHome}/sops/age/kerry_claudius.age";
       secrets = {
         "apiKeys/github" = {};
         "apiKeys/tavily" = {};
@@ -32,12 +32,6 @@
           path = "${config.home.homeDirectory}/.config/syncthing/key.pem";
         };
       };
-      templates."claude_desktop_config.json" = {
-        content = builtins.toJSON {
-          mcpServers = config.programs.claude-desktop.mcpServers;
-        };
-        path = "${config.xdg.configHome}/Claude/claude_desktop_config.json";
-      };
     };
     home.stateVersion = "24.11";
     programs = {
@@ -49,7 +43,7 @@
       in {
         GITHUB_PERSONAL_ACCESS_TOKEN = "{file:${secretPath}}";
       };
-      ssh.matchBlocks."*".identityFile = "~/.ssh/id_ed25519";
+      ssh.settings."*".identityFile = "~/.ssh/id_ed25519";
     };
     xdg = {
       configFile = {

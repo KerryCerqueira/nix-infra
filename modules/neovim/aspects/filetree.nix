@@ -44,7 +44,7 @@
           (config.lazy.configSrc + "/lua/lazyspecs/filetree.lua")
         ];
       };
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         delta
         fd
         ripgrep

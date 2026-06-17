@@ -1,22 +1,25 @@
 {inputs, ...}: {
-  flake.nixosModules.panza = {pkgs, ...}: {
+  flake.nixosModules.sebastiao = {pkgs, ...}: {
     imports = [inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-yoga];
     boot = {
       initrd.availableKernelModules = [
         "xhci_pci"
+        "thunderbolt"
         "nvme"
-        "usb_storage"
-        "sd_mod"
+      ];
+      kernelParams = [
+        "zswap.enabled=1"
+        "zswap.max_pool_percent=20"
+        "zswap.shrinker_enabled=1"
       ];
       kernelModules = ["kvm-intel"];
-      kernelParams = ["i915.enable_guc=2"];
     };
+    powerManagement.enable = true;
     security.rtkit.enable = true;
     services = {
       fprintd.enable = true;
       fwupd.enable = true;
       hardware.bolt.enable = true;
-      throttled.enable = true;
       pipewire = {
         enable = true;
         alsa.enable = true;
@@ -39,12 +42,7 @@
           };
         };
       };
-    };
-    powerManagement = true;
-    zramSwap = {
-      enable = true;
-      algorithm = "zstd";
-      memoryPercent = 100;
+      cpu.intel.npu.enable = true;
     };
   };
 }
