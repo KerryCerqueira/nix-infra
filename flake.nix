@@ -11,7 +11,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
-    nixos-grub-themes.url = "github:jeslie0/nixos-grub-themes";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
