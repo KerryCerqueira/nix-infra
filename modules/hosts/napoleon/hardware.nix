@@ -45,10 +45,6 @@
         enable32Bit = true;
         extraPackages = with pkgs; [rocmPackages.clr.icd];
       };
-      keyboard.qmk = {
-        enable = true;
-        keychronSupport = true;
-      };
     };
     security.rtkit.enable = true;
     zramSwap = {

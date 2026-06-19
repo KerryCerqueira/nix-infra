@@ -27,7 +27,7 @@
         };
       };
       config = {
-        extraPackages =
+        runtimePkgs =
           lib.mapAttrsToList
           (_name: spec: spec.pkg)
           config.lspConfig;

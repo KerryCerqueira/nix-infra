@@ -8,21 +8,7 @@
     lib,
     ...
   }: {
-    imports = with self.nixosModules; [
-      nix
-      inputs.sops-nix.nixosModules.sops
-      inputs.home-manager.nixosModules.home-manager
-      terminal
-    ];
     system.stateVersion = "23.11";
-    home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-      backupFileExtension = "bkp";
-      sharedModules = [
-        inputs.sops-nix.homeManagerModules.sops
-      ];
-    };
     i18n.defaultLocale = "en_CA.UTF-8";
     nixpkgs.config.allowUnfree = true;
     networking.hostName = "potato";

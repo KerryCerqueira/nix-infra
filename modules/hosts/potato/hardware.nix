@@ -112,6 +112,7 @@
         alsa.support32Bit = true;
         pulse.enable = true;
       };
+      thermald.enable = true;
       xserver = {
         videoDrivers = ["nvidia"];
       };
@@ -154,5 +155,6 @@
     };
     networking.useDHCP = lib.mkDefault true;
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+    powerManagement.enable = true;
   };
 }

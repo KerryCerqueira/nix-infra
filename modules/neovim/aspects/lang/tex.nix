@@ -6,7 +6,7 @@
     ...
   }: {
     config = lib.mkIf config.aspects.lang.tex.enable {
-      extraPackages = with pkgs; [
+      runtimePkgs = with pkgs; [
         texlab
         texlivePackages.chktex
       ];

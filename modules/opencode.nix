@@ -17,6 +17,6 @@
         };
       };
     };
-    "kerry@claudius" = {imports = [self.homeModules.opencode];};
+    kerry = {imports = [self.homeModules.opencode];};
   };
 }

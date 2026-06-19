@@ -17,17 +17,17 @@
       self.homeModules.kerry
     ];
     home.stateVersion = "25.11";
-    programs.ssh.matchBlocks."*".identityFile = "~/.ssh/id_ed25519";
+    programs.ssh.settings."*".identityFile = "~/.ssh/id_ed25519";
     sops = {
       defaultSopsFile = ./napoleon_secrets.yaml;
       defaultSopsFormat = "yaml";
       age.keyFile = "/home/kerry/.config/sops/age/keys.txt";
       secrets = {
         "syncthing/cert" = {
-          path = "${config.home.homeDirectory}/.config/syncthing/cert.pem";
+          path = "${config.xdg.configHome}/syncthing/cert.pem";
         };
         "syncthing/key" = {
-          path = "${config.home.homeDirectory}/.config/syncthing/key.pem";
+          path = "${config.xdg.configHome}/syncthing/key.pem";
         };
         "apiKeys/tavily" = {};
         "apiKeys/huggingface" = {};

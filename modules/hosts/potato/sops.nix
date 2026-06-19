@@ -1,14 +1,10 @@
-{...}: {
+{inputs, ...}: {
   flake.nixosModules.potato = {...}: {
+    imports = [inputs.sops-nix.nixosModules.sops];
     sops = {
       defaultSopsFile = ./secrets.yaml;
       defaultSopsFormat = "yaml";
-      age.keyFile = let
-        envKey = builtins.getEnv "SOPS_AGE_KEY_FILE";
-      in
-        if envKey == ""
-        then "/etc/age/potato.age"
-        else envKey;
+      age.keyFile = "/etc/age/potato.age";
       secrets = {
         "ageKeys/kerryPotato" = {
           path = "/home/kerry/.config/sops/age/kerry_potato.age";

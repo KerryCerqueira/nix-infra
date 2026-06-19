@@ -12,6 +12,5 @@
         };
       };
     };
-    kerry = {imports = [self.homeModules.syncthing];};
   };
 }

@@ -5,24 +5,6 @@
 }: {
   flake = {
     nixosModules.napoleon = {config, ...}: {
-      imports = with self.nixosModules; [
-        nix
-        terminal
-        inputs.sops-nix.nixosModules.sops
-        inputs.home-manager.nixosModules.home-manager
-      ];
-      nix.gc = {
-        automatic = true;
-        dates = "weekly";
-      };
-      home-manager = {
-        backupFileExtension = "bkp";
-        sharedModules = [
-          inputs.sops-nix.homeManagerModules.sops
-        ];
-        useGlobalPkgs = true;
-        useUserPackages = true;
-      };
       system.stateVersion = "25.11";
       services = {
         xserver = {

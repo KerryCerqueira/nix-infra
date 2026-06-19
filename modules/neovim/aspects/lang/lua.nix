@@ -6,7 +6,7 @@
     ...
   }: {
     config = lib.mkIf config.aspects.lang.lua.enable {
-      extraPackages = with pkgs; [stylua];
+      runtimePkgs = with pkgs; [stylua];
       lazy = {
         plugins = {
           conform-nvim = {

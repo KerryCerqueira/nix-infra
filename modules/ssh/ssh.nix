@@ -2,45 +2,43 @@
   flake = {
     nixosModules = {
       ssh = {...}: {
-        services.openssh = {
-          enable = true;
-          settings = {
-            PasswordAuthentication = false;
-            KbdInteractiveAuthentication = false;
-          };
-          listenAddresses = [
-            {
-              addr = "127.0.0.1";
-              port = 22;
-            }
-            {
-              addr = "::1";
-              port = 22;
-            }
-          ];
-        };
         programs.ssh.knownHosts = {
           claudius = {
             hostNames = ["claudius"];
             publicKey = self.lib.constants.publicKeys."root@claudius";
           };
+          sebastiao = {
+            hostNames = ["sebastiao"];
+            publicKey = self.lib.constants.publicKeys."root@sebastiao";
+          };
+          napoleon = {
+            hostNames = ["napoleon"];
+            publicKey = self.lib.constants.publicKeys."root@napoleon";
+          };
         };
       };
       claudius = {imports = [self.nixosModules.ssh];};
+      sebastiao = {imports = [self.nixosModules.ssh];};
+      panza = {imports = [self.nixosModules.ssh];};
+      potato = {imports = [self.nixosModules.ssh];};
+      napoleon = {imports = [self.nixosModules.ssh];};
     };
     homeModules = {
       ssh = {...}: {
         programs.ssh = {
           enable = true;
+          enableDefaultConfig = false;
           includes = ["~/.ssh/config.d/*.conf"];
-          matchBlocks = {
+          settings = {
             "*" = {
+              controlMaster = "auto";
+              controlPersist = "10m";
               identitiesOnly = true;
               serverAliveInterval = 15;
               serverAliveCountMax = 3;
-              extraOptions = {
-                AddKeysToAgent = "yes";
-              };
+              controlPath = "~/.ssh/master-%r@%n:%p";
+              identityFile = "~/.ssh/id_ed25519";
+              addKeysToAgent = "yes";
             };
             "github" = {
               hostname = "github.com";
