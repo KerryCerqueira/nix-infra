@@ -8,7 +8,7 @@
         devices = ["pixel7a"];
         id = "keepassxc";
         label = "keepassxc";
-        path = "${config.xdg.configHome}/.local/share/keepassxc";
+        path = "${config.home.homeDirectory}/.local/share/keepassxc";
         versioning = {
           type = "trashcan";
           params.cleanoutDays = "1000";

@@ -15,13 +15,13 @@
     sops = {
       defaultSopsFile = ./panza_secrets.yaml;
       defaultSopsFormat = "yaml";
-      age.keyFile = "${config.home.homeDirectory}/.config/sops/age/kerry.age";
+      age.keyFile = "${config.home.homeDirectory}/sops/age/kerry.age";
       secrets = {
         "syncthing/cert" = {
-          path = "${config.home.homeDirectory}/.config/syncthing/cert.pem";
+          path = "${config.home.homeDirectory}/syncthing/cert.pem";
         };
         "syncthing/key" = {
-          path = "${config.home.homeDirectory}/.config/syncthing/key.pem";
+          path = "${config.home.homeDirectory}/syncthing/key.pem";
         };
       };
     };
