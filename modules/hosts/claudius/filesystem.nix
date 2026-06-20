@@ -1,5 +1,10 @@
 {
   flake.nixosModules.claudius = {...}: {
+    services.fstrim.enable = true;
+    boot = {
+      resumeDevice = "/dev/disk/by-uuid/5f2d7fc1-10ad-4be8-9f19-5f59426267b7";
+      zswap.enable = true;
+    };
     fileSystems."/" = {
       device = "/dev/disk/by-uuid/d0057b39-6872-46bf-80dd-9bef299c34d2";
       fsType = "ext4";

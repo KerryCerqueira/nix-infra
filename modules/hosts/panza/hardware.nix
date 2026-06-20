@@ -16,6 +16,14 @@
       fprintd.enable = true;
       fwupd.enable = true;
       hardware.bolt.enable = true;
+      logind.settings.Login = {
+        HandleLidSwitch = "suspend-then-hibernate";
+        HandleLidSwitchExternalPower = "suspend-then-hibernate";
+        HandleLidSwitchDocked = "ignore";
+        HandleSuspendKey = "suspend-then-hibernate";
+        IdleAction = "suspend-then-hibernate";
+        IdleActionSec = "30min";
+      };
       throttled.enable = true;
       pipewire = {
         enable = true;
@@ -40,11 +48,7 @@
         };
       };
     };
-    powerManagement = true;
-    zramSwap = {
-      enable = true;
-      algorithm = "zstd";
-      memoryPercent = 100;
-    };
+    powerManagement.enable = true;
+    systemd.sleep.settings.Sleep.HibernateDelaySec = "120min";
   };
 }

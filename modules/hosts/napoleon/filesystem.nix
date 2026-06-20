@@ -1,6 +1,6 @@
 {
   flake.nixosModules.napoleon = {...}: {
-    services.fstrim.enable = true;
+    boot.zwap.enable = true;
     fileSystems = {
       "/" = {
         label = "npln-root";
@@ -36,5 +36,6 @@
       "a+ /mnt/extra - - - - default:group:extra-store:rwx"
     ];
     users.groups.extra-store.gid = 900;
+    services.fstrim.enable = true;
   };
 }

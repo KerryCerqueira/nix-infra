@@ -1,5 +1,10 @@
 {
   flake.nixosModules.panza = {
+    services.fstrim.enable = true;
+    boot = {
+      resumeDevice = "/dev/disk/by-uuid/048cb61f-0fa8-4960-8607-97aa670662cf";
+      zswap.enable = true;
+    };
     fileSystems = {
       "/" = {
         device = "/dev/disk/by-uuid/5fc03019-c6c8-4d7e-9056-32f9c318c1b6";
