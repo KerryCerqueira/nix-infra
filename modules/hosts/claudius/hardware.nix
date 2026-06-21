@@ -35,9 +35,9 @@
       logind.settings.Login = {
         HandleLidSwitch = "suspend-then-hibernate";
         HandleLidSwitchExternalPower = "suspend-then-hibernate";
-        HandleLidSwitchDocked = "ignore"; # default; closed+docked stays awake
+        HandleLidSwitchDocked = "ignore";
         HandleSuspendKey = "suspend-then-hibernate";
-        IdleAction = "suspend-then-hibernate"; # see idle caveat
+        IdleAction = "suspend-then-hibernate";
         IdleActionSec = "30min";
       };
       pipewire = {

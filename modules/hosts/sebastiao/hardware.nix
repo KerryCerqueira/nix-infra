@@ -17,6 +17,14 @@
       fprintd.enable = true;
       fwupd.enable = true;
       hardware.bolt.enable = true;
+      logind.settings.Login = {
+        HandleLidSwitch = "suspend-then-hibernate";
+        HandleLidSwitchExternalPower = "suspend-then-hibernate";
+        HandleLidSwitchDocked = "ignore";
+        HandleSuspendKey = "suspend-then-hibernate";
+        IdleAction = "suspend-then-hibernate";
+        IdleActionSec = "30min";
+      };
       pipewire = {
         enable = true;
         alsa.enable = true;
