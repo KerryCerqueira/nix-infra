@@ -11,38 +11,35 @@
       ...
     }: let
       inherit (pkgs.stdenv.hostPlatform) system;
-      inherit (inputs.claude-desktop.packages.${system}) claude-desktop-fhs;
-      inherit (self.packages.${system}) arxiv-mcp-server;
+      claude-desktop = inputs.claude-desktop.packages.${system}.default;
+      claude-desktop-exe = lib.getExe claude-desktop;
+      kbPath =
+        "org/gnome/settings-daemon/plugins/media-keys/"
+        + "custom-keybindings/claude-desktop";
     in {
-      config = {
-        home.packages = [claude-desktop-fhs];
-        sops.templates."claude_desktop_config.json" = {
-          content = builtins.toJSON {
-            mcpServers = config.programs.claude-desktop.mcpServers;
-          };
-          path = "${config.xdg.configHome}/Claude/claude_desktop_config.json";
+      home.packages = [claude-desktop];
+      sops.templates."claude_desktop_config.json" = {
+        content = builtins.toJSON {
+          mcpServers = config.programs.mcp.servers;
         };
-        programs.claude-desktop.mcpServers = {
-          arxiv = {
-            command = lib.getExe arxiv-mcp-server;
-            args = ["--storage-path" "${config.xdg.dataHome}/arxiv-mcp-server"];
-          };
-          nixos = {
-            command = lib.getExe pkgs.mcp-nixos;
-            args = [];
-          };
-          github = {
-            command = lib.getExe pkgs.github-mcp-server;
-            args = ["stdio"];
-          };
-        };
+        path = "${config.xdg.configHome}/Claude/claude_desktop_config.json";
       };
-      options.programs.claude-desktop.mcpServers = lib.mkOption {
-        type = lib.types.attrsOf lib.types.anything;
-        default = {};
-        description = "MCP server declarations merged into claude_desktop_config.json.";
+      dconf.settings = {
+        ${kbPath} = {
+          name = "Claude Desktop";
+          binding = "<Control><Alt>space";
+          command = "${claude-desktop-exe} --toggle";
+        };
+        "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
+          "/${kbPath}/"
+        ];
       };
     };
-    kerry = {imports = [self.homeModules.claude-desktop];};
+    "kerry@claudius" = {
+      imports = [self.homeModules.claude-desktop];
+    };
+    "kerry@sebastiao" = {
+      imports = [self.homeModules.claude-desktop];
+    };
   };
 }

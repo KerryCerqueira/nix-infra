@@ -2,7 +2,7 @@
   description = "Kerry Cerqueira's NixOS system configurations.";
   inputs = {
     claude-desktop = {
-      url = "github:aaddrick/claude-desktop-debian";
+      url = "github:patrickjaja/claude-desktop-bin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
