@@ -1,11 +1,18 @@
 {inputs, ...}: {
   flake.nixosModules.sebastiao = {...}: {
     imports = [inputs.disko.nixosModules.disko];
-    boot.initrd.luks.devices.cryptroot = {
-      crypttabExtraOpts = [
-        "tpm2-device=auto"
-        "tpm2-measure-pcr=yes"
-      ];
+    boot = {
+      initrd.luks.devices = {
+        cryptroot.crypttabExtraOpts = [
+          "tpm2-device=auto"
+          "tpm2-measure-pcr=yes"
+        ];
+        cryptswap.crypttabExtraOpts = [
+          "tpm2-device=auto"
+          "tpm2-measure-pcr=yes"
+        ];
+      };
+      zswap.enable = true;
     };
     disko.devices.disk.sebastiao-nvme = {
       type = "disk";
@@ -68,11 +75,6 @@
           };
         };
       };
-    };
-    zramSwap = {
-      enable = true;
-      algorithm = "zstd";
-      memoryPercent = 100;
     };
   };
 }
