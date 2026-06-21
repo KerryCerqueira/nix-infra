@@ -7,12 +7,9 @@
         "thunderbolt"
         "nvme"
       ];
-      kernelParams = [
-        "zswap.enabled=1"
-        "zswap.max_pool_percent=20"
-        "zswap.shrinker_enabled=1"
-      ];
       kernelModules = ["kvm-intel"];
+      kernelParams = ["i915.enable_psr=0"];
+      zswap.enable = true;
     };
     powerManagement.enable = true;
     security.rtkit.enable = true;

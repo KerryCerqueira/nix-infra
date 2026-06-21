@@ -28,8 +28,9 @@ function that receives flake-parts module arguments (`self`, `inputs`,
 
 ### Module conventions
 
-Modules set **flake-level options** rather than working at a single nix
-abstraction layer. A single file may define any combination of:
+Each .nix file corresponds one-to-one with a flake-parts module and high level
+concern respectively. They set **flake-level options** rather than working at a
+single nix abstraction layer. A single file may define any combination of:
 
 - `flake.nixosModules.<name>` -- a nixOS module
 - `flake.homeModules.<name>` -- a home-manager module
@@ -47,13 +48,24 @@ Module functions use destructured arguments with `...`:
 ```
 
 Modules reference each other via `self.nixosModules.<name>`,
-`self.homeModules.<name>`, etc. -- never by relative path (except for `_`
-prefixed directories which are explicitly imported by their parent).
+`self.homeModules.<name>`, etc. -- never by relative path (except for `_` prefixed
+directories which are explicitly imported by their parent).
+
+We prefer pushing module dependencies rather than pulling e.g. it is better to
+declare
+
+```{nix}
+flake.nixosModules.myHost = {imports=[self.nixosModules.myConcern];};
+```
+
+in `my-concern.nix` than to write the same import statement in say
+`modules/hosts/my-host/core.nix`. In this way concerns handle their deployment as
+well as their definition.
 
 ### Aspect-oriented organization
 
 The `modules/` tree is organized by **aspect** (concern), not by nix
-abstraction layer:
+abstraction layer, e.g.:
 
 | Directory | Aspect |
 |-----------|--------|
@@ -61,10 +73,7 @@ abstraction layer:
 | `modules/users/` | User profile definitions and home-manager configurations |
 | `modules/terminal/` | Shell environment: zsh, fish, terminal emulators, CLI tools |
 | `modules/programs/` | Individual application modules (gnome, steam, ssh, etc.) |
-| `modules/packages/` | Package outputs, helper derivations, MCP server packages |
 | `modules/neovim/` | Neovim wrapper modules and lua source -- see `modules/neovim/AGENTS.md` |
-| `modules/devenvs/` | Development shell and app definitions |
-
 
 At the flake output level, hosts are associated to their nixOS module output, e.g.
 `claudius` to `outputs.nixosModules.claudius`. Any flake-parts module can
@@ -74,7 +83,7 @@ Similarly, user concerns export `homeModules.<user>` and
 
 ### Host configuration pattern
 
-Each host directory (e.g. `modules/hosts/claudius/`) contains:
+Each host directory (e.g. `modules/hosts/claudius/`) contains or may contain:
 
 - `core.nix` -- Defines `flake.nixosModules.<host>` (imports other aspect
   modules) and `flake.nixosConfigurations.<host>`
@@ -83,9 +92,6 @@ Each host directory (e.g. `modules/hosts/claudius/`) contains:
 - `sops.nix` + `secrets.yaml` -- system-level secrets via sops-nix
 - `users/<user>/` -- per-user host-specific config (home-manager imports, user
   secrets)
-
-Some hosts (e.g. `potato`) use the `_` prefix convention instead as the refactor
-to dendritic code proceeds.
 
 ### Secrets management
 
@@ -103,6 +109,7 @@ values in outputs.
 - `nixpkgs` -- nixos-unstable channel
 - `home-manager` -- follows nixpkgs
 - `flake-parts` -- flake module composition
+- `disko` -- declarative disk provisioning
 - `import-tree` -- automatic module discovery
 - `nix-wrapper-modules` -- wrapper framework
 - `sops-nix` -- secrets management
@@ -112,7 +119,22 @@ values in outputs.
 
 - Format nix with `alejandra` (no config file; default settings).
 - Pipe operators (`|>`) are enabled and used where they improve readability.
+- Try to stay within 80 character width.
+- Pack attribute sets unless there's a very good reason, ex.
 
+```{nix}
+foo.bar = 1;
+foo.baz = 2;
+```
+
+Should almost always be
+
+```{nix}
+foo = {
+    bar = 1;
+    baz = 2;
+};
+```
 ## Building and testing
 
 ```sh
@@ -134,18 +156,3 @@ nix develop .#data-munge
 # Deploy to the current machine (requires matching hostname)
 sudo nixos-rebuild switch --flake .#<host>
 ```
-
-## Guidelines for changes
-
-- Every new `.nix` file under `modules/` becomes a flake-parts module
-  automatically (unless under a `_` directory). Be intentional about file
-  placement.
-- When adding a new program or tool, create a module in the appropriate aspect
-  directory (e.g. `modules/programs/` for GUI apps, `modules/terminal/` for
-  CLI tools).
-- Host-specific configuration goes under `modules/hosts/<hostname>/`. Shared
-  configuration goes in aspect modules that hosts import.
-- Compose modules via `imports` using `self.nixosModules.*` or
-  `self.homeModules.*` -- not relative paths (except for `_` prefixed
-  subdirectories).
-- Run `alejandra` on any nix files you create or modify.
