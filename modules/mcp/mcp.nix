@@ -20,7 +20,7 @@
               args = [];
               command = lib.getExe pkgs.mcp-nixos;
             };
-            github = {
+            github = lib.mkDefault {
               args = ["stdio"];
               command = lib.getExe pkgs.github-mcp-server;
             };
@@ -29,22 +29,31 @@
         opencode.enableMcpIntegration = true;
       };
     };
-    "kerry@claudius" = {config, ...}: {
+    "kerry@claudius" = {config, pkgs, lib, ...}: {
       imports = [self.homeModules.mcp];
       sops.secrets."apiKeys/github" = {};
-      programs.mcp.servers.github.env = let
-        secretPath = config.sops.secrets."apiKeys/github".path;
-      in {
-        GITHUB_PERSONAL_ACCESS_TOKEN = "{file:${secretPath}}";
+      programs.mcp.servers.github = {
+        args = ["stdio"];
+        command = lib.getExe (pkgs.writeShellScriptBin "github-mcp-server-wrapped" ''
+          export GITHUB_PERSONAL_ACCESS_TOKEN="$(cat ${config.sops.secrets."apiKeys/github".path})"
+          exec ${lib.getExe pkgs.github-mcp-server} "$@"
+        '');
       };
     };
-    "kerry@sebastiao" = {config, ...}: {
+    "kerry@sebastiao" = {
+      config,
+      pkgs,
+      lib,
+      ...
+    }: {
       imports = [self.homeModules.mcp];
       sops.secrets."apiKeys/github" = {};
-      programs.mcp.servers.github.env = let
-        secretPath = config.sops.secrets."apiKeys/github".path;
-      in {
-        GITHUB_PERSONAL_ACCESS_TOKEN = "{file:${secretPath}}";
+      programs.mcp.servers.github = {
+        args = ["stdio"];
+        command = lib.getExe (pkgs.writeShellScriptBin "github-mcp-server-wrapped" ''
+          export GITHUB_PERSONAL_ACCESS_TOKEN="$(cat ${config.sops.secrets."apiKeys/github".path})"
+          exec ${lib.getExe pkgs.github-mcp-server} "$@"
+        '');
       };
     };
   };
