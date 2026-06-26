@@ -71,6 +71,7 @@ web interface. Here's a list of the ones I use:
 - Tavily
 - Huggingface
 - OpenAI
+- github access tokens
 
 Add each of these to the appropriate user secrets file.
 
@@ -126,10 +127,101 @@ sudo nix \
 ```
 
 If you specified disk encryption, this is when your encryption passwords will be
-specified. Then deploy your SSH key and install as before.
+specified. If you're encrypting multiple volumes and want them to unlocked by the
+same password challenge, setting the same password for each volume will enforce
+this. Then deploy your SSH key and install as before.
+
+## Post Install Boot Hardening
+
+To have booted into a nixOS liveUSB, you would've had to disable secure boot. To
+make use of it again follow these steps.
+
+First, make sure secure boot is disabled and set a BIOS administrator password.
+This input should be present:
+```{nix}
+lanzaboote = {
+  url = "github:nix-community/lanzaboote";
+  inputs.nixpkgs.follows = "nixpkgs";
+};
+```
+
+And these options should be included in a nixOS configuration:
+
+```{nix}
+boot = {
+  loader.systemd-boot.enable = lib.mkForce false;
+  lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
+};
+```
+
+Next enrol your secure boot keys, invoke a system rebuild so
+lanzaboot can sign the boot chain, and verify that everything got signed:
+
+```{sh}
+nix shell nixpkgs#sbctl
+sbctl create-keys
+sudo nixos-rebuild switch ./path/to/your-flake#your-host
+sbctl verify
+```
+
+The bare `/boot/EFI/nixos/kernel-*.efi` showing unsigned is expected, but
+everything else should show up as signed.
+
+Next you should probably enrol microsoft keys so proprietary firmware (e.g.
+thunderbolt) signed by microsoft distributed keys is trusted:
+
+```{sh}
+sudo sbctl enroll-keys --microsoft
+```
+
+This may fail due to filesystem protections on the keys stored in the firmware,
+ex. `File is immutable: …/KEK-…`. In this event just brute force the issue by running this command against each path mentioned in the error:
+
+```{sh}
+sudo nix shell nixpkgs#e2fsprogs --command chattr -i /path/to/key`
+```
+
+Until the `sbctl` command above works. At this point `bootctl status` should
+report secure boot in user mode. Reboot into the BIOS, and switch secure boot into
+deployed mode. Verify that everything's working with another `bootctl status`.
+
+### Set up disk decryption via TPM
+
+In the event that your system uses disk decryption and is equipped with a TPM, you
+may use it to automatically decrypt your disks upon a successful trusted boot.
+First, it may be a good idea to perform a firmware update with `fwupd` before this
+procedure as firmware changes disturb the secure boot chain. Due to the PCR level
+chosen, TPM enrolment must be done *after* enrolling secure boot keys:
+
+```{sh}
+sudo systemd-cryptenroll \
+    --tpm2-device=auto \
+    --tpm2-pcrs=7 \
+    /dev/disk/by-partlabel/your-disk
+```
+
+This will prompt you for the disk passphrase. Do this for every encrypted volume.
+Verify with `sudo systemd-cryptenroll /dev/disk/by-partlabel/your-disk`.
+
+### TMP/BIOS Resealing
+
+BIOS and firmware updates may invalidate the TPM measurement. This command run
+against encrypted volumes reseals the TPM:
+
+```{sh}
+sudo systemd-cryptenroll \
+    --wipe-slot=tpm2 \
+    /dev/disk/by-partlabel/your-disk
+sudo systemd-cryptenroll \
+    --tpm2-device=auto \
+    --tpm2-pcrs=7 \
+    /dev/disk/by-partlabel/your-disk
+```
 
 ## Non-declarative setup
-
 - Set gnome keyboard shortcuts, interface settings, and add google and
 microsoft accounts
 - Configure gnome extensions
