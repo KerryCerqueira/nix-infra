@@ -27,7 +27,6 @@
           auto-move-windows
           caffeine
           clipboard-indicator
-          easyeffects-preset-selector
           paperwm
           places-status-indicator
           launch-new-instance

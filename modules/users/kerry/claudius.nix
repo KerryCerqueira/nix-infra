@@ -18,12 +18,6 @@
         "apiKeys/tavily" = {};
         "apiKeys/huggingface" = {};
         "apiKeys/openai" = {};
-        "ssh/identity/private" = {
-          path = "${config.home.homeDirectory}/.ssh/id_ed25519";
-        };
-        "ssh/identity/public" = {
-          path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
-        };
         "syncthing/cert" = {
           path = "${config.home.homeDirectory}/.config/syncthing/cert.pem";
         };
@@ -31,10 +25,6 @@
           path = "${config.home.homeDirectory}/.config/syncthing/key.pem";
         };
       };
-    };
-    home.stateVersion = "24.11";
-    programs = {
-      ssh.settings."*".identityFile = "~/.ssh/id_ed25519";
     };
     xdg = {
       configFile = {

@@ -16,8 +16,6 @@
     imports = [
       self.homeModules.kerry
     ];
-    home.stateVersion = "25.11";
-    programs.ssh.settings."*".identityFile = "~/.ssh/id_ed25519";
     sops = {
       defaultSopsFile = ./napoleon_secrets.yaml;
       defaultSopsFormat = "yaml";

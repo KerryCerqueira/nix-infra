@@ -1,6 +1,6 @@
 {
   flake.nixosModules.napoleon = {...}: {
-    boot.zwap.enable = true;
+    boot.zswap.enable = true;
     fileSystems = {
       "/" = {
         label = "npln-root";

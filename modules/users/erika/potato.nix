@@ -8,7 +8,6 @@
     home-manager.users.erika = self.homeModules."erika@potato";
   };
   flake.homeModules."erika@potato" = {...}: {
-    home.stateVersion = "23.11";
     sops = {
       defaultSopsFile = ./potato_secrets.yaml;
       defaultSopsFormat = "yaml";

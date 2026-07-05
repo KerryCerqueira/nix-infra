@@ -13,7 +13,6 @@
       secrets = {
         "syncthing/cert".path = "/home/kerry/.config/syncthing/cert.pem";
         "syncthing/key".path = "/home/kerry/.config/syncthing/key.pem";
-        "ssh/github/private".path = "/home/kerry/.ssh/github";
       };
     };
   };

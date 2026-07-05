@@ -1,25 +1,16 @@
 {self, ...}: {
-  flake.nixosModules.napoleon = {
-    users.users.erika = {
-      isNormalUser = true;
-      description = "Erika Titley";
-      extraGroups = ["networkmanager" "wheel" "extra-store"];
-      uid = 1001;
+  flake = {
+    nixosModules.napoleon = {
+      users.users.erika = {
+        isNormalUser = true;
+        description = "Erika Titley";
+        extraGroups = ["networkmanager" "wheel" "extra-store"];
+        uid = 1001;
+      };
+      home-manager.users.erika = {
+        imports = [self.homeModules."erika@napoleon"];
+      };
     };
-    home-manager.users.erika = {
-      imports = [
-        self.homeModules."erika@napoleon"
-      ];
-    };
-  };
-  flake.homeModules."erika@napoleon" = {
-    config,
-    pkgs,
-    ...
-  }: {
-    imports = [
-      self.homeModules.erika
-    ];
-    home.stateVersion = "25.11";
+    homeModules."erika@napoleon" = {imports = [self.homeModules.erika];};
   };
 }

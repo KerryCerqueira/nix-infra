@@ -22,5 +22,10 @@
       system = "x86_64-linux";
       modules = [self.nixosModules.panza];
     };
+    homeModules = {
+      panza = {home.stateVersion = "23.11";};
+      "kerry@panza" = {imports = [self.homeModules.panza];};
+      "erika@panza" = {imports = [self.homeModules.panza];};
+    };
   };
 }

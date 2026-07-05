@@ -26,5 +26,12 @@
         napoleon
       ];
     };
+    homeModules = {
+      napoleon = {
+        home.stateVersion = "25.11";
+      };
+      "kerry@napoleon" = {imports = [self.homeModules.napoleon];};
+      "erika@napoleon" = {imports = [self.homeModules.napoleon];};
+    };
   };
 }

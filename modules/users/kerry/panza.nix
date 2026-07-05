@@ -9,9 +9,7 @@
   flake.homeModules."kerry@panza" = {config, ...}: {
     imports = with self.homeModules; [
       kerry
-      easyeffects
     ];
-    home.stateVersion = "23.11";
     sops = {
       defaultSopsFile = ./panza_secrets.yaml;
       defaultSopsFormat = "yaml";
