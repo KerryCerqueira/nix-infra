@@ -17,7 +17,7 @@
       };
       time.timeZone = "America/Toronto";
       users.users.root.hashedPasswordFile =
-        config.sops.secrets."hashedUserPasswords/root".path;
+        config.sops.secrets."kerry/hashedPassword".path;
       i18n.defaultLocale = "en_CA.UTF-8";
     };
     nixosConfigurations.napoleon = inputs.nixpkgs.lib.nixosSystem {

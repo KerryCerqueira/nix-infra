@@ -9,7 +9,7 @@
       home-manager = {
         useGlobalPkgs = lib.mkDefault true;
         useUserPackages = lib.mkDefault true;
-        backupFileExtension = lib.mkDefault "bkp";
+        backupFileExtension = lib.mkDefault "bak";
         sharedModules = [
           inputs.sops-nix.homeManagerModules.sops
         ];

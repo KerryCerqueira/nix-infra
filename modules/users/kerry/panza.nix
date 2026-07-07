@@ -1,27 +1,12 @@
 {self, ...}: {
-  flake.nixosModules.panza = {config, ...}: {
-    imports = [self.nixosModules.kerry];
-    users.users.kerry = {
-      hashedPasswordFile = config.sops.secrets."hashedUserPasswords/kerry".path;
+  flake = {
+    nixosModules.panza = {config, ...}: {
+      imports = [self.nixosModules.kerry];
+      sops.secrets."kerry/hashedPassword".neededForUsers = true;
+      users.users.kerry.hashedPasswordFile =
+        config.sops.secrets."kerry/hashedPassword".path;
+      home-manager.users.kerry = self.homeModules."kerry@panza";
     };
-    home-manager.users.kerry = self.homeModules."kerry@panza";
-  };
-  flake.homeModules."kerry@panza" = {config, ...}: {
-    imports = with self.homeModules; [
-      kerry
-    ];
-    sops = {
-      defaultSopsFile = ./panza_secrets.yaml;
-      defaultSopsFormat = "yaml";
-      age.keyFile = "${config.home.homeDirectory}/sops/age/kerry.age";
-      secrets = {
-        "syncthing/cert" = {
-          path = "${config.home.homeDirectory}/syncthing/cert.pem";
-        };
-        "syncthing/key" = {
-          path = "${config.home.homeDirectory}/syncthing/key.pem";
-        };
-      };
-    };
+    homeModules."kerry@panza" = {imports = [self.homeModules.kerry];};
   };
 }

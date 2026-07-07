@@ -1,62 +1,16 @@
 {self, ...}: {
-  flake.nixosModules.claudius = {
-    imports = [self.nixosModules.kerry];
-    home-manager.users.kerry = self.homeModules."kerry@claudius";
-  };
-  flake.homeModules."kerry@claudius" = {
-    config,
-    pkgs,
-    lib,
-    ...
-  }: {
-    imports = [self.homeModules.kerry];
-    sops = {
-      defaultSopsFile = ./claudius_secrets.yaml;
-      defaultSopsFormat = "yaml";
-      age.keyFile = "${config.xdg.configHome}/sops/age/kerry_claudius.age";
-      secrets = {
-        "apiKeys/tavily" = {};
-        "apiKeys/huggingface" = {};
-        "apiKeys/openai" = {};
-        "syncthing/cert" = {
-          path = "${config.home.homeDirectory}/.config/syncthing/cert.pem";
-        };
-        "syncthing/key" = {
-          path = "${config.home.homeDirectory}/.config/syncthing/key.pem";
+  flake = {
+    nixosModules.claudius = {config, ...}: {
+      imports = [self.nixosModules.kerry];
+      home-manager.users.kerry = self.homeModules."kerry@claudius";
+      sops.secrets = {
+        "kerry/ageKeys" = {
+          path = "/home/kerry/.config/sops/age/keys.txt";
+          owner = "kerry";
+          mode = "0400";
         };
       };
     };
-    xdg = {
-      configFile = {
-        "nvim/lua/secrets/init.lua".text =
-          # lua
-          ''
-            return {
-            	setup = function()
-            		require("secrets.tavily").setup()
-            	end
-            }
-          '';
-        "nvim/lua/secrets/tavily.lua".text = let
-          tavilyKeyPath = config.sops.secrets."apiKeys/tavily".path;
-        in
-          # lua
-          ''
-            return {
-            	setup = function()
-            		local keyfile = "${tavilyKeyPath}"
-            		local ok, key = pcall(function()
-            			return vim.fn.readfile(keyfile)[1]
-            		end)
-            		if ok and key and #key > 0 then
-            			vim.env.TAVILY_API_KEY = key
-            		else
-            			vim.notify("Tavily API key unavailable.", vim.log.levels.WARN)
-            		end
-            	end,
-            }
-          '';
-      };
-    };
+    homeModules."kerry@claudius" = {imports = [self.homeModules.kerry];};
   };
 }
