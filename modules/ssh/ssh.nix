@@ -5,53 +5,26 @@
         programs.ssh.knownHosts = {
           claudius = {
             hostNames = ["claudius"];
-            publicKey = self.lib.constants.publicKeys."root@claudius";
+            publicKey =
+              builtins.readFile ./public-keys/claudius/root_ed25519.pub;
           };
           sebastiao = {
             hostNames = ["sebastiao"];
-            publicKey = self.lib.constants.publicKeys."root@sebastiao";
+            publicKey =
+              builtins.readFile ./public-keys/sebastiao/root_ed25519.pub;
           };
           napoleon = {
             hostNames = ["napoleon"];
-            publicKey = self.lib.constants.publicKeys."root@napoleon";
+            publicKey =
+              builtins.readFile ./public-keys/napoleon/root_ed25519.pub;
           };
         };
       };
-      claudius = {
-        imports = [self.nixosModules.ssh];
-        sops.secrets."kerry/ssh" = {
-          owner = "kerry";
-          mode = "0400";
-        };
-      };
-      sebastiao = {
-        imports = [self.nixosModules.ssh];
-        sops.secrets."kerry/ssh" = {
-          owner = "kerry";
-          mode = "0400";
-        };
-      };
-      panza = {
-        imports = [self.nixosModules.ssh];
-        sops.secrets."kerry/ssh" = {
-          owner = "kerry";
-          mode = "0400";
-        };
-      };
-      potato = {
-        imports = [self.nixosModules.ssh];
-        sops.secrets."kerry/ssh" = {
-          owner = "kerry";
-          mode = "0400";
-        };
-      };
-      napoleon = {
-        imports = [self.nixosModules.ssh];
-        sops.secrets."kerry/ssh" = {
-          owner = "kerry";
-          mode = "0400";
-        };
-      };
+      claudius.imports = [self.nixosModules.ssh];
+      sebastiao.imports = [self.nixosModules.ssh];
+      panza.imports = [self.nixosModules.ssh];
+      potato.imports = [self.nixosModules.ssh];
+      napoleon.imports = [self.nixosModules.ssh];
     };
     homeModules = {
       ssh = {...}: {
@@ -76,37 +49,7 @@
           };
         };
       };
-      kerry = {imports = [self.homeModules.ssh];};
-      "kerry@claudius" = {osConfig, ...}: {
-        home.file = {
-          ".ssh/id_ed25519.pub".source = ./public-keys/kerry_claudius.pub;
-        };
-        programs.ssh.settings."*".identityFile = osConfig.sops.secrets."kerry/ssh".path;
-      };
-      "kerry@napoleon" = {osConfig, ...}: {
-        home.file = {
-          ".ssh/id_ed25519.pub".source = ./public-keys/kerry_napoleon.pub;
-        };
-        programs.ssh.settings."*".identityFile = osConfig.sops.secrets."kerry/ssh".path;
-      };
-      "kerry@panza" = {osConfig, ...}: {
-        home.file = {
-          ".ssh/id_ed25519.pub".source = ./public-keys/kerry_panza.pub;
-        };
-        programs.ssh.settings."*".identityFile = osConfig.sops.secrets."kerry/ssh".path;
-      };
-      "kerry@potato" = {osConfig, ...}: {
-        home.file = {
-          ".ssh/id_ed25519.pub".source = ./public-keys/kerry_potato.pub;
-        };
-        programs.ssh.settings."*".identityFile = osConfig.sops.secrets."kerry/ssh".path;
-      };
-      "kerry@sebastiao" = {osConfig, ...}: {
-        home.file = {
-          ".ssh/id_ed25519.pub".source = ./public-keys/kerry_sebastiao.pub;
-        };
-        programs.ssh.settings."*".identityFile = osConfig.sops.secrets."kerry/ssh".path;
-      };
+      kerry.imports = [self.homeModules.ssh];
     };
   };
 }

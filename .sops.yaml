@@ -8,28 +8,37 @@ age_keys:
   # User master encryption keys
   - &kerry_master age1xvyp63kuszp4u0ke4lf84wstgt6td04v6w605twh3mwqaedv9u8sdm8g4j
 creation_rules:
-  - path_regex: ^modules/hosts/napoleon/secrets.yaml$
+  - path_regex: (^|/)(napoleon/secrets|secrets/napoleon)(/.+|\.[^/]+)$
     key_groups:
       - age:
         - *napoleon
         - *kerry_master
-  - path_regex: ^modules/hosts/panza/secrets.yaml$
+  - path_regex: (^|/)(panza/secrets|secrets/panza)(/.+|\.[^/]+)$
     key_groups:
       - age:
         - *panza
         - *kerry_master
-  - path_regex: ^modules/hosts/potato/secrets.yaml$
+  - path_regex: (^|/)(potato/secrets|secrets/potato)(/.+|\.[^/]+)$
     key_groups:
       - age:
         - *potato
         - *kerry_master
-  - path_regex: ^modules/hosts/claudius/secrets.yaml$
+  - path_regex: (^|/)(claudius/secrets|secrets/claudius)(/.+|\.[^/]+)$
     key_groups:
       - age:
         - *kerry_master
         - *claudius
-  - path_regex: ^modules/hosts/sebastiao/secrets.yaml$
+  - path_regex: (^|/)(sebastiao/secrets|secrets/sebastiao)(/.+|\.[^/]+)$
     key_groups:
       - age:
         - *kerry_master
+        - *sebastiao
+  - path_regex: ^modules/mcp/servers/secrets/.+
+    key_groups:
+      - age:
+        - *kerry_master
+        - *claudius
+        - *napoleon
+        - *panza
+        - *potato
         - *sebastiao

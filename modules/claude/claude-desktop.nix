@@ -18,11 +18,8 @@
         + "custom-keybindings/claude-desktop";
     in {
       home.packages = [claude-desktop];
-      sops.templates."claude_desktop_config.json" = {
-        content = builtins.toJSON {
-          mcpServers = config.programs.mcp.servers;
-        };
-        path = "${config.xdg.configHome}/Claude/claude_desktop_config.json";
+      xdg.configFile."Claude/claude_desktop_config.json".text = builtins.toJSON {
+        mcpServers = config.programs.mcp.servers;
       };
       dconf.settings = {
         ${kbPath} = {
