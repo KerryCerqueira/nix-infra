@@ -1,13 +1,21 @@
-{self, ...}: {
+{
+  self,
+  lib,
+  ...
+}: {
   flake = {
-    nixosModules.claudius = {config, ...}: {
-      sops.secrets."mcp/browser-control" = {
-        sopsFile = ./secrets/claudius/browser-control.key;
-        format = "binary";
-        owner = "kerry";
-        mode = "0400";
-      };
-    };
+    nixosModules =
+      lib.genAttrs [
+        "claudius"
+        "sebastiao"
+      ] (host: {config, ...}: {
+        sops.secrets."mcp/browser-control" = {
+          sopsFile = ./secrets + "${host}/browser-control.key";
+          format = "binary";
+          owner = "kerry";
+          mode = "0400";
+        };
+      });
     homeModules.mcp = {
       osConfig,
       pkgs,

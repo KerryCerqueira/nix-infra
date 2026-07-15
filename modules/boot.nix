@@ -42,20 +42,7 @@
         initrd.verbose = false;
       };
     };
-    claudius = {imports = [self.nixosModules.boot];};
-    napoleon = {imports = [self.nixosModules.boot];};
-    panza = {pkgs, ...}: {
-      imports = [self.nixosModules.boot];
-      boot.plymouth = {
-        enable = true;
-        theme = "PlymouthTheme-Cat";
-        themePackages = let
-          inherit (pkgs.stdenv.hostPlatform) system;
-        in [self.packages.${system}.plymouth-theme-cat];
-      };
-    };
-    potato = {imports = [self.nixosModules.boot];};
-    sebastiao = {lib, ...}: {
+    lanzaboote = {lib, ...}: {
       imports = [
         self.nixosModules.boot
         inputs.lanzaboote.nixosModules.lanzaboote
@@ -68,6 +55,34 @@
         };
       };
     };
+    claudius.imports = [self.nixosModules.boot];
+    napoleon = {
+      pkgs,
+      lib,
+      ...
+    }: {
+      imports = [self.nixosModules.lanzaboote];
+      boot.plymouth = {
+        theme = "colorful_loop";
+        themePackages = lib.mkDefault (with pkgs; [
+          (adi1090x-plymouth-themes.override {
+            selected_themes = ["colorful_loop"];
+          })
+        ]);
+      };
+    };
+    panza = {pkgs, ...}: {
+      imports = [self.nixosModules.boot];
+      boot.plymouth = {
+        enable = true;
+        theme = "PlymouthTheme-Cat";
+        themePackages = let
+          inherit (pkgs.stdenv.hostPlatform) system;
+        in [self.packages.${system}.plymouth-theme-cat];
+      };
+    };
+    potato.imports = [self.nixosModules.boot];
+    sebastiao.imports = [self.nixosModules.lanzaboote];
   };
   perSystem = {
     pkgs,

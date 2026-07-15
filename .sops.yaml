@@ -42,3 +42,12 @@ creation_rules:
         - *panza
         - *potato
         - *sebastiao
+  - path_regex: ^modules/users/kerry/secrets/hashed-password$
+    key_groups:
+      - age:
+        - *kerry_master
+        - *claudius
+        - *napoleon
+        - *panza
+        - *potato
+        - *sebastiao

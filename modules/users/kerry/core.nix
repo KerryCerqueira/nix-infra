@@ -1,10 +1,17 @@
 {...}: {
   flake = {
-    nixosModules.kerry = {
+    nixosModules.kerry = {config, ...}: {
       users.users.kerry = {
         isNormalUser = true;
         description = "Kerry Cerqueira";
         extraGroups = ["networkmanager" "wheel"];
+        hashedPasswordFile =
+          config.sops.secrets."hashedPasswords/kerry".path;
+      };
+      sops.secrets."hashedPasswords/kerry" = {
+        sopsFile = ./secrets/hashed-password;
+        format = "binary";
+        neededForUsers = true;
       };
     };
     homeModules = {

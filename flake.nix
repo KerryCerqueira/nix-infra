@@ -19,6 +19,10 @@
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    jovian = {
+      url = "github:Jovian-Experiments/Jovian-NixOS";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
@@ -43,7 +47,11 @@
     };
   };
 
-  outputs = {self, flake-parts, ...} @ inputs:
+  outputs = {
+    self,
+    flake-parts,
+    ...
+  } @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} (
       {...}: {
         imports = [

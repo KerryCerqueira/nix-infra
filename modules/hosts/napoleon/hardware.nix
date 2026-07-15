@@ -18,12 +18,18 @@
       ];
     };
     services = {
-      xserver.videoDrivers = ["amdgpu"];
+      fwupd.enable = true;
       pipewire = {
         enable = true;
         alsa.enable = true;
         alsa.support32Bit = true;
         pulse.enable = true;
+      };
+      xserver = {
+        enable = true;
+        xkb.layout = "us";
+        xkb.variant = "";
+        videoDrivers = ["amdgpu"];
       };
     };
     hardware = {

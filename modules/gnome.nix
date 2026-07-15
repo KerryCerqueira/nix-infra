@@ -1,16 +1,15 @@
 {self, ...}: {
   flake.nixosModules = {
-    gnome = {pkgs, ...}: {
+    gnome = {pkgs, lib, ...}: {
       powerManagement.enable = true;
       services = {
         desktopManager.gnome.enable = true;
-        displayManager.gdm.enable = true;
+        displayManager.gdm.enable = lib.mkDefault true;
         xserver.excludePackages = [pkgs.xterm];
         udev.packages = with pkgs; [gnome-settings-daemon];
       };
       environment = {
         gnome.excludePackages = with pkgs; [
-          orca
           geary
           gnome-tour
           gnome-music
