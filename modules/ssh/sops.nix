@@ -2,7 +2,6 @@
   flake.nixosModules =
     lib.genAttrs [
       "claudius"
-      "napoleon"
       "panza"
       "potato"
       "sebastiao"
@@ -18,7 +17,6 @@
   flake.homeModules =
     lib.genAttrs [
       "kerry@claudius"
-      "kerry@napoleon"
       "kerry@panza"
       "kerry@potato"
       "kerry@sebastiao"

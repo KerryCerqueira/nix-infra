@@ -1,6 +1,10 @@
-{self, inputs, ...}: {
+{
+  self,
+  inputs,
+  ...
+}: {
   flake.nixosModules.napoleon = {
-    config, 
+    config,
     pkgs,
     lib,
     ...
@@ -25,8 +29,16 @@
       isNormalUser = true;
       uid = self.lib.constants.uids.steam;
       description = "Living room gaming user";
+      extraGroups = ["networkmanager" "wheel"];
       hashedPasswordFile = config.sops.secrets."hashedPasswords/steam".path;
+      packages = with pkgs; [
+        discord
+        slack
+        vlc
+        spotify
+      ];
     };
+    programs.firefox.enable = true;
     sops.secrets."hashedPasswords/steam".neededForUsers = true;
   };
 }
