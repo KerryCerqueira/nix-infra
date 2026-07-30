@@ -10,7 +10,7 @@
         "sebastiao"
       ] (host: {config, ...}: {
         sops.secrets."mcp/browser-control" = {
-          sopsFile = ./secrets + "${host}/browser-control.key";
+          sopsFile = ./secrets + "/${host}/browser-control.key";
           format = "binary";
           owner = "kerry";
           mode = "0400";
