@@ -1,10 +1,7 @@
 {
   description = "Kerry Cerqueira's NixOS system configurations.";
   inputs = {
-    claude-desktop = {
-      url = "github:patrickjaja/claude-desktop-bin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    claude-desktop.url = "github:patrickjaja/claude-desktop-bin";
     disko = {
       url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +22,7 @@
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-neovim.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
     pyproject-nix = {
       url = "github:pyproject-nix/pyproject.nix";
@@ -46,7 +44,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-
   outputs = {
     self,
     flake-parts,

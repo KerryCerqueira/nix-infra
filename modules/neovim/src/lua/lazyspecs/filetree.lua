@@ -1,7 +1,7 @@
 ---@type LazySpec
 return {
 	{
-		"A7Lavinraj/fyler.nvim",
+		"FylerOrg/fyler.nvim",
 		dependencies = {
 			"echasnovski/mini.icons",
 		},
@@ -12,47 +12,44 @@ return {
 				"<leader>-",
 				function()
 					local root = vim.fs.root(0, { ".git", "flake.nix", ".luarc.json" }) or vim.fn.getcwd()
-					require("fyler").toggle({ dir = root, kind = "float" })
+					require("fyler").toggle({ root_path = root, kind = "floating" })
 				end,
 				desc = "Explorer Fyler (project root)",
 			},
 		},
 		opts = {
-			views = {
-				finder = {
-					close_on_select = true,
-					default_explorer = true,
-					follow_current_file = true,
-					git_status = {
-						enabled = true,
-					},
-					indentscope = {
-						enabled = true,
-						marker = "│",
-					},
-					mappings = {
-						["q"] = "CloseView",
-						["<CR>"] = "Select",
-						["t"] = "SelectTab",
-						["s"] = "SelectVSplit",
-						["S"] = "SelectSplit",
-						["-"] = "GotoParent",
-						["C"] = "CollapseNode",
-						["z"] = "CollapseAll",
-						["="] = "GotoCwd",
-						["."] = "GotoNode",
-					},
-					win = {
-						kind = "float",
-						kinds = {
-							float = {
-								height = "80%",
-								width = "85%",
-								top = "7%",
-								left = "7.5%",
-							},
-						},
-					},
+			kind = "floating",
+			use_as_default_explorer = true,
+			follow_current_file = true,
+			follow_root_dir = false,
+			integrations = {
+				icon = "mini_icons",
+			},
+			extensions = {
+				git = { enabled = true },
+			},
+			ui = {
+				indent_guides = true,
+			},
+			kind_presets = {
+				floating = {
+					height = "80%",
+					width = "85%",
+					col = "center",
+					row = "center",
+				},
+			},
+			mappings = {
+				n = {
+					["q"] = { action = "close" },
+					["<CR>"] = { action = "select", args = { close = true, pick = false } },
+					["t"] = { action = "select", args = { tabedit = true, close = true } },
+					["s"] = { action = "select", args = { vsplit = true, close = true } },
+					["S"] = { action = "select", args = { split = true, close = true } },
+					["-"] = { action = "visit", args = { parent = true } },
+					["C"] = { action = "shrink" },
+					["="] = { action = "visit" },
+					["."] = { action = "visit", args = { cursor = true } },
 				},
 			},
 		},

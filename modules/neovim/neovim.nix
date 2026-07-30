@@ -5,17 +5,14 @@
 }: {
   flake = {
     nixosModules = {
-      neovim = {pkgs, ...}: {
-        imports = [
-          (inputs.nix-wrapper-modules.lib.mkInstallModule {
-            loc = ["environment" "systemPackages"];
-            name = "neovim";
-            value = self.wrapperModules.neovim;
-          })
-        ];
-        wrappers.neovim = {
-          enable = true;
-        };
+      neovim = {
+        pkgs,
+        lib,
+        ...
+      }: {
+        environment.systemPackages = let
+          system = pkgs.stdenv.hostPlatform.system;
+        in [self.packages.${system}.neovim];
         environment.variables = {
           EDITOR = "nvim";
           VISUAL = "nvim";
@@ -26,24 +23,29 @@
       potato = {imports = [self.nixosModules.neovim];};
     };
     homeModules = {
-      neovim = {pkgs, ...}: {
-        imports = [
-          (inputs.nix-wrapper-modules.lib.mkInstallModule {
-            loc = ["home" "packages"];
-            name = "neovim";
-            value = self.wrapperModules.neovim;
-          })
-        ];
-        wrappers.neovim = {
-          enable = true;
-          settings.block_normal_config = false;
-        };
+      neovim = {
+        pkgs,
+        lib,
+        ...
+      }: {
+        home.packages = let
+          system = pkgs.stdenv.hostPlatform.system;
+        in [self.packages.${system}.neovim];
         home.sessionVariables = {
           EDITOR = "nvim";
           VISUAL = "nvim";
         };
       };
       kerry = {imports = [self.homeModules.neovim];};
+    };
+  };
+  perSystem = {system, ...}: {
+    wrappers.packages.neovim = true;
+    packages.neovim = self.wrappers.neovim.wrap {
+      pkgs = import inputs.nixpkgs-neovim {
+        inherit system;
+        config.allowUnfree = true;
+      };
     };
   };
 }

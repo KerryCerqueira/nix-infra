@@ -225,7 +225,7 @@ return {
 			---@diagnostic disable: missing-fields
 			{
 				"default-title",
-				ui_select = true,
+				ui_select = {},
         actions = {
 					files = {
 						["enter"] = require("fzf-lua").actions.file_edit_or_qf,

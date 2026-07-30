@@ -67,11 +67,7 @@
       };
   in {
     config = lib.mkIf config.aspects.lang.mdlangs.enable {
-      runtimePkgs = with pkgs; [
-        python312Packages.jupytext
-        quarto
-        prettier
-      ];
+      runtimePkgs = with pkgs; [prettier];
       lazy = {
         plugins = {
           conform-nvim = {
