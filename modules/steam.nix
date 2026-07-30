@@ -11,14 +11,7 @@
           ];
         };
       };
-      environment = {
-        systemPackages = with pkgs; [
-          mangohud
-        ];
-        variables = {
-          STEAM_FORCE_DESKTOPUI_SCALING = "2";
-        };
-      };
+      environment.systemPackages = with pkgs; [mangohud];
     };
     claudius = {imports = [self.nixosModules.steam];};
     napoleon = {imports = [self.nixosModules.steam];};
