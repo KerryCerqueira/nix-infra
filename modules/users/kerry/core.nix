@@ -22,8 +22,6 @@
           chromium.enable = true;
         };
         home = {
-          username = "kerry";
-          homeDirectory = "/home/kerry";
           packages = with pkgs; [
             claude-code
             obsidian

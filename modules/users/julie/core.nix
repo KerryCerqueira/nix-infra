@@ -7,8 +7,6 @@
       thunderbird.enable = true;
     };
     home = {
-      username = "julie";
-      homeDirectory = "/home/julie";
       packages = with pkgs; [
         discord
         zoom-us
