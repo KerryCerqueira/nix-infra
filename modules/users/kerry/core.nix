@@ -21,23 +21,21 @@
           thunderbird.enable = true;
           chromium.enable = true;
         };
-        home = {
-          packages = with pkgs; [
-            claude-code
-            obsidian
-            inkscape-with-extensions
-            ipe
-            gimp
-            discord
-            slack
-            zoom-us
-            teams-for-linux
-            rnote
-            vlc
-            spotify
-            karere
-          ];
-        };
+        home.packages = with pkgs; [
+          claude-code
+          obsidian
+          inkscape-with-extensions
+          ipe
+          gimp
+          discord
+          slack
+          zoom-us
+          teams-for-linux
+          rnote
+          vlc
+          spotify
+          karere
+        ];
       };
     };
   };
