@@ -84,6 +84,7 @@
         ];
       };
       jovianUser.imports = [self.homeModules.emulation];
+      "kerry@claudius".imports = [self.homeModules.emulation];
     };
     nixosModules.napoleon = {...}: let
       romsPath = "/steam/bulk/emulation-roms";
