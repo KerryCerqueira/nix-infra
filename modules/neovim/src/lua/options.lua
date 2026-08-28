@@ -2,6 +2,9 @@ return {
 	setup = function()
 		vim.g.mapleader = " "
 		vim.g.maplocalleader = ","
+		vim.opt.tabstop = 2
+		vim.opt.expandtab = true
+		vim.opt.shiftwidth = 2
 		vim.opt.number = true
 		vim.opt.mouse = "a"
 		vim.opt.showmode = false
@@ -21,7 +24,7 @@ return {
 		vim.opt.listchars = "tab:> ,trail:·,extends:…,precedes:…,nbsp:␣"
 		vim.opt.pumblend = 10
 		vim.opt.pumheight = 10
-    vim.opt.winborder = "rounded"
+		vim.opt.winborder = "rounded"
 		-- vim.lsp.enable({
 		-- 	"bashls",
 		-- 	"fish_lsp",

@@ -28,7 +28,6 @@ return {
 		opts = {
 			formatters_by_ft = {
 				json = { "prettier" },
-				toml = { "prettier" },
 				yaml = { "prettier" },
 			},
 		},

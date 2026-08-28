@@ -25,11 +25,14 @@ return {
 			},
 		},
 		opts = {
+			default_format_opts = {
+				lsp_format = "fallback",
+			},
 			formatters = {
 				prettier = {
 					prepend_args = {
-						"--print-width 72",
-						"--prose-wrap always",
+						"--print-width=72",
+						"--prose-wrap=always",
 					},
 				},
 			},
