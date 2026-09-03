@@ -1,8 +1,8 @@
 ---@type vim.lsp.Config
 return {
-	cmd = { 'ruff', 'server' },
-	filetypes = { 'python' },
-	root_markers = { 'pyproject.toml', 'ruff.toml', '.ruff.toml', '.git' },
+	cmd = { "ruff", "server" },
+	filetypes = { "python" },
+	root_markers = { "pyproject.toml", "ruff.toml", ".ruff.toml", ".git" },
 	keys = {
 		{
 			"<localleader>co",
@@ -18,10 +18,12 @@ return {
 			desc = "Organize Imports",
 		},
 	},
-	settings = {
-		lineLength = 79,
-		format = {
-			docstringCodeFormat = true,
+	init_options = {
+		settings = {
+			lineLength = 79,
+			format = {
+				docstringCodeFormat = true,
+			},
 		},
 	},
 }
