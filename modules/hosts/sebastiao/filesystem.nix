@@ -1,6 +1,12 @@
 {inputs, ...}: {
-  flake.nixosModules.sebastiao = {...}: {
+  flake.nixosModules.sebastiao = {config, ...}: {
     imports = [inputs.disko.nixosModules.disko];
+    assertions = [
+      {
+        assertion = config.boot.initrd.systemd.enable;
+        message = "sebastiao: TPM2 crypttab options require systemd stage-1 (boot.initrd.systemd.enable = true)";
+      }
+    ];
     boot = {
       initrd.luks.devices = {
         cryptroot.crypttabExtraOpts = [

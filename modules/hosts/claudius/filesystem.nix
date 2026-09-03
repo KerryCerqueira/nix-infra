@@ -1,29 +1,86 @@
-{
-  flake.nixosModules.claudius = {...}: {
-    services.fstrim.enable = true;
+{inputs, ...}: {
+  flake.nixosModules.claudius = {config, ...}: {
+    imports = [inputs.disko.nixosModules.disko];
+    assertions = [
+      {
+        assertion = config.boot.initrd.systemd.enable;
+        message = "claudius: TPM2 crypttab options require systemd stage-1 (boot.initrd.systemd.enable = true)";
+      }
+    ];
     boot = {
-      resumeDevice = "/dev/disk/by-uuid/5f2d7fc1-10ad-4be8-9f19-5f59426267b7";
+      initrd.luks.devices = {
+        cryptroot.crypttabExtraOpts = [
+          "tpm2-device=auto"
+          "tpm2-measure-pcr=yes"
+        ];
+        cryptswap.crypttabExtraOpts = [
+          "tpm2-device=auto"
+          "tpm2-measure-pcr=yes"
+        ];
+      };
       zswap.enable = true;
     };
-    fileSystems."/" = {
-      device = "/dev/disk/by-uuid/d0057b39-6872-46bf-80dd-9bef299c34d2";
-      fsType = "ext4";
+    disko.devices.disk.claudius-nvme = {
+      type = "disk";
+      device = "/dev/disk/by-id/nvme-SAMSUNG_MZVKW512HMJP-000L7_S35BNX0K301733";
+      content = {
+        type = "gpt";
+        partitions = {
+          ESP = {
+            priority = 1;
+            size = "1G";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = ["umask=0077"];
+            };
+          };
+          swap = {
+            size = "63032M";
+            content = {
+              type = "luks";
+              name = "cryptswap";
+              settings.allowDiscards = false;
+              content = {
+                type = "swap";
+                resumeDevice = true;
+              };
+            };
+          };
+          root = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "cryptroot";
+              settings.allowDiscards = true;
+              content = {
+                type = "btrfs";
+                extraArgs = ["-f"];
+                subvolumes = {
+                  "@" = {
+                    mountpoint = "/";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  "@nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  "@var" = {
+                    mountpoint = "/var";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  "@home" = {
+                    mountpoint = "/home";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
     };
-    fileSystems."/boot" = {
-      device = "/dev/disk/by-uuid/E0C6-AD7A";
-      fsType = "vfat";
-      options = ["fmask=0077" "dmask=0077"];
-    };
-    fileSystems."/home" = {
-      device = "/dev/disk/by-uuid/095b8da7-50ab-4734-92bc-6d12cb050262";
-      fsType = "ext4";
-    };
-    fileSystems."/nix/store" = {
-      device = "/dev/disk/by-uuid/7019e775-36b6-4d8a-8fcf-cfb1febc0fc5";
-      fsType = "ext4";
-    };
-    swapDevices = [
-      {device = "/dev/disk/by-uuid/5f2d7fc1-10ad-4be8-9f19-5f59426267b7";}
-    ];
   };
 }

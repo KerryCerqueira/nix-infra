@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  flake.nixosModules.claudius = {...}: {
+  flake.nixosModules.claudius-core = {...}: {
     imports = [
       inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t14-amd-gen2
     ];

@@ -10,13 +10,10 @@
       ...
     }: {
       i18n.defaultLocale = "en_CA.UTF-8";
-      services = {
-        xserver = {
-          enable = true;
-          xkb.layout = "us";
-          xkb.variant = "";
-        };
-        printing.enable = true;
+      services.xserver = {
+        enable = true;
+        xkb.layout = "us";
+        xkb.variant = "";
       };
       nixpkgs.config.allowUnfree = true;
       system.stateVersion = "25.11";

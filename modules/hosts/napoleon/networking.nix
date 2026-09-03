@@ -4,14 +4,11 @@
     lib,
     ...
   }: {
-    networking = {
-      hostName = "napoleon";
-      networkmanager = {
-        enable = true;
-        plugins = with pkgs; [
-          networkmanager-openconnect
-        ];
-      };
+    networking.networkmanager = {
+      enable = true;
+      plugins = with pkgs; [
+        networkmanager-openconnect
+      ];
     };
   };
 }

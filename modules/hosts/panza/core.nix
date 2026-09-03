@@ -5,14 +5,12 @@
 }: {
   flake = {
     nixosModules.panza = {
+      networking.hostName = "panza";
       nixpkgs.config.allowUnfree = true;
-      services = {
-        xserver = {
-          enable = true;
-          xkb.layout = "us";
-          xkb.variant = "";
-        };
-        printing.enable = true;
+      services.xserver = {
+        enable = true;
+        xkb.layout = "us";
+        xkb.variant = "";
       };
       system.stateVersion = "23.11";
       time.timeZone = "America/Toronto";

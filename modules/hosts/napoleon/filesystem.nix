@@ -1,6 +1,16 @@
 {inputs, ...}: {
-  flake.nixosModules.napoleon = {lib, ...}: {
+  flake.nixosModules.napoleon = {
+    lib,
+    config,
+    ...
+  }: {
     imports = [inputs.disko.nixosModules.disko];
+    assertions = [
+      {
+        assertion = config.boot.initrd.systemd.enable;
+        message = "napoleon: TPM2 crypttab options require systemd stage-1 (boot.initrd.systemd.enable = true)";
+      }
+    ];
     boot = {
       initrd.luks.devices = {
         cryptroot.crypttabExtraOpts = [

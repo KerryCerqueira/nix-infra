@@ -5,7 +5,6 @@
     ...
   }: {
     networking = {
-      hostName = "claudius";
       networkmanager = {
         enable = true;
         plugins = with pkgs; [

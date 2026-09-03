@@ -5,6 +5,7 @@
 }: {
   flake = {
     nixosModules.napoleon = {config, ...}: {
+      networking.hostName = "napoleon";
       system.stateVersion = "25.11";
       i18n.defaultLocale = "en_CA.UTF-8";
     };

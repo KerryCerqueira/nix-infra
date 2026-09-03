@@ -1,4 +1,5 @@
 # Notes on Deployment
+
 ## Key Generation
 
 Each host needs a host ssh key to establish its cryptographic identity to
@@ -78,6 +79,7 @@ Add each of these to the appropriate user secrets file.
 ## Building the System
 
 ### Traditional `filesystems` options
+
 When booting into the liveUSB environment to deploy a new host, you'll first need
 to format (e.g. with `gparted`) and mount the filesystem as it will be structured
 in the final deployment. As a reminder, use
@@ -103,7 +105,8 @@ After mounting the volumes, copy the host ssh key to
 `/mnt/etc/ssh/ssh_host_ed25519_key` and make it only accessible by root:
 
 ```sh
-sudo chmod 0600 /etc/ssh/ssh_host_ed25519_key
+sudo chmod 600 /mnt/etc/ssh/ssh_host_ed25519_key
+sudo chmod 644 /mnt/etc/ssh/ssh_host_ed25519_key.pub
 ```
 
 Then you can install your system with
@@ -119,10 +122,11 @@ sudo nixos-install  \
 The formatting and mounting step simplifies to
 
 ```{sh}
-sudo nix \
+sudo \
   NIX_CONFIG="extra-experimental-features = pipe-operators nix-command flakes" \
-  run github:nix-community/disko/latest -- \
+  nix run github:nix-community/disko/latest -- \
   --mode destroy,format,mount \
+  --yes-wipe-all-disks
   --flake github:KerryCerqueira/nix-infra#<your-host>
 ```
 
@@ -136,8 +140,9 @@ this. Then deploy your SSH key and install as before.
 To have booted into a nixOS liveUSB, you would've had to disable secure boot. To
 make use of it again follow these steps.
 
-First, make sure secure boot is disabled and set a BIOS administrator password.
-This input should be present:
+First, make sure secure boot is in setup mode and set a BIOS administrator
+password. `sbctl status` should confirm this. This input should be present:
+
 ```{nix}
 lanzaboote = {
   url = "github:nix-community/lanzaboote";
@@ -157,13 +162,13 @@ boot = {
 };
 ```
 
-Next enrol your secure boot keys, invoke a system rebuild so
-lanzaboot can sign the boot chain, and verify that everything got signed:
+Next enroll your secure boot keys, invoke a system rebuild so lanzaboot can sign
+the boot chain, and verify that everything got signed:
 
 ```{sh}
 nix shell nixpkgs#sbctl
-sbctl create-keys
-sudo nixos-rebuild switch ./path/to/your-flake#your-host
+sudo sbctl create-keys
+sudo nixos-rebuild switch --flake ./path/to/your-flake#your-host
 sbctl verify
 ```
 
@@ -178,7 +183,8 @@ sudo sbctl enroll-keys --microsoft
 ```
 
 This may fail due to filesystem protections on the keys stored in the firmware,
-ex. `File is immutable: …/KEK-…`. In this event just brute force the issue by running this command against each path mentioned in the error:
+ex. `File is immutable: …/KEK-…`. In this event just brute force the issue by
+running this command against each path mentioned in the error:
 
 ```{sh}
 sudo nix shell nixpkgs#e2fsprogs --command chattr -i /path/to/key`
@@ -194,13 +200,14 @@ In the event that your system uses disk decryption and is equipped with a TPM, y
 may use it to automatically decrypt your disks upon a successful trusted boot.
 First, it may be a good idea to perform a firmware update with `fwupd` before this
 procedure as firmware changes disturb the secure boot chain. Due to the PCR level
-chosen, TPM enrolment must be done *after* enrolling secure boot keys:
+chosen, TPM enrolment must be done after Secure Boot is enabled in "deployed" mode
+(from the system BIOS) with the final DB contents, verified by `bootctl status`.
 
 ```{sh}
 sudo systemd-cryptenroll \
     --tpm2-device=auto \
     --tpm2-pcrs=7 \
-    /dev/disk/by-partlabel/your-disk
+    /dev/disk/by-partlabel/your-partition
 ```
 
 This will prompt you for the disk passphrase. Do this for every encrypted volume.
@@ -214,16 +221,15 @@ against encrypted volumes reseals the TPM:
 ```{sh}
 sudo systemd-cryptenroll \
     --wipe-slot=tpm2 \
-    /dev/disk/by-partlabel/your-disk
-sudo systemd-cryptenroll \
     --tpm2-device=auto \
     --tpm2-pcrs=7 \
     /dev/disk/by-partlabel/your-disk
 ```
 
 ## Non-declarative setup
+
 - Set gnome keyboard shortcuts, interface settings, and add google and
-microsoft accounts
+  microsoft accounts
 - Configure gnome extensions
 - Set keepassxc interface settings and initialize ssh-agent
 - Log into firefox sync, log browser into github, gmail, and outlook

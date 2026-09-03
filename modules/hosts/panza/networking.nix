@@ -1,8 +1,5 @@
 {
-  flake.nixosModules.panza = {lib, ...}: {
-    networking = {
-      hostName = "panza";
-      networkmanager.enable = true;
-    };
+  flake.nixosModules.panza = {
+    networking.networkmanager.enable = true;
   };
 }

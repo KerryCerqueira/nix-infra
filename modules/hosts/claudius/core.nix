@@ -1,41 +1,21 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+{self, ...}: {
   flake = {
-    nixosModules.claudius = {
-      config,
-      lib,
-      ...
-    }: {
-      imports = [
-        inputs.sops-nix.nixosModules.sops
-      ];
-      time.timeZone = "America/Toronto";
-      i18n.defaultLocale = "en_CA.UTF-8";
-      services = {
-        xserver = {
-          enable = true;
+    nixosModules = {
+      claudius-core = {
+        config,
+        lib,
+        ...
+      }: {
+        i18n.defaultLocale = "en_CA.UTF-8";
+        networking.hostName = "claudius";
+        services.xserver = {
           xkb.layout = "us";
           xkb.variant = "";
         };
-        printing.enable = true;
+        nixpkgs.config.allowUnfree = true;
       };
-      nixpkgs.config.allowUnfree = true;
-      system.stateVersion = "24.11";
-    };
-    nixosConfigurations.claudius = inputs.nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = with self.nixosModules; [
-        claudius
-      ];
-    };
-    homeModules = {
-      claudius = {
-        home.stateVersion = "24.11";
-      };
-      "kerry@claudius" = {imports = [self.homeModules.claudius];};
+      claudius.imports = [self.nixosModules.claudius-core];
+      claudius-installer.imports = [self.nixosModules.claudius-core];
     };
   };
 }
