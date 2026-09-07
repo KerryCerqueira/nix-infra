@@ -9,7 +9,6 @@
       ];
       kernelModules = ["kvm-intel"];
       kernelParams = ["i915.enable_psr=0"];
-      zswap.enable = true;
     };
     powerManagement.enable = true;
     security.rtkit.enable = true;
