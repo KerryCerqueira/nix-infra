@@ -22,6 +22,7 @@
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixpkgs-neovim.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
     pyproject-nix = {
