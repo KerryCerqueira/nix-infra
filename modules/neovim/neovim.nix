@@ -18,9 +18,11 @@
           VISUAL = "nvim";
         };
       };
-      claudius = {imports = [self.nixosModules.neovim];};
-      panza = {imports = [self.nixosModules.neovim];};
-      potato = {imports = [self.nixosModules.neovim];};
+      claudius.imports = [self.nixosModules.neovim];
+      napoleon.imports = [self.nixosModules.neovim];
+      mushu.imports = [self.nixosModules.neovim];
+      panza.imports = [self.nixosModules.neovim];
+      potato.imports = [self.nixosModules.neovim];
     };
     homeModules = {
       neovim = {

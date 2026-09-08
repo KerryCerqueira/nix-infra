@@ -14,9 +14,11 @@
       };
     };
     claudius = {imports = [self.nixosModules.nix];};
-    napoleon = {imports = [self.nixosModules.nix];};
-    panza = {imports = [self.nixosModules.nix];};
-    potato = {imports = [self.nixosModules.nix];};
-    sebastiao = {imports = [self.nixosModules.nix];};
+    claudius.imports = [self.nixosModules.nix];
+    mushu.imports = [self.nixosModules.nix];
+    napoleon.imports = [self.nixosModules.nix];
+    panza.imports = [self.nixosModules.nix];
+    potato.imports = [self.nixosModules.nix];
+    sebastiao= {imports = [self.nixosModules.nix];};
   };
 }

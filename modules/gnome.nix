@@ -47,10 +47,11 @@
         networkmanager-openconnect
       ];
     };
-    claudius = {imports = [self.nixosModules.gnome];};
-    napoleon = {imports = [self.nixosModules.gnome];};
-    panza = {imports = [self.nixosModules.gnome];};
-    potato = {imports = [self.nixosModules.gnome];};
-    sebastiao = {imports = [self.nixosModules.gnome];};
+    claudius.imports = [self.nixosModules.gnome];
+    mushu.imports = [self.nixosModules.gnome];
+    napoleon.imports = [self.nixosModules.gnome];
+    panza.imports = [self.nixosModules.gnome];
+    potato.imports = [self.nixosModules.gnome];
+    sebastiao.imports = [self.nixosModules.gnome];
   };
 }

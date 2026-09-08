@@ -18,25 +18,19 @@ process by encrypting it in the system `secrets.yaml` and deploying it to
 `/home/<user>/.config/sops/age`. Make sure to make the user the owner of the
 keyfile for home-manager to pick it up when declaring `sops.secrets`.
 
-You'll then need to produce age targets from the ssh keys you used earlier to
-add them to the sops.yaml file, e.g.
+You'll then need to produce age targets and the new creation rule from the ssh
+keys you used earlier to add them to the sops.yaml file, e.g.
 
 ```{yaml}
 age_keys:
   # System-level secrets on <host>
-  - &host age1234abcd
-  # User's secrets on sigmund
-  - &user_host age5678efgh
+  - &<host> age1234abcd
 creation_rules:
-  - path_regex: ^nixos/hosts/<host>/_hardware/secrets.yaml$
+  - path_regex: (^|/)(<host>/secrets|secrets/<host>)(/.+|\.[^/]+)$
     key_groups:
       - age:
-        - *host
-  - path_regex: ^nixos/hosts/<host>/_home/<user>/secrets.yaml$
-    key_groups:
-      - age:
-        - *user_host
-        - *user_master
+        - *<host>
+        - *kerry_master
 ```
 
 To do that you can use `ssh-to-age`, available in nixpkgs, by e.g.
@@ -76,7 +70,19 @@ web interface. Here's a list of the ones I use:
 
 Add each of these to the appropriate user secrets file.
 
+In the event that sops secrets are decrypted by multiple host keys, you'll need to
+add your new host key as a key_group for that secret and then run
+
+```{sh}
+sops updatekeys <path-to-secret>
+```
+
 ## Building the System
+
+Please note that if your system configuration includes secure boot with
+lanzaboote, that option can not be specified during the first boot into the
+system before the secure boot keys have been enrolled. You must use an alternate
+bootloader for the first boot like systemd boot.
 
 ### Traditional `filesystems` options
 
@@ -131,9 +137,37 @@ sudo \
 ```
 
 If you specified disk encryption, this is when your encryption passwords will be
-specified. If you're encrypting multiple volumes and want them to unlocked by the
+entered. If you're encrypting multiple volumes and want them to unlocked by the
 same password challenge, setting the same password for each volume will enforce
 this. Then deploy your SSH key and install as before.
+
+### With a custom bootable ISO
+
+In the case that this flake defines a bootable ISO for your system, you can build
+it with a command like
+
+```{sh}
+nix build \
+    <flake URI>#nixosConfigurations.<host>-installer.config.system.build.isoImage
+```
+
+The recipe for such a configuration is that it should import a module like
+`${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix` and refrain from
+setting options that conflict with configuration needed for the live boot
+environment, like filesystem options. This is mainly an opportunity to ship a
+hardware compatible kernel to install from and as well as possibly the initial
+system closure (via `isoImage.storeContents`).
+
+With this in hand the installation becomes one step:
+
+```{sh}
+sudo disko-install \
+  --flake github:KerryCerqueira/nix-infra#claudius \
+  --write-efi-boot-entries
+```
+
+There's a baked in assumption here that your disko configuration identifies the
+disk devices by serial, which is the ongoing practice in this flake.
 
 ## Post Install Boot Hardening
 
