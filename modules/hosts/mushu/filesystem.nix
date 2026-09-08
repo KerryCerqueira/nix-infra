@@ -1,6 +1,6 @@
 {inputs, ...}: {
   flake.nixosModules.mushu = {config, ...}: {
-    imports = [inputs.disko.nixosModules.disko];
+    imports = [inputs.disko-stable.nixosModules.disko];
     assertions = [
       {
         assertion = config.boot.initrd.systemd.enable;

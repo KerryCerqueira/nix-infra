@@ -15,13 +15,13 @@
           neededForUsers = true;
         };
       };
-      mushu = {
-        imports = [self.nixosModules.kerry];
-        home-manager.users.kerry = self.homeModules."kerry@mushu";
-      };
       claudius = {
         imports = [self.nixosModules.kerry];
         home-manager.users.kerry = self.homeModules."kerry@claudius";
+      };
+      mushu = {
+        imports = [self.nixosModules.kerry];
+        home-manager.users.kerry = self.homeModules."kerry@mushu";
       };
       panza = {
         imports = [self.nixosModules.kerry];

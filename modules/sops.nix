@@ -1,13 +1,33 @@
 {
+  self,
   inputs,
   lib,
   ...
-}: {
-  flake.nixosModules.sops = lib.gebAttrs [
-    "claudius"
-    "napoleon"
-    "panza"
-    "potato"
-    "sebastiao"
-  ] (_: {config, ...}: {imports = [inputs.sops-nix.nixosModules.sops];});
+}: let
+  module = {sops.imports = [inputs.sops-nix.nixosModules.sops];};
+  module-stable = {sops-stable.imports = [inputs.sops-nix-stable.nixosModules.sops];};
+  deployments = (
+    lib.genAttrs
+    [
+      "claudius"
+      "mushu"
+      "napoleon"
+      "panza"
+      "potato"
+      "sebastiao"
+    ]
+    (_: {imports = [self.nixosModules.sops];})
+  );
+  deployments-stable = (
+    lib.genAttrs
+    ["mushu"]
+    (_: {imports = [self.nixosModules.sops-stable];})
+  );
+in {
+  flake.nixosModules = lib.mkMerge [
+    module
+    module-stable
+    deployments
+    deployments-stable
+  ];
 }

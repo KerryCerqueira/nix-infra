@@ -55,8 +55,21 @@
         };
       };
     };
+    lanzaboote-stable = {lib, ...}: {
+      imports = [
+        self.nixosModules.boot
+        inputs.lanzaboote-stable.nixosModules.lanzaboote
+      ];
+      boot = {
+        loader.systemd-boot.enable = lib.mkForce false;
+        lanzaboote = {
+          enable = true;
+          pkiBundle = "/var/lib/sbctl";
+        };
+      };
+    };
     claudius.imports = [self.nixosModules.boot];
-    mushu.imports = [self.nixosModules.lanzaboote];
+    mushu.imports = [self.nixosModules.lanzaboote-stable];
     napoleon = {
       pkgs,
       lib,

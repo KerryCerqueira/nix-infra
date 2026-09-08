@@ -15,8 +15,19 @@
         ];
       };
     };
+    home-manager-stable = {lib, ...}: {
+      imports = [inputs.home-manager-stable.nixosModules.home-manager];
+      home-manager = {
+        useGlobalPkgs = lib.mkDefault true;
+        useUserPackages = lib.mkDefault true;
+        backupFileExtension = lib.mkDefault "bak";
+        sharedModules = [
+          inputs.sops-nix.homeManagerModules.sops
+        ];
+      };
+    };
     claudius.imports = [self.nixosModules.home-manager];
-    mushu.imports = [self.nixosModules.home-manager];
+    mushu.imports = [self.nixosModules.home-manager-stable];
     napoleon.imports = [self.nixosModules.home-manager];
     panza.imports = [self.nixosModules.home-manager];
     potato.imports = [self.nixosModules.home-manager];

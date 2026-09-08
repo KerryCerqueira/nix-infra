@@ -13,6 +13,9 @@
     };
     homeModules = {
       mushu.home.stateVersion = stateVersion;
+      "erika@mushu".imports = [self.homeModules.mushu];
+      "julie@mushu".imports = [self.homeModules.mushu];
+      "kerry@mushu".imports = [self.homeModules.mushu];
     };
   };
 }
