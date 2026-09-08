@@ -8,6 +8,11 @@
             publicKey =
               builtins.readFile ./public-keys/claudius/root_ed25519.pub;
           };
+          mushu = {
+            hostNames = ["mushu"];
+            publicKey =
+              builtins.readFile ./public-keys/mushu/root_ed25519.pub;
+          };
           sebastiao = {
             hostNames = ["sebastiao"];
             publicKey =
