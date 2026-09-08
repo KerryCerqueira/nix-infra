@@ -13,7 +13,6 @@
         ];
       };
     };
-    claudius = {imports = [self.nixosModules.nix];};
     claudius.imports = [self.nixosModules.nix];
     mushu.imports = [self.nixosModules.nix];
     napoleon.imports = [self.nixosModules.nix];
