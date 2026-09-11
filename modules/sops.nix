@@ -10,7 +10,6 @@
     lib.genAttrs
     [
       "claudius"
-      "mushu"
       "napoleon"
       "panza"
       "potato"
@@ -20,7 +19,9 @@
   );
   deployments-stable = (
     lib.genAttrs
-    ["mushu"]
+    [
+      "mushu"
+    ]
     (_: {imports = [self.nixosModules.sops-stable];})
   );
 in {
