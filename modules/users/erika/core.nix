@@ -36,6 +36,7 @@
             vlc
             spotify
             karere
+            zotero
           ];
         };
       };
