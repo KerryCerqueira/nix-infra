@@ -158,12 +158,20 @@ environment, like filesystem options. This is mainly an opportunity to ship a
 hardware compatible kernel to install from and as well as possibly the initial
 system closure (via `isoImage.storeContents`).
 
-With this in hand the installation becomes one step:
+With this in hand you can install as before with disko but with the utilities on
+PATH. First, make sure the disko device IDs match this machine and format:
 
 ```{sh}
-sudo disko-install \
-  --flake github:KerryCerqueira/nix-infra#claudius \
-  --write-efi-boot-entries
+sudo disko
+  --mode destroy,format,mount \
+  --yes-wipe-all-disks
+  --flake github:KerryCerqueira/nix-infra#<your-host>
+```
+
+Then deploy the host SSH key as above. Finally install the system:
+
+```{sh}
+sudo nixos-install --flake "github:kerrycerqueira/nix-infra#<your-host>
 ```
 
 There's a baked in assumption here that your disko configuration identifies the
@@ -226,16 +234,19 @@ sudo nix shell nixpkgs#e2fsprogs --command chattr -i /path/to/key`
 
 Until the `sbctl` command above works. At this point `bootctl status` should
 report secure boot in user mode. Reboot into the BIOS, and switch secure boot into
-deployed mode. Verify that everything's working with another `bootctl status`.
+deployed mode unless your BIOS doesn't support switching from user mode to
+deployed mode with custom CA keys. Verify that everything's working with another
+`bootctl status`.
 
 ### Set up disk decryption via TPM
 
 In the event that your system uses disk decryption and is equipped with a TPM, you
 may use it to automatically decrypt your disks upon a successful trusted boot.
-First, it may be a good idea to perform a firmware update with `fwupd` before this
-procedure as firmware changes disturb the secure boot chain. Due to the PCR level
-chosen, TPM enrolment must be done after Secure Boot is enabled in "deployed" mode
-(from the system BIOS) with the final DB contents, verified by `bootctl status`.
+This must be done after secureboot keys are deployed. First, it may be a good idea
+to perform a firmware update with `fwupd` before this procedure as firmware
+changes disturb the secure boot chain. Due to the PCR level chosen, TPM enrolment
+must be done after Secure Boot is enabled in "deployed" mode (from the system
+BIOS) with the final DB contents, verified by `bootctl status`.
 
 ```{sh}
 sudo systemd-cryptenroll \
@@ -249,12 +260,14 @@ Verify with `sudo systemd-cryptenroll /dev/disk/by-partlabel/your-disk`.
 
 ### TMP/BIOS Resealing
 
-BIOS and firmware updates may invalidate the TPM measurement. This command run
-against encrypted volumes reseals the TPM:
+BIOS and firmware updates may invalidate the TPM measurement. Reseal the TPM as
+follows:
 
 ```{sh}
 sudo systemd-cryptenroll \
     --wipe-slot=tpm2 \
+    /dev/disk/by-partlabel/your-disk
+sudo systemd-cryptenroll \
     --tpm2-device=auto \
     --tpm2-pcrs=7 \
     /dev/disk/by-partlabel/your-disk
