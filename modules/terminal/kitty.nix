@@ -13,8 +13,8 @@
     programs.kitty = {
       enable = true;
       font = {
-        package = pkgs.iosevka;
-        name = "Iosevka";
+        package = pkgs.nerd-fonts.iosevka;
+        name = "Iosevka Nerd Font";
       };
       settings = {
         hide_window_decorations = true;
