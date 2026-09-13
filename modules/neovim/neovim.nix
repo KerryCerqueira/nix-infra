@@ -39,7 +39,7 @@
         };
       };
       kerry.imports = [self.homeModules.neovim];
-      jovianUser.imports = [self.homeModules.neovim];};
+      jovianUser.imports = [self.homeModules.neovim];
     };
     wrappers.neovim = {...}: {
       imports = [self.lib.wrapperModules.lazy-neovim];

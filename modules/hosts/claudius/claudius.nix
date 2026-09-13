@@ -3,7 +3,7 @@
   inputs,
   ...
 }: let
-  stateVersion = "24.11";
+  stateVersion = "26.05";
 in {
   flake = {
     nixosModules.claudius.system.stateVersion = stateVersion;
