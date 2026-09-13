@@ -4,7 +4,7 @@
     assertions = [
       {
         assertion = config.boot.initrd.systemd.enable;
-        message = "claudius: TPM2 crypttab options require systemd stage-1 (boot.initrd.systemd.enable = true)";
+        message = "mushu: TPM2 crypttab options require systemd stage-1 (boot.initrd.systemd.enable = true)";
       }
     ];
     boot = {
@@ -22,7 +22,7 @@
     };
     disko.devices.disk.mushu-nvme = {
       type = "disk";
-      device = "/dev/disk/by-id/nvme-UMIS_RPETJ1T24MMW1QDQ_SS1D71552X1RC5C209P9";
+      device = "/dev/disk/by-id/nvme-Skhynix_BC501_NVMe_128GB_SAK6422T11451B879X56";
       content = {
         type = "gpt";
         partitions = {

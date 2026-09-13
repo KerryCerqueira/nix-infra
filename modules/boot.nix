@@ -69,7 +69,7 @@
       };
     };
     claudius.imports = [self.nixosModules.boot];
-    mushu.imports = [self.nixosModules.lanzaboote-stable];
+    mushu.imports = [self.nixosModules.lanzaboote];
     napoleon = {
       pkgs,
       lib,
