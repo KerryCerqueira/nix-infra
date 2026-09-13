@@ -31,10 +31,9 @@
       ]
       (_: {imports = [self.nixosModules.nix];})
     );
-  in {
-    flake.nixosModules = lib.mkMerge [
+  in
+    lib.mkMerge [
       module
       deployments
     ];
-  };
 }
