@@ -9,11 +9,11 @@
         ];
         users.defaultUserShell = pkgs.zsh;
       };
-      claudius = {imports = [self.nixosModules.terminal];};
-      napoleon = {imports = [self.nixosModules.terminal];};
-      panza = {imports = [self.nixosModules.terminal];};
-      potato = {imports = [self.nixosModules.terminal];};
-      sebastiao = {imports = [self.nixosModules.terminal];};
+      claudius.imports = [self.nixosModules.terminal];
+      napoleon.imports = [self.nixosModules.terminal];
+      panza.imports = [self.nixosModules.terminal];
+      potato.imports = [self.nixosModules.terminal];
+      sebastiao.imports = [self.nixosModules.terminal];
     };
     homeModules.terminal = {pkgs, ...}: {
       imports = with self.homeModules; [
@@ -41,7 +41,8 @@
         yazi
       ];
     };
-    homeModules.kerry = {imports = [self.homeModules.terminal];};
-    homeModules.erika = {imports = [self.homeModules.terminal];};
+    homeModules.kerry.imports = [self.homeModules.terminal];
+    homeModules.erika.imports = [self.homeModules.terminal];
+    homeModules.jovianUser.imports = [self.homeModules.terminal];
   };
 }
