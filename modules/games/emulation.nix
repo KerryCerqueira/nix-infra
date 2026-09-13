@@ -89,7 +89,6 @@
     nixosModules.napoleon = {...}: let
       romsPath = "/steam/bulk/emulation-roms";
     in {
-      home-manager.users.steam = self.homeModules.jovianUser;
       fileSystems."/home/steam/.local/share/emulation/roms" = {
         device = romsPath;
         fsType = "none";
