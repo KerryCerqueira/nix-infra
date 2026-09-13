@@ -1,23 +1,40 @@
-{self, ...}: {
-  flake.nixosModules = {
-    nix = {lib, ...}: {
-      nix = {
-        gc = {
-          automatic = lib.mkDefault true;
-          dates = lib.mkDefault "weekly";
+{
+  self,
+  lib,
+  ...
+}: {
+  flake.nixosModules = let
+    module = {
+      nix = {lib, ...}: {
+        nix = {
+          gc = {
+            automatic = lib.mkDefault true;
+            dates = lib.mkDefault "weekly";
+          };
+          settings.experimental-features = [
+            "nix-command"
+            "flakes"
+            "pipe-operators"
+          ];
         };
-        settings.experimental-features = [
-          "nix-command"
-          "flakes"
-          "pipe-operators"
-        ];
       };
     };
-    claudius.imports = [self.nixosModules.nix];
-    mushu.imports = [self.nixosModules.nix];
-    napoleon.imports = [self.nixosModules.nix];
-    panza.imports = [self.nixosModules.nix];
-    potato.imports = [self.nixosModules.nix];
-    sebastiao= {imports = [self.nixosModules.nix];};
+    deployments = (
+      lib.genAttrs
+      [
+        "claudius-core"
+        "mushu-core"
+        "napoleon"
+        "panza"
+        "potato"
+        "sebastiao"
+      ]
+      (_: {imports = [self.nixosModules.nix];})
+    );
+  in {
+    flake.nixosModules = lib.mkMerge [
+      module
+      deployments
+    ];
   };
 }
