@@ -2,7 +2,7 @@ age_keys:
   # System-level secrets on various hosts
   - &panza age15c0a468t76uw2su43y4c7cmryjn3lt36r0p2fc5vmpmzm322aymq4ntcm6
   - &potato age1dmcrmq23arugj8h8zlr663v6hqfp58apj90ynarahl2w56jlfcdqfnsue4
-  - &claudius age16pjf7q48cjrzxgt53w5lyrld7k28rckqshj3nwpnfprgdfyhhg3sxcsl0a
+  - &claudius age1nu84h72e7vzs3htaf8m4jvz8maakc4lu4mnshgn0z25jzl2gma8smhkjgf
   - &mushu age1za5pmd85m97wzj3sj83qrv7zuh6n9en9zw42j7skqacwussvcgvqnma3u7
   - &napoleon age1ktg5a2hchfng6x96tj0chskvdyr99flu3u862kv9yege93cxfeksfy3pdd
   - &sebastiao age1vucd8rp4s96hx4jq23mmxy6j8s3pdjttdfpzes072aeyjs82tgdszhqey9
