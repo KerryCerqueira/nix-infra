@@ -211,7 +211,7 @@ the boot chain, and verify that everything got signed:
 nix shell nixpkgs#sbctl
 sudo sbctl create-keys
 sudo nixos-rebuild switch --flake ./path/to/your-flake#your-host
-sbctl verify
+sudo sbctl verify
 ```
 
 The bare `/boot/EFI/nixos/kernel-*.efi` showing unsigned is expected, but
