@@ -17,11 +17,11 @@
     });
   flake.homeModules =
     lib.genAttrs [
-      "kerry@claudius"
-      "kerry@mushu"
-      "kerry@panza"
-      "kerry@potato"
-      "kerry@sebastiao"
+      "kerry-claudius"
+      "kerry-mushu"
+      "kerry-panza"
+      "kerry-potato"
+      "kerry-sebastiao"
     ] (_: {
       config,
       osConfig,

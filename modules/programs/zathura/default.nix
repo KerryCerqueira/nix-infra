@@ -1,11 +1,7 @@
-{self, ...}: {
-  flake.homeModules = {
-    zathura = {...}: {
-      programs.zathura = {
-        enable = true;
-        extraConfig = builtins.readFile ./src/zathurarc;
-      };
-    };
-    kerry = {imports = [self.homeModules.zathura];};
+{
+  flake.homeModules.zathura.programs.zathura = {
+    enable = true;
+    extraConfig = builtins.readFile ./src/zathurarc;
   };
+  deployments.homeModules.zathura = ["kerry"];
 }

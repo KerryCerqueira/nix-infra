@@ -1,4 +1,4 @@
-{self, ...}: {
+{
   flake = {
     homeModules = {
       easyeffects = {pkgs, ...}: let
@@ -22,9 +22,6 @@
           "easyeffects/output/Perfect EQ.json".source = "${ee-presets}/Perfect EQ.json";
         };
       };
-      panza = {imports = [self.homeModules.easyeffects];};
-      claudius = {imports = [self.homeModules.easyeffects];};
-      sebastiao = {imports = [self.homeModules.easyeffects];};
     };
     nixosModules = {
       easyeffects = {
@@ -38,9 +35,18 @@
           config.services.desktopManager.gnome.enable
           [pkgs.gnomeExtensions.easyeffects-preset-selector];
       };
-      panza = {imports = [self.nixosModules.easyeffects];};
-      claudius = {imports = [self.nixosModules.easyeffects];};
-      sebastiao = {imports = [self.nixosModules.easyeffects];};
     };
+  };
+  deployments = {
+    homeModules.easyeffects = [
+      "claudius"
+      "panza"
+      "sebastiao"
+    ];
+    nixosModules.easyeffects = [
+      "claudius"
+      "panza"
+      "sebastiao"
+    ];
   };
 }

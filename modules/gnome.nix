@@ -1,6 +1,10 @@
-{self, ...}: {
+{
   flake.nixosModules = {
-    gnome = {pkgs, lib, ...}: {
+    gnome = {
+      pkgs,
+      lib,
+      ...
+    }: {
       powerManagement.enable = true;
       services = {
         desktopManager.gnome.enable = true;
@@ -47,11 +51,13 @@
         networkmanager-openconnect
       ];
     };
-    claudius.imports = [self.nixosModules.gnome];
-    mushu.imports = [self.nixosModules.gnome];
-    napoleon.imports = [self.nixosModules.gnome];
-    panza.imports = [self.nixosModules.gnome];
-    potato.imports = [self.nixosModules.gnome];
-    sebastiao.imports = [self.nixosModules.gnome];
   };
+  deployments.nixosModules.gnome = [
+    "claudius"
+    "mushu"
+    "napoleon"
+    "panza"
+    "potato"
+    "sebastiao"
+  ];
 }

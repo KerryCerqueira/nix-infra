@@ -2,7 +2,20 @@
   self,
   inputs,
   ...
-}: {
+}: let
+  lanzaboote-settings = {lib, ...}: {
+    imports = [
+      self.nixosModules.boot
+    ];
+    boot = {
+      loader.systemd-boot.enable = lib.mkForce false;
+      lanzaboote = {
+        enable = true;
+        pkiBundle = "/var/lib/sbctl";
+      };
+    };
+  };
+in {
   flake.nixosModules = {
     boot = {
       pkgs,
@@ -42,40 +55,19 @@
         initrd.verbose = false;
       };
     };
-    lanzaboote = {lib, ...}: {
-      imports = [
-        self.nixosModules.boot
-        inputs.lanzaboote.nixosModules.lanzaboote
-      ];
-      boot = {
-        loader.systemd-boot.enable = lib.mkForce false;
-        lanzaboote = {
-          enable = true;
-          pkiBundle = "/var/lib/sbctl";
-        };
-      };
-    };
-    lanzaboote-stable = {lib, ...}: {
-      imports = [
-        self.nixosModules.boot
-        inputs.lanzaboote-stable.nixosModules.lanzaboote
-      ];
-      boot = {
-        loader.systemd-boot.enable = lib.mkForce false;
-        lanzaboote = {
-          enable = true;
-          pkiBundle = "/var/lib/sbctl";
-        };
-      };
-    };
-    claudius.imports = [self.nixosModules.lanzaboote];
-    mushu.imports = [self.nixosModules.lanzaboote];
+    lanzaboote.imports = [
+      lanzaboote-settings
+      inputs.lanzaboote.nixosModules.lanzaboote
+    ];
+    lanzaboote-stable.imports = [
+      lanzaboote-settings
+      inputs.lanzaboote-stable.nixosModules.lanzaboote
+    ];
     napoleon = {
       pkgs,
       lib,
       ...
     }: {
-      imports = [self.nixosModules.lanzaboote];
       boot.plymouth = {
         theme = "colorful_loop";
         themePackages = lib.mkDefault (with pkgs; [
@@ -86,7 +78,6 @@
       };
     };
     panza = {pkgs, ...}: {
-      imports = [self.nixosModules.boot];
       boot.plymouth = {
         enable = true;
         theme = "PlymouthTheme-Cat";
@@ -95,8 +86,6 @@
         in [self.packages.${system}.plymouth-theme-cat];
       };
     };
-    potato.imports = [self.nixosModules.boot];
-    sebastiao.imports = [self.nixosModules.lanzaboote];
   };
   perSystem = {
     pkgs,
@@ -106,17 +95,14 @@
     packages.plymouth-theme-cat = pkgs.stdenvNoCC.mkDerivation {
       pname = "plymouth-theme-cat";
       version = "0-unstable-2025-01-09";
-
       src = pkgs.fetchFromGitHub {
         owner = "krishnan793";
         repo = "PlymouthTheme-Cat";
         rev = "9f9bbc0e6cb8677684d198eb1139d90aceff82e0";
         hash = "sha256-yNryZkjSDFYGTExCz6Dkoust749QK65JYoCIO2oN+Y4=";
       };
-
       dontConfigure = true;
       dontBuild = true;
-
       installPhase = ''
         runHook preInstall
 
@@ -128,7 +114,6 @@
 
         runHook postInstall
       '';
-
       meta = {
         description = "Cat animation Plymouth boot splash theme";
         homepage = "https://github.com/krishnan793/PlymouthTheme-Cat";
@@ -136,5 +121,17 @@
         platforms = lib.platforms.linux;
       };
     };
+  };
+  deployments.nixosModules = {
+    boot = [
+      "panza"
+      "potato"
+    ];
+    lanzaboote = [
+      "claudius"
+      "mushu"
+      "napoleon"
+      "sebastiao"
+    ];
   };
 }

@@ -13,7 +13,7 @@ in {
     };
     homeModules = {
       claudius.home.stateVersion = stateVersion;
-      "kerry@claudius".imports = [self.homeModules.claudius];
+      kerry-claudius.imports = [self.homeModules.claudius];
     };
   };
 }

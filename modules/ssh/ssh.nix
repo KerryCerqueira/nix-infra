@@ -1,60 +1,45 @@
-{self, ...}: {
+{lib, ...}: {
   flake = {
-    nixosModules = {
-      ssh = {...}: {
-        programs.ssh.knownHosts = {
-          claudius = {
-            hostNames = ["claudius"];
-            publicKey =
-              builtins.readFile ./public-keys/claudius/root_ed25519.pub;
-          };
-          mushu = {
-            hostNames = ["mushu"];
-            publicKey =
-              builtins.readFile ./public-keys/mushu/root_ed25519.pub;
-          };
-          sebastiao = {
-            hostNames = ["sebastiao"];
-            publicKey =
-              builtins.readFile ./public-keys/sebastiao/root_ed25519.pub;
-          };
-          napoleon = {
-            hostNames = ["napoleon"];
-            publicKey =
-              builtins.readFile ./public-keys/napoleon/root_ed25519.pub;
-          };
+    nixosModules.ssh.programs.ssh.knownHosts =
+      lib.genAttrs [
+        "claudius"
+        "mushu"
+        "sebastiao"
+        "napoleon"
+      ] (host: {
+        hostNames = host;
+        publicKey =
+          builtins.readFile (./public-keys + "/${host}/root_ed25519.pub");
+      });
+    homeModules.ssh.programs.ssh = {
+      enable = true;
+      enableDefaultConfig = false;
+      includes = ["~/.ssh/config.d/*.conf"];
+      settings = {
+        "*" = {
+          controlMaster = "auto";
+          controlPersist = "10m";
+          identitiesOnly = true;
+          serverAliveInterval = 15;
+          serverAliveCountMax = 3;
+          controlPath = "~/.ssh/master-%r@%n:%p";
+          addKeysToAgent = "yes";
+        };
+        "github" = {
+          hostname = "github.com";
+          user = "git";
         };
       };
-      claudius.imports = [self.nixosModules.ssh];
-      sebastiao.imports = [self.nixosModules.ssh];
-      panza.imports = [self.nixosModules.ssh];
-      potato.imports = [self.nixosModules.ssh];
-      napoleon.imports = [self.nixosModules.ssh];
     };
-    homeModules = {
-      ssh = {...}: {
-        programs.ssh = {
-          enable = true;
-          enableDefaultConfig = false;
-          includes = ["~/.ssh/config.d/*.conf"];
-          settings = {
-            "*" = {
-              controlMaster = "auto";
-              controlPersist = "10m";
-              identitiesOnly = true;
-              serverAliveInterval = 15;
-              serverAliveCountMax = 3;
-              controlPath = "~/.ssh/master-%r@%n:%p";
-              addKeysToAgent = "yes";
-            };
-            "github" = {
-              hostname = "github.com";
-              user = "git";
-            };
-          };
-        };
-      };
-      kerry.imports = [self.homeModules.ssh];
-    };
+  };
+  deployments = {
+    nixosModules.ssh = [
+      "claudius"
+      "sebastiao"
+      "panza"
+      "potato"
+      "napoleon"
+    ];
+    homeModules.ssh = ["kerry"];
   };
 }

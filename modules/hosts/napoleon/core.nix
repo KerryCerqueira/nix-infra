@@ -15,4 +15,5 @@
     };
     homeModules.napoleon.home.stateVersion = "25.11";
   };
+  deployments.homeModules.napoleon = ["jovianUser"];
 }

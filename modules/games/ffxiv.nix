@@ -29,6 +29,6 @@
       };
     };
     jovianUser.imports = [self.homeModules.ffxiv];
-    "kerry@claudius".imports = [self.homeModules.ffxiv];
+    kerry-claudius.imports = [self.homeModules.ffxiv];
   };
 }

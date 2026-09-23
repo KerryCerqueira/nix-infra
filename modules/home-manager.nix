@@ -1,55 +1,37 @@
-{
-  self,
-  inputs,
-  lib,
-  ...
-}: {
-  flake.nixosModules = let
-    home-manager-settings = {lib, ...}: {
-      home-manager = {
-        useGlobalPkgs = lib.mkDefault true;
-        useUserPackages = lib.mkDefault true;
-        backupFileExtension = lib.mkDefault "bak";
-        sharedModules = [
-          inputs.sops-nix.homeManagerModules.sops
-        ];
-      };
+{inputs, ...}: let
+  home-manager-settings = {lib, ...}: {
+    home-manager = {
+      useGlobalPkgs = lib.mkDefault true;
+      useUserPackages = lib.mkDefault true;
+      backupFileExtension = lib.mkDefault "bak";
+      sharedModules = [
+        inputs.sops-nix.homeManagerModules.sops
+      ];
     };
-    module = {
-      home-manager.imports = [
+  };
+in {
+  flake.nixosModules = {
+    home-manager = {
+      imports = [
         inputs.home-manager.nixosModules.home-manager
         home-manager-settings
       ];
     };
-    module-stable = {
-      home-manager-stable.imports = [
+    home-manager-stable = {
+      imports = [
         inputs.home-manager-stable.nixosModules.home-manager
         home-manager-settings
       ];
     };
-    deployments = (
-      lib.genAttrs
-      [
-        "claudius"
-        "napoleon"
-        "panza"
-        "potato"
-        "sebastiao"
-      ]
-      (_: {imports = [self.nixosModules.home-manager];})
-    );
-    deployments-stable = (
-      lib.genAttrs
-      [
-        "mushu"
-      ]
-      (_: {imports = [self.nixosModules.home-manager-stable];})
-    );
-  in
-    lib.mkMerge [
-      module
-      module-stable
-      deployments
-      deployments-stable
+  };
+  deployments.nixosModules = {
+    home-manager = [
+      "claudius"
+      "napoleon"
+      "panza"
+      "potato"
+      "sebastiao"
     ];
+    home-manager-stable = ["mushu"];
+  };
 }

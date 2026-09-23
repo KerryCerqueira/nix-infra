@@ -15,55 +15,49 @@
           neededForUsers = true;
         };
       };
-      claudius = {
-        imports = [self.nixosModules.kerry];
-        home-manager.users.kerry = self.homeModules."kerry@claudius";
-      };
-      mushu = {
-        imports = [self.nixosModules.kerry];
-        home-manager.users.kerry = self.homeModules."kerry@mushu";
-      };
-      panza = {
-        imports = [self.nixosModules.kerry];
-        home-manager.users.kerry = self.homeModules."kerry@panza";
-      };
-      potato = {
-        imports = [self.nixosModules.kerry];
-        home-manager.users.kerry = self.homeModules."kerry@potato";
-      };
-      sebastiao = {
-        imports = [self.nixosModules.kerry];
-        home-manager.users.kerry = self.homeModules."kerry@sebastiao";
-      };
+      claudius.home-manager.users.kerry = self.homeModules.kerry-claudius;
+      mushu.home-manager.users.kerry = self.homeModules.kerry-mushu;
+      panza.home-manager.users.kerry = self.homeModules.kerry-panza;
+      potato.home-manager.users.kerry = self.homeModules.kerry-potato;
+      sebastiao.home-manager.users.kerry = self.homeModules.kerry-sebastiao;
     };
-    homeModules = {
-      kerry = {pkgs, ...}: {
-        programs = {
-          home-manager.enable = true;
-          thunderbird.enable = true;
-          chromium.enable = true;
-        };
-        home.packages = with pkgs; [
-          claude-code
-          obsidian
-          inkscape-with-extensions
-          ipe
-          gimp
-          discord
-          slack
-          zoom-us
-          teams-for-linux
-          rnote
-          vlc
-          spotify
-          karere
-        ];
+    homeModules.kerry = {pkgs, ...}: {
+      programs = {
+        home-manager.enable = true;
+        thunderbird.enable = true;
+        chromium.enable = true;
       };
-      "kerry@claudius".imports = [self.homeModules.kerry];
-      "kerry@mushu".imports = [self.homeModules.kerry];
-      "kerry@panza".imports = [self.homeModules.kerry];
-      "kerry@potato".imports = [self.homeModules.kerry];
-      "kerry@sebastiao".imports = [self.homeModules.kerry];
+      home.packages = with pkgs; [
+        claude-code
+        obsidian
+        inkscape-with-extensions
+        ipe
+        gimp
+        discord
+        slack
+        zoom-us
+        teams-for-linux
+        rnote
+        vlc
+        spotify
+        karere
+      ];
     };
+  };
+  deployments = {
+    homeModules.kerry = [
+      "kerry-claudius"
+      "kerry-mushu"
+      "kerry-panza"
+      "kerry-potato"
+      "kerry-sebastiao"
+    ];
+    nixosModules.kerry = [
+      "claudius"
+      "mushu"
+      "panza"
+      "potato"
+      "sebastiao"
+    ];
   };
 }

@@ -22,11 +22,7 @@
       system = "x86_64-linux";
       modules = [self.nixosModules.sebastiao];
     };
-    homeModules = {
-      sebastiao = {
-        home.stateVersion = "25.11";
-      };
-      "kerry@sebastiao" = {imports = [self.homeModules.sebastiao];};
-    };
+    homeModules.sebastiao.home.stateVersion = "25.11";
   };
+  deployments.homeModules.sebastiao = ["kerry-sebastiao"];
 }

@@ -4,42 +4,31 @@
   ...
 }: {
   flake = {
-    nixosModules = {
-      neovim = {
-        pkgs,
-        lib,
-        ...
-      }: {
-        environment.systemPackages = let
-          system = pkgs.stdenv.hostPlatform.system;
-        in [self.packages.${system}.neovim];
-        environment.variables = {
-          EDITOR = "nvim";
-          VISUAL = "nvim";
-        };
+    nixosModules.neovim = {
+      pkgs,
+      lib,
+      ...
+    }: {
+      environment.systemPackages = let
+        system = pkgs.stdenv.hostPlatform.system;
+      in [self.packages.${system}.neovim];
+      environment.variables = {
+        EDITOR = "nvim";
+        VISUAL = "nvim";
       };
-      claudius.imports = [self.nixosModules.neovim];
-      napoleon.imports = [self.nixosModules.neovim];
-      mushu.imports = [self.nixosModules.neovim];
-      panza.imports = [self.nixosModules.neovim];
-      potato.imports = [self.nixosModules.neovim];
     };
-    homeModules = {
-      neovim = {
-        pkgs,
-        lib,
-        ...
-      }: {
-        home.packages = let
-          system = pkgs.stdenv.hostPlatform.system;
-        in [self.packages.${system}.neovim];
-        home.sessionVariables = {
-          EDITOR = "nvim";
-          VISUAL = "nvim";
-        };
+    homeModules.neovim = {
+      pkgs,
+      lib,
+      ...
+    }: {
+      home.packages = let
+        system = pkgs.stdenv.hostPlatform.system;
+      in [self.packages.${system}.neovim];
+      home.sessionVariables = {
+        EDITOR = "nvim";
+        VISUAL = "nvim";
       };
-      kerry.imports = [self.homeModules.neovim];
-      jovianUser.imports = [self.homeModules.neovim];
     };
     wrappers.neovim = {...}: {
       imports = [self.lib.wrapperModules.lazy-neovim];
@@ -75,5 +64,18 @@
         config.allowUnfree = true;
       };
     };
+  };
+  deployments = {
+    nixosModules.neovim = [
+      "claudius"
+      "napoleon"
+      "mushu"
+      "panza"
+      "potato"
+    ];
+    homeModules.neovim = [
+      "jovianUser"
+      "kerry"
+    ];
   };
 }

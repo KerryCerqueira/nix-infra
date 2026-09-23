@@ -1,13 +1,9 @@
-{self, ...}: {
+{
   flake = {
-    nixosModules = {
-      keychron = {
-        hardware.keyboard.qmk = {
-          enable = true;
-          keychronSupport = true;
-        };
-      };
-      napoleon = {imports = [self.nixosModules.keychron];};
+    nixosModules.keychron.hardware.keyboard.qmk = {
+      enable = true;
+      keychronSupport = true;
     };
   };
+  deployments.nixosModules.keychron = ["napoleon"];
 }

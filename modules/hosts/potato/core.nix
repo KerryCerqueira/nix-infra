@@ -4,11 +4,7 @@
   ...
 }: {
   flake = {
-    nixosModules.potato = {
-      config,
-      lib,
-      ...
-    }: {
+    nixosModules.potato = {lib, ...}: {
       system.stateVersion = "23.11";
       i18n.defaultLocale = "en_CA.UTF-8";
       nixpkgs.config.allowUnfree = true;
@@ -30,12 +26,10 @@
     nixosConfigurations.potato = inputs.nixpkgs.lib.nixosSystem {
       modules = [self.nixosModules.potato];
     };
-    homeModules = {
-      potato = {
-        home.stateVersion = "23.11";
-      };
-      "kerry@potato" = {imports = [self.homeModules.potato];};
-      "erika@potato" = {imports = [self.homeModules.potato];};
-    };
+    homeModules.potato.home.stateVersion = "23.11";
   };
+  deployments.homeModules.potato = [
+    "kerry-potato"
+    "erika-potato"
+  ];
 }
