@@ -8,6 +8,14 @@ age_keys:
   - &sebastiao age1vucd8rp4s96hx4jq23mmxy6j8s3pdjttdfpzes072aeyjs82tgdszhqey9
   # User master encryption keys
   - &kerry_master age1xvyp63kuszp4u0ke4lf84wstgt6td04v6w605twh3mwqaedv9u8sdm8g4j
+fleet: &fleet
+  - *kerry_master
+  - *claudius
+  - *mushu
+  - *napoleon
+  - *panza
+  - *potato
+  - *sebastiao
 creation_rules:
   - path_regex: (^|/)(napoleon/secrets|secrets/napoleon)(/.+|\.[^/]+)$
     key_groups:
@@ -50,11 +58,7 @@ creation_rules:
         - *sebastiao
   - path_regex: ^modules/users/kerry/secrets/hashed-password$
     key_groups:
-      - age:
-        - *kerry_master
-        - *claudius
-        - *mushu
-        - *napoleon
-        - *panza
-        - *potato
-        - *sebastiao
+      - age: *fleet
+  - path_regex: ^modules/networkmanager/networks/secrets/.+
+    key_groups:
+      - age: *fleet
