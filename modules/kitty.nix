@@ -10,6 +10,7 @@
           kitty
         ];
       };
+      programs.nautilus-open-any-terminal.terminal = "kitty";
       xdg.terminal-exec.settings.default = ["kitty.desktop"];
     };
     homeModules.kitty = {
