@@ -47,9 +47,6 @@
           package = pkgs.gnomeExtensions.gsconnect;
         };
       };
-      networking.networkmanager.plugins = with pkgs; [
-        networkmanager-openconnect
-      ];
     };
   };
   deployments.nixosModules.gnome = [
