@@ -53,7 +53,7 @@
       "kerry-sebastiao"
     ];
     nixosModules.kerry = [
-      "claudius"
+      "kerry-claudius"
       "mushu"
       "panza"
       "potato"
