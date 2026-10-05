@@ -11,18 +11,14 @@
   };
 in {
   flake.nixosModules = {
-    home-manager = {
-      imports = [
-        inputs.home-manager.nixosModules.home-manager
-        home-manager-settings
-      ];
-    };
-    home-manager-stable = {
-      imports = [
-        inputs.home-manager-stable.nixosModules.home-manager
-        home-manager-settings
-      ];
-    };
+    home-manager.imports = [
+      inputs.home-manager.nixosModules.home-manager
+      home-manager-settings
+    ];
+    home-manager-stable.imports = [
+      inputs.home-manager-stable.nixosModules.home-manager
+      home-manager-settings
+    ];
   };
   deployments.nixosModules = {
     home-manager = [

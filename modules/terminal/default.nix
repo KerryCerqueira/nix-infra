@@ -5,7 +5,6 @@
         imports = with self.nixosModules; [
           zsh
           fish
-          kitty
         ];
         users.defaultUserShell = pkgs.zsh;
       };
@@ -23,7 +22,6 @@
         eza
         fish
         gh
-        kitty
         moor
         oh-my-posh
         zsh
