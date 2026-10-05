@@ -5,13 +5,11 @@
         automatic = lib.mkDefault true;
         dates = lib.mkDefault "weekly";
       };
-      settings = {
-        experimental-features = [
-          "nix-command"
-          "flakes"
-          "pipe-operators"
-        ];
-      };
+      settings.experimental-features = [
+        "nix-command"
+        "flakes"
+        "pipe-operators"
+      ];
     };
   };
   deployments.nixosModules.nix = [

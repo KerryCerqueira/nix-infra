@@ -14,7 +14,13 @@
     };
   };
   deployments = {
-    nixosModules.xdg = ["claudius"];
-    homeModules.xdg = ["kerry-claudius"];
+    nixosModules.xdg = [
+      "claudius"
+      "sebastiao"
+    ];
+    homeModules.xdg = [
+      "kerry-claudius"
+      "kerry-sebastiao"
+    ];
   };
 }

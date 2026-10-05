@@ -78,5 +78,6 @@
         };
       };
     };
+    services.snapper.persistentTimer = true;
   };
 }
