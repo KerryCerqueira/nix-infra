@@ -1,7 +1,5 @@
 {
-  flake.nixosModules.panza.sops = {
-    defaultSopsFile = ./secrets.yaml;
-    defaultSopsFormat = "yaml";
-    age.keyFile = "/etc/age/panza.age";
+  flake.nixosModules.panza.sops = {lib,...}: {
+    age.keyFile = lib.mkForce "/etc/age/panza.age";
   };
 }

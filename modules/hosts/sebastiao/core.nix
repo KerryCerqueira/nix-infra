@@ -15,6 +15,7 @@
         xkb.layout = "us";
         xkb.variant = "";
       };
+      networking.hostName = "sebastiao";
       nixpkgs.config.allowUnfree = true;
       system.stateVersion = "25.11";
     };
