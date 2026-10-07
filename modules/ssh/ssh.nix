@@ -37,7 +37,6 @@
       "claudius"
       "sebastiao"
       "panza"
-      "potato"
       "napoleon"
     ];
     homeModules.ssh = ["kerry"];

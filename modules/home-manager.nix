@@ -25,7 +25,6 @@ in {
       "claudius"
       "napoleon"
       "panza"
-      "potato"
       "sebastiao"
     ];
     home-manager-stable = ["mushu"];

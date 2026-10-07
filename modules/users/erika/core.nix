@@ -8,7 +8,6 @@
       };
       mushu.home-manager.users.erika = self.homeModules.erika-mushu;
       panza.home-manager.users.erika = self.homeModules.erika-panza;
-      potato.home-manager.users.erika = self.homeModules.erika-potato;
     };
     homeModules.erika = {pkgs, ...}: {
       programs = {
@@ -31,12 +30,10 @@
     nixosModules.erika = [
       "mushu"
       "panza"
-      "potato"
     ];
     homeModules.erika = [
       "erika-mushu"
       "erika-panza"
-      "erika-potato"
     ];
   };
 }

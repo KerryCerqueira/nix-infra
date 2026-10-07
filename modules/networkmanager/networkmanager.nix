@@ -27,7 +27,6 @@
     "mushu"
     "napoleon"
     "panza"
-    "potato"
     "sebastiao"
   ];
 }

@@ -11,7 +11,6 @@
       claudius.imports = [self.nixosModules.terminal];
       napoleon.imports = [self.nixosModules.terminal];
       panza.imports = [self.nixosModules.terminal];
-      potato.imports = [self.nixosModules.terminal];
       sebastiao.imports = [self.nixosModules.terminal];
     };
     homeModules.terminal = {pkgs, ...}: {

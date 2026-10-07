@@ -46,7 +46,6 @@
       "mushu"
       "napoleon"
       "panza"
-      "potato"
       "sebastiao"
     ];
     homeModules.kitty = [

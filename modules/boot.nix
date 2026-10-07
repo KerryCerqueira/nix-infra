@@ -125,7 +125,6 @@ in {
   deployments.nixosModules = {
     boot = [
       "panza"
-      "potato"
     ];
     lanzaboote = [
       "claudius"

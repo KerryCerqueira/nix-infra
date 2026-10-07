@@ -4,7 +4,6 @@
       "claudius"
       "mushu"
       "panza"
-      "potato"
       "sebastiao"
     ] (host: {config, ...}: {
       sops.secrets."ssh/kerry_ed25519" = {
@@ -20,7 +19,6 @@
       "kerry-claudius"
       "kerry-mushu"
       "kerry-panza"
-      "kerry-potato"
       "kerry-sebastiao"
     ] (_: {
       config,

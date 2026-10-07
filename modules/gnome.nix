@@ -82,7 +82,6 @@
       "mushu"
       "napoleon"
       "panza"
-      "potato"
       "sebastiao"
     ];
     homeModules.gnome = ["kerry-claudius"];

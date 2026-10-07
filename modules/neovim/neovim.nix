@@ -71,7 +71,6 @@
       "napoleon"
       "mushu"
       "panza"
-      "potato"
     ];
     homeModules.neovim = [
       "jovianUser"
