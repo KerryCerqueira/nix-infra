@@ -14,6 +14,9 @@ in {
       sops-common
       inputs.sops-nix-stable.nixosModules.sops
     ];
+    panza.sops = {lib, ...}: {
+      age.keyFile = lib.mkForce "/etc/age/panza.age";
+    };
   };
   deployments.nixosModules = {
     sops = [
