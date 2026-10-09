@@ -61,12 +61,15 @@ in {
     boot = [
       "panza"
       "lanzaboote"
+      "lanzaboote-stable"
     ];
     lanzaboote = [
       "claudius"
-      "mushu"
       "napoleon"
       "sebastiao"
+    ];
+    lanzaboote-stable = [
+      "mushu"
     ];
   };
 }

@@ -15,6 +15,10 @@
       system.stateVersion = "23.11";
       time.timeZone = "America/Toronto";
       i18n.defaultLocale = "en_CA.UTF-8";
+      sops = {
+        defaultSopsFile = ./secrets.yaml;
+        defaultSopsFormat = "yaml";
+      };
     };
     nixosConfigurations.panza = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";

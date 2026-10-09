@@ -28,4 +28,5 @@
       };
     };
   };
+  deployments.nixosModules.jovian = ["napoleon"];
 }

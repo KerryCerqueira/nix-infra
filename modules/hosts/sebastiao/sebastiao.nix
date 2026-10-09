@@ -18,6 +18,10 @@
       networking.hostName = "sebastiao";
       nixpkgs.config.allowUnfree = true;
       system.stateVersion = "25.11";
+      sops = {
+        defaultSopsFile = ./secrets.yaml;
+        defaultSopsFormat = "yaml";
+      };
     };
     nixosConfigurations.sebastiao = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
