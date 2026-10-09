@@ -1,12 +1,5 @@
-{inputs, ...}: {
-  flake.nixosModules.claudius = {config, ...}: {
-    imports = [inputs.disko.nixosModules.disko];
-    assertions = [
-      {
-        assertion = config.boot.initrd.systemd.enable;
-        message = "claudius: TPM2 crypttab options require systemd stage-1 (boot.initrd.systemd.enable = true)";
-      }
-    ];
+{
+  flake.nixosModules.sebastiao = {config, ...}: {
     boot = {
       initrd.luks.devices = {
         cryptroot.crypttabExtraOpts = [
@@ -20,9 +13,9 @@
       };
       zswap.enable = true;
     };
-    disko.devices.disk.claudius-nvme = {
+    disko.devices.disk.sebastiao-nvme = {
       type = "disk";
-      device = "/dev/disk/by-id/nvme-SAMSUNG_MZVKW512HMJP-000L7_S35BNX0K301733";
+      device = "/dev/disk/by-id/nvme-UMIS_RPETJ1T24MMW1QDQ_SS1D71552X1RC5C209P9";
       content = {
         type = "gpt";
         partitions = {

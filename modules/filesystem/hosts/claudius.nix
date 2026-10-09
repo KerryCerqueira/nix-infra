@@ -1,12 +1,5 @@
-{inputs, ...}: {
-  flake.nixosModules.mushu = {config, ...}: {
-    imports = [inputs.disko-stable.nixosModules.disko];
-    assertions = [
-      {
-        assertion = config.boot.initrd.systemd.enable;
-        message = "mushu: TPM2 crypttab options require systemd stage-1 (boot.initrd.systemd.enable = true)";
-      }
-    ];
+{
+  flake.nixosModules.claudius = {config, ...}: {
     boot = {
       initrd.luks.devices = {
         cryptroot.crypttabExtraOpts = [
@@ -20,9 +13,9 @@
       };
       zswap.enable = true;
     };
-    disko.devices.disk.mushu-nvme = {
+    disko.devices.disk.claudius-nvme = {
       type = "disk";
-      device = "/dev/disk/by-id/nvme-Skhynix_BC501_NVMe_128GB_SAK6422T11451B879X56";
+      device = "/dev/disk/by-id/nvme-SAMSUNG_MZVKW512HMJP-000L7_S35BNX0K301733";
       content = {
         type = "gpt";
         partitions = {
@@ -71,10 +64,6 @@
                     mountpoint = "/var";
                     mountOptions = ["compress=zstd" "noatime"];
                   };
-                  "@home" = {
-                    mountpoint = "/home";
-                    mountOptions = ["compress=zstd" "noatime"];
-                  };
                 };
               };
             };
@@ -82,5 +71,6 @@
         };
       };
     };
+    services.snapper.persistentTimer = true;
   };
 }
