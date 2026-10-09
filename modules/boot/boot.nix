@@ -1,8 +1,4 @@
-{
-  self,
-  inputs,
-  ...
-}: let
+{inputs, ...}: let
   lanzaboote-settings = {lib, ...}: {
     boot = {
       loader.systemd-boot.enable = lib.mkForce false;
@@ -60,29 +56,6 @@ in {
       lanzaboote-settings
       inputs.lanzaboote-stable.nixosModules.lanzaboote
     ];
-    napoleon = {
-      pkgs,
-      lib,
-      ...
-    }: {
-      boot.plymouth = {
-        theme = "colorful_loop";
-        themePackages = lib.mkDefault (with pkgs; [
-          (adi1090x-plymouth-themes.override {
-            selected_themes = ["colorful_loop"];
-          })
-        ]);
-      };
-    };
-    panza = {pkgs, ...}: {
-      boot.plymouth = {
-        enable = true;
-        theme = "PlymouthTheme-Cat";
-        themePackages = let
-          inherit (pkgs.stdenv.hostPlatform) system;
-        in [self.packages.${system}.plymouth-theme-cat];
-      };
-    };
   };
   deployments.nixosModules = {
     boot = [
