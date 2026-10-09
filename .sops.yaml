@@ -56,7 +56,7 @@ creation_rules:
         - *panza
         - *potato
         - *sebastiao
-  - path_regex: ^modules/users/kerry/secrets/hashed-password$
+  - path_regex: ^modules/users/([^/]+)/secrets/hashed-password$
     key_groups:
       - age: *fleet
   - path_regex: ^modules/networkmanager/networks/secrets/.+
