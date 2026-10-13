@@ -10,7 +10,7 @@
       ];
     };
     mushu = {config, ...}: {
-      imports = [inputs.disko.nixosModules.disko-stable];
+      imports = [inputs.disko-stable.nixosModules.disko];
       assertions = [
         {
           assertion = config.boot.initrd.systemd.enable;
