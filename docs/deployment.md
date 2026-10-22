@@ -204,8 +204,9 @@ boot = {
 };
 ```
 
-Next enroll your secure boot keys, invoke a system rebuild so lanzaboot can sign
-the boot chain, and verify that everything got signed:
+Before deploying such a configuration, we need to enroll your secure boot keys,
+invoke a system rebuild so lanzaboot can sign the boot chain, and verify that
+everything got signed:
 
 ```{sh}
 nix shell nixpkgs#sbctl
