@@ -12,6 +12,7 @@
       pname,
       src,
       entrypoint ? pname,
+      python ? pkgs.python3,
     }: let
       workspace = uv2nix.lib.workspace.loadWorkspace {
         workspaceRoot = src;
@@ -21,7 +22,7 @@
       };
       pythonSet =
         (pkgs.callPackage inputs.pyproject-nix.build.packages {
-          python = pkgs.python3;
+          python = python;
         }).overrideScope (
           pkgs.lib.composeManyExtensions ([
               pyproject-build-systems.overlays.default

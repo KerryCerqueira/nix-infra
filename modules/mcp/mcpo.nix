@@ -14,6 +14,7 @@
         rev = "788ff92e5288a899a743a252edd5748f4ad4ab1f";
         hash = "sha256-tA1KdcfmNPuqPbwE66jRY85tsrOKjPImsxSoGsW5ZD4=";
       };
+      python = pkgs.python313;
     };
   };
 }
