@@ -47,7 +47,7 @@ creation_rules:
       - age:
         - *kerry_master
         - *sebastiao
-  - path_regex: ^modules/mcp/servers/secrets/.+
+  - path_regex: ^modules/mcp/servers/secrets/.+$
     key_groups:
       - age:
         - *kerry_master
@@ -59,6 +59,11 @@ creation_rules:
   - path_regex: ^modules/users/([^/]+)/secrets/hashed-password$
     key_groups:
       - age: *fleet
-  - path_regex: ^modules/networkmanager/networks/secrets/.+
+  - path_regex: ^modules/networkmanager/networks/secrets/.+$
     key_groups:
       - age: *fleet
+  - path_regex: ^modules/opencode/providers/secrets/.+$
+    key_groups:
+      - age:
+        - *sebastiao
+        - *claudius
