@@ -1,31 +1,76 @@
 {
-  flake.nixosModules.panza = {
-    services.fstrim.enable = true;
+  flake.nixosModules.panza = {config, ...}: {
     boot = {
-      resumeDevice = "/dev/disk/by-uuid/048cb61f-0fa8-4960-8607-97aa670662cf";
+      initrd.luks.devices = {
+        cryptroot.crypttabExtraOpts = [
+          "tpm2-device=auto"
+          "tpm2-measure-pcr=yes"
+        ];
+        cryptswap.crypttabExtraOpts = [
+          "tpm2-device=auto"
+          "tpm2-measure-pcr=yes"
+        ];
+      };
       zswap.enable = true;
     };
-    fileSystems = {
-      "/" = {
-        device = "/dev/disk/by-uuid/5fc03019-c6c8-4d7e-9056-32f9c318c1b6";
-        fsType = "ext4";
-      };
-      "/boot" = {
-        device = "/dev/disk/by-uuid/AC23-4599";
-        fsType = "vfat";
-        options = ["fmask=0022" "dmask=0022"];
-      };
-      "/home" = {
-        device = "/dev/disk/by-uuid/c67ed632-d694-454d-b39e-95322d23d0a5";
-        fsType = "ext4";
-      };
-      "/nix" = {
-        device = "/dev/disk/by-uuid/449f9f98-da15-4965-8311-c0ce7a803211";
-        fsType = "ext4";
+    disko.devices.disk.panza-nvme = {
+      type = "disk";
+      device = "REPLACE ME";
+      content = {
+        type = "gpt";
+        partitions = {
+          ESP = {
+            priority = 1;
+            size = "1G";
+            type = "EF00";
+            content = {
+              type = "filesystem";
+              format = "vfat";
+              mountpoint = "/boot";
+              mountOptions = ["umask=0077"];
+            };
+          };
+          swap = {
+            size = "63032M";
+            content = {
+              type = "luks";
+              name = "cryptswap";
+              settings.allowDiscards = false;
+              content = {
+                type = "swap";
+                resumeDevice = true;
+              };
+            };
+          };
+          root = {
+            size = "100%";
+            content = {
+              type = "luks";
+              name = "cryptroot";
+              settings.allowDiscards = true;
+              content = {
+                type = "btrfs";
+                extraArgs = ["-f"];
+                subvolumes = {
+                  "@" = {
+                    mountpoint = "/";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  "@nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                  "@var" = {
+                    mountpoint = "/var";
+                    mountOptions = ["compress=zstd" "noatime"];
+                  };
+                };
+              };
+            };
+          };
+        };
       };
     };
-    swapDevices = [
-      {device = "/dev/disk/by-uuid/048cb61f-0fa8-4960-8607-97aa670662cf";}
-    ];
+    services.snapper.persistentTimer = true;
   };
 }

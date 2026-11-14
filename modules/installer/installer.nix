@@ -8,7 +8,7 @@
     pkgs,
     ...
   }: {
-    imports = ["${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"];
+    imports = ["${modulesPath}/installer/cd-dvd/installation-cd-graphical-gnome.nix"];
     environment.systemPackages = [
       inputs.disko.packages.${pkgs.stdenv.hostPlatform.system}.disko
       pkgs.git
@@ -20,5 +20,6 @@
   deployments.nixosModules.installer = [
     "claudius-installer"
     "mushu-installer"
+    "panza-installer"
   ];
 }
