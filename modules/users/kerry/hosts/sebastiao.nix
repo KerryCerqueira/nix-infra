@@ -9,13 +9,6 @@
           mountOptions = ["compress=zstd" "noatime"];
         };
       };
-      sops.secrets = {
-        "kerry/ageKeys" = {
-          path = "${kerry.home}/.config/sops/age/keys.txt";
-          owner = "kerry";
-          mode = "0400";
-        };
-      };
       systemd.tmpfiles.settings."home-snapshots" = {
         "${kerry.home}/.cache".v = {
           user = kerry.name;
