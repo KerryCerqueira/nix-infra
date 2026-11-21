@@ -1,5 +1,5 @@
 {
-  self,
+  config,
   inputs,
   ...
 }: {
@@ -28,7 +28,7 @@
               pyproject-build-systems.overlays.default
               overlay
             ]
-            ++ self.mcp.pythonOverrides)
+            ++ config.flake.mcp.pythonOverrides)
         );
       venv = pythonSet.mkVirtualEnv "${pname}-env" workspace.deps.default;
     in

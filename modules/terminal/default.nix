@@ -1,20 +1,20 @@
-{self, ...}: {
+top @ {...}: {
   flake = {
     nixosModules = {
       terminal = {pkgs, ...}: {
-        imports = with self.nixosModules; [
+        imports = with top.config.flake.nixosModules; [
           zsh
           fish
         ];
         users.defaultUserShell = pkgs.zsh;
       };
-      claudius.imports = [self.nixosModules.terminal];
-      napoleon.imports = [self.nixosModules.terminal];
-      panza.imports = [self.nixosModules.terminal];
-      sebastiao.imports = [self.nixosModules.terminal];
+      claudius.imports = [top.config.flake.nixosModules.terminal];
+      napoleon.imports = [top.config.flake.nixosModules.terminal];
+      panza.imports = [top.config.flake.nixosModules.terminal];
+      sebastiao.imports = [top.config.flake.nixosModules.terminal];
     };
     homeModules.terminal = {pkgs, ...}: {
-      imports = with self.homeModules; [
+      imports = with top.config.flake.homeModules; [
         bat
         btop
         direnv
@@ -38,8 +38,8 @@
         yazi
       ];
     };
-    homeModules.kerry.imports = [self.homeModules.terminal];
-    homeModules.erika.imports = [self.homeModules.terminal];
-    homeModules.jovianUser.imports = [self.homeModules.terminal];
+    homeModules.kerry.imports = [top.config.flake.homeModules.terminal];
+    homeModules.erika.imports = [top.config.flake.homeModules.terminal];
+    homeModules.jovianUser.imports = [top.config.flake.homeModules.terminal];
   };
 }

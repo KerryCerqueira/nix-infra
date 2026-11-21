@@ -1,4 +1,4 @@
-{self, ...}: {
+{config, ...}: {
   flake = {
     nixosModules = {
       julie.users.users.julie = {
@@ -6,7 +6,7 @@
         description = "Julie Quigley";
         extraGroups = ["networkmanager"];
       };
-      mushu.home-manager.users.julie = self.homeModules.julie-mushu;
+      mushu.home-manager.users.julie = config.flake.homeModules.julie-mushu;
     };
     homeModules.julie = {pkgs, ...}: {
       programs = {

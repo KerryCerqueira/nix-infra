@@ -1,8 +1,4 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+top @ {inputs, ...}: {
   flake = {
     mcp.pythonOverrides = [
       (final: prev: {
@@ -24,7 +20,7 @@
       programs.mcp.servers.arxiv = {
         command =
           lib.getExe
-          self.packages.${pkgs.system}.arxiv-mcp-server;
+          top.config.flake.packages.${pkgs.system}.arxiv-mcp-server;
         args = ["--storage-path" "${config.xdg.dataHome}/arxiv-mcp-server"];
       };
     };
@@ -34,7 +30,7 @@
     config,
     ...
   }: let
-    mkPythonMcp = self.lib.mkPythonMcp {
+    mkPythonMcp = top.config.flake.lib.mkPythonMcp {
       inherit pkgs;
       inherit (inputs) uv2nix pyproject-build-systems;
     };

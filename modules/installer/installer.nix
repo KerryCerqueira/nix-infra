@@ -1,8 +1,4 @@
-{
-  inputs,
-  self,
-  ...
-}: {
+top @ {inputs, ...}: {
   flake.nixosModules.installer = {
     modulesPath,
     pkgs,
@@ -12,7 +8,7 @@
     environment.systemPackages = [
       inputs.disko.packages.${pkgs.stdenv.hostPlatform.system}.disko
       pkgs.git
-      (self.packages.${pkgs.stdenv.hostPlatform.system}.neovim.wrap {
+      (top.config.flake.packages.${pkgs.stdenv.hostPlatform.system}.neovim.wrap {
         aspects.lang.nix.enable = true;
       })
     ];

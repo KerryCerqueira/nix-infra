@@ -16,10 +16,12 @@ in {
         }
       '';
       description = ''
-        Deployments of modules in `self.${ns}` to other modules in `self.${ns}`.
+        Deployments of modules in `config.flake.${ns}` to other modules in
+        `config.flake.${ns}`.
 
-        Each attribute name is the name of a module in `self.${ns}`, and its
-        value is the list of modules in `self.${ns}` that import it.
+        Each attribute name is the name of a module in `config.flake.${ns}`,
+        and its value is the list of modules in `config.flake.${ns}` that
+        import it.
 
         Definitions from multiple files are merged: target lists for the same
         module are concatenated, so a module may be deployed from anywhere in

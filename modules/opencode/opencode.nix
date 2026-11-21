@@ -1,4 +1,4 @@
-{self, ...}: {
+top @ {...}: {
   flake.wrappers.opencode = {
     config,
     wlib,
@@ -62,7 +62,7 @@
     lib,
     ...
   }: {
-    imports = [self.wrappers.opencode.install];
+    imports = [top.config.flake.wrappers.opencode.install];
     home.packages = [config.wrappers.opencode.wrapper];
     wrappers.opencode.settings.mcp.servers =
       lib.mapAttrs (

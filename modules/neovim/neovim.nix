@@ -1,8 +1,4 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+top @ {inputs, ...}: {
   flake = {
     nixosModules.neovim = {
       pkgs,
@@ -11,7 +7,7 @@
     }: {
       environment.systemPackages = let
         system = pkgs.stdenv.hostPlatform.system;
-      in [self.packages.${system}.neovim];
+      in [top.config.flake.packages.${system}.neovim];
       environment.variables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
@@ -24,14 +20,14 @@
     }: {
       home.packages = let
         system = pkgs.stdenv.hostPlatform.system;
-      in [self.packages.${system}.neovim];
+      in [top.config.flake.packages.${system}.neovim];
       home.sessionVariables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
       };
     };
     wrappers.neovim = {...}: {
-      imports = [self.lib.wrapperModules.lazy-neovim];
+      imports = [top.config.flake.lib.wrapperModules.lazy-neovim];
       lazy.configSrc = ./src;
       lazy.configInitExtra = ''
         require("options").setup()
@@ -58,7 +54,7 @@
   };
   perSystem = {system, ...}: {
     wrappers.packages.neovim = true;
-    packages.neovim = self.wrappers.neovim.wrap {
+    packages.neovim = top.config.flake.wrappers.neovim.wrap {
       pkgs = import inputs.nixpkgs-neovim {
         inherit system;
         config.allowUnfree = true;

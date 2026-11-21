@@ -1,5 +1,5 @@
 {
-  self,
+  config,
   lib,
   ...
 }: {
@@ -10,7 +10,7 @@
         "sebastiao"
       ]
       (
-        _: {imports = [self.nixosModules.mcp];}
+        _: {imports = [config.flake.nixosModules.mcp];}
       );
     homeModules.mcp = {
       config,

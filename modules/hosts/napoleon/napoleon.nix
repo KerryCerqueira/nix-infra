@@ -1,5 +1,5 @@
 {
-  self,
+  config,
   inputs,
   ...
 }: {
@@ -15,7 +15,7 @@
     };
     nixosConfigurations.napoleon = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [self.nixosModules.napoleon];
+      modules = [config.flake.nixosModules.napoleon];
     };
     homeModules.napoleon.home.stateVersion = "25.11";
   };

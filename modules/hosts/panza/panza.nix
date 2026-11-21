@@ -1,5 +1,5 @@
 {
-  self,
+  config,
   inputs,
   ...
 }: {
@@ -22,7 +22,7 @@
     };
     nixosConfigurations.panza = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [self.nixosModules.panza];
+      modules = [config.flake.nixosModules.panza];
     };
     homeModules.panza.home.stateVersion = "23.11";
   };

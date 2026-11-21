@@ -1,4 +1,4 @@
-{self, ...}: {
+top @ {...}: {
   flake = {
     lib.wrapperModules.lazy-neovim = {
       pkgs,
@@ -37,7 +37,7 @@
         ${config.lazy.configInit}
         EOF
       '';
-      mkConvergentType = self.lib.mkConvergentType pkgs;
+      mkConvergentType = top.config.flake.lib.mkConvergentType pkgs;
     in {
       imports = [wlib.wrapperModules.neovim];
       options = {

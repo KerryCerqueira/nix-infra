@@ -1,8 +1,4 @@
-{
-  self,
-  inputs,
-  ...
-}: {
+top @ {inputs, ...}: {
   flake.homeModules.mcp = {
     pkgs,
     lib,
@@ -11,15 +7,12 @@
     programs.mcp.servers.fetchaller = {
       command =
         lib.getExe
-        self.packages.${pkgs.system}.fetchaller-mcp;
+        top.config.flake.packages.${pkgs.system}.fetchaller-mcp;
       args = [];
     };
   };
-  perSystem = {
-    pkgs,
-    ...
-  }: let
-    mkPythonMcp = self.lib.mkPythonMcp {
+  perSystem = {pkgs, ...}: let
+    mkPythonMcp = top.config.flake.lib.mkPythonMcp {
       inherit pkgs;
       inherit (inputs) uv2nix pyproject-build-systems;
     };

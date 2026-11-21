@@ -1,14 +1,14 @@
-{self, ...}: {
+top @ {...}: {
   flake.nixosModules.jovianUser = {
     config,
     pkgs,
     lib,
     ...
   }: {
-    home-manager.users.steam = self.homeModules.jovianUser;
+    home-manager.users.steam = top.config.flake.homeModules.jovianUser;
     users.users.steam = {
       isNormalUser = true;
-      uid = self.lib.constants.uids.steam;
+      uid = top.config.flake.lib.constants.uids.steam;
       description = "Living room gaming user";
       extraGroups = ["networkmanager" "wheel"];
       hashedPasswordFile = config.sops.secrets."hashedPasswords/steam".path;

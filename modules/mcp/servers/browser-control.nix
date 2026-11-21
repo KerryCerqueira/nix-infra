@@ -1,8 +1,4 @@
-{
-  self,
-  lib,
-  ...
-}: {
+top @ {lib, ...}: {
   flake = {
     nixosModules =
       lib.genAttrs [
@@ -34,7 +30,7 @@
             ''
               export EXTENSION_SECRET="$(cat ${secretPath})"
               export EXTENSION_PORT="8089"
-              exec ${lib.getExe self.packages.${pkgs.system}.browser-control-mcp} "$@"
+              exec ${lib.getExe top.config.flake.packages.${pkgs.system}.browser-control-mcp} "$@"
             ''
           );
       };

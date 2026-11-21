@@ -8,29 +8,32 @@ Nix infrastructure monorepo. A single nix flake using
 discovery, and the
 [dendritic pattern](https://github.com/mightyiam/dendritic) for overall
 organization. Outputs include nixOS system configurations, home-manager
-profiles, a wrapped neovim derivation, and reusable nixOS/home-manager/wrapper
-modules.
+profiles, a wrapped neovim derivation, and reusable
+nixOS/home-manager/wrapper modules.
 
 ## Architecture
 
 ### Flake structure
 
-`flake.nix` calls `import-tree ./modules`, which recursively imports every
-`.nix` file under `modules/` as a flake-parts module. Directories prefixed with
-`_` (e.g. `_hardware/`, `_home/`) are excluded from import-tree's auto-import
-and are instead imported explicitly by their parent via `import ./_hardware` or
-similar. Non-nix files (`.yaml`, `.lua`, etc.) are also ignored by import-tree.
+`flake.nix` calls `import-tree ./modules`, which recursively imports
+every `.nix` file under `modules/` as a flake-parts module. Directories
+prefixed with `_` (e.g. `_hardware/`, `_home/`) are excluded from
+import-tree's auto-import and are instead imported explicitly by their
+parent via `import ./_hardware` or similar. Non-nix files (`.yaml`,
+`.lua`, etc.) are also ignored by import-tree.
 
-Every `.nix` file under `modules/` is therefore a **flake-parts module** -- a
-function that receives flake-parts module arguments (`self`, `inputs`,
-`config`, `lib`, ...) and sets flake-parts options. There is no separate
-`default.nix` entry-point convention; import-tree handles discovery.
+Every `.nix` file under `modules/` is therefore a **flake-parts module**
+-- a function that receives flake-parts module arguments (`self`,
+`inputs`, `config`, `lib`, ...) and sets flake-parts options. There is
+no separate `default.nix` entry-point convention; import-tree handles
+discovery.
 
 ### Module conventions
 
-Each .nix file corresponds one-to-one with a flake-parts module and high level
-concern respectively. They set **flake-level options** rather than working at a
-single nix abstraction layer. A single file may define any combination of:
+Each .nix file corresponds one-to-one with a flake-parts module and high
+level concern respectively. They set **flake-level options** rather than
+working at a single nix abstraction layer. A single file may define any
+combination of:
 
 - `flake.nixosModules.<name>` -- a nixOS module
 - `flake.homeModules.<name>` -- a home-manager module
@@ -41,68 +44,76 @@ single nix abstraction layer. A single file may define any combination of:
 - `perSystem` -- per-system outputs (packages, devShells, apps)
 
 Module functions use destructured arguments with `...`:
+
 ```nix
 { self, inputs, ... }: {
   flake.nixosModules.example = { pkgs, ... }: { ... };
 }
 ```
 
-Modules reference each other via `self.nixosModules.<name>`,
-`self.homeModules.<name>`, etc. -- never by relative path (except for `_` prefixed
-directories which are explicitly imported by their parent).
+Modules reference each other via `config.flake.nixosModules.<name>`,
+`config.flake.homeModules.<name>`, etc. -- never by relative path
+(except for `_` prefixed directories which are explicitly imported by
+their parent). Inside subordinate module functions
+(nixOS/home/wrapper/`perSystem`), whose own `config` shadows the
+flake-parts top-level `config`, bind the top-level arguments as
+`top@{...}` and reference `top.config.flake.<output>.<name>`. Genuine
+`self` uses (`self.rev`, `self.outPath`, anything threaded into a config
+as `specialArgs`) stay as `self`.
 
-We prefer pushing module dependencies rather than pulling e.g. it is better to
-declare
+We prefer pushing module dependencies rather than pulling e.g. it is
+better to declare
 
 ```{nix}
 flake.nixosModules.myHost = {imports=[self.nixosModules.myConcern];};
 ```
 
 in `my-concern.nix` than to write the same import statement in say
-`modules/hosts/my-host/core.nix`. In this way concerns handle their deployment as
-well as their definition.
+`modules/hosts/my-host/core.nix`. In this way concerns handle their
+deployment as well as their definition.
 
 ### Aspect-oriented organization
 
 The `modules/` tree is organized by **aspect** (concern), not by nix
 abstraction layer, e.g.:
 
-| Directory | Aspect |
-|-----------|--------|
+| Directory               | Aspect                                                                            |
+| ----------------------- | --------------------------------------------------------------------------------- |
 | `modules/hosts/<name>/` | Machine-specific config: hardware, filesystem, networking, secrets, user bindings |
-| `modules/users/` | User profile definitions and home-manager configurations |
-| `modules/terminal/` | Shell environment: zsh, fish, terminal emulators, CLI tools |
-| `modules/programs/` | Individual application modules (gnome, steam, ssh, etc.) |
-| `modules/neovim/` | Neovim wrapper modules and lua source -- see `modules/neovim/AGENTS.md` |
+| `modules/users/`        | User profile definitions and home-manager configurations                          |
+| `modules/terminal/`     | Shell environment: zsh, fish, terminal emulators, CLI tools                       |
+| `modules/programs/`     | Individual application modules (gnome, steam, ssh, etc.)                          |
+| `modules/neovim/`       | Neovim wrapper modules and lua source -- see `modules/neovim/AGENTS.md`           |
 
-At the flake output level, hosts are associated to their nixOS module output, e.g.
-`claudius` to `outputs.nixosModules.claudius`. Any flake-parts module can
-contribute configuration to that concern by multiply defining that output.
-Similarly, user concerns export `homeModules.<user>` and
-`homeModules.<user>@<host>`.
+At the flake output level, hosts are associated to their nixOS module
+output, e.g. `claudius` to `outputs.nixosModules.claudius`. Any
+flake-parts module can contribute configuration to that concern by
+multiply defining that output. Similarly, user concerns export
+`homeModules.<user>` and `homeModules.<user>@<host>`.
 
 ### Host configuration pattern
 
-Each host directory (e.g. `modules/hosts/claudius/`) contains or may contain:
+Each host directory (e.g. `modules/hosts/claudius/`) contains or may
+contain:
 
-- `core.nix` -- Defines `flake.nixosModules.<host>` (imports other aspect
-  modules) and `flake.nixosConfigurations.<host>`
-- `hardware.nix`, `filesystem.nix`, `networking.nix` -- hardware-specific
-  nixOS module config
+- `core.nix` -- Defines `flake.nixosModules.<host>` (imports other
+  aspect modules) and `flake.nixosConfigurations.<host>`
+- `hardware.nix`, `filesystem.nix`, `networking.nix` --
+  hardware-specific nixOS module config
 - `sops.nix` + `secrets.yaml` -- system-level secrets via sops-nix
-- `users/<user>/` -- per-user host-specific config (home-manager imports, user
-  secrets)
+- `users/<user>/` -- per-user host-specific config (home-manager
+  imports, user secrets)
 
 ### Secrets management
 
-Secrets are managed with [sops-nix](https://github.com/Mic92/sops-nix) using
-age encryption. The `.sops.yaml` at the repo root defines creation rules
-mapping secret file paths to age keys. Secret files are `secrets.yaml` files
-co-located with the modules that consume them.
+Secrets are managed with [sops-nix](https://github.com/Mic92/sops-nix)
+using age encryption. The `.sops.yaml` at the repo root defines creation
+rules mapping secret file paths to age keys. Secret files are
+`secrets.yaml` files co-located with the modules that consume them.
 
-**Do not create, edit, or commit `secrets.yaml` files.** They contain encrypted
-data that requires specific age keys. Do not log, display, or include secret
-values in outputs.
+**Do not create, edit, or commit `secrets.yaml` files.** They contain
+encrypted data that requires specific age keys. Do not log, display, or
+include secret values in outputs.
 
 ## Key inputs
 
@@ -113,12 +124,14 @@ values in outputs.
 - `import-tree` -- automatic module discovery
 - `nix-wrapper-modules` -- wrapper framework
 - `sops-nix` -- secrets management
-- `uv2nix` / `pyproject-nix` / `pyproject-build-systems` -- Python packaging
+- `uv2nix` / `pyproject-nix` / `pyproject-build-systems` -- Python
+  packaging
 
 ## Code style
 
 - Format nix with `alejandra` (no config file; default settings).
-- Pipe operators (`|>`) are enabled and used where they improve readability.
+- Pipe operators (`|>`) are enabled and used where they improve
+  readability.
 - Try to stay within 80 character width.
 - Pack attribute sets unless there's a very good reason, ex.
 
@@ -135,6 +148,7 @@ foo = {
     baz = 2;
 };
 ```
+
 ## Building and testing
 
 ```sh

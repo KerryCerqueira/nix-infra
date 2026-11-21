@@ -1,5 +1,5 @@
 {
-  self,
+  config,
   inputs,
   ...
 }: {
@@ -23,8 +23,8 @@
           ];
         };
       }
-      self.homeModules.neovim
-      self.homeModules.shell
+      config.flake.homeModules.neovim
+      config.flake.homeModules.shell
     ];
   };
 }

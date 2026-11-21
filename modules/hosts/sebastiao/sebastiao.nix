@@ -1,5 +1,5 @@
 {
-  self,
+  config,
   inputs,
   ...
 }: {
@@ -25,7 +25,7 @@
     };
     nixosConfigurations.sebastiao = inputs.nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [self.nixosModules.sebastiao];
+      modules = [config.flake.nixosModules.sebastiao];
     };
     homeModules.sebastiao.home.stateVersion = "25.11";
   };

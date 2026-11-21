@@ -1,4 +1,4 @@
-{self, ...}: {
+{config, ...}: {
   flake = {
     nixosModules = {
       kerry = {config, ...}: {
@@ -15,10 +15,10 @@
           neededForUsers = true;
         };
       };
-      claudius.home-manager.users.kerry = self.homeModules.kerry-claudius;
-      mushu.home-manager.users.kerry = self.homeModules.kerry-mushu;
-      panza.home-manager.users.kerry = self.homeModules.kerry-panza;
-      sebastiao.home-manager.users.kerry = self.homeModules.kerry-sebastiao;
+      claudius.home-manager.users.kerry = config.flake.homeModules.kerry-claudius;
+      mushu.home-manager.users.kerry = config.flake.homeModules.kerry-mushu;
+      panza.home-manager.users.kerry = config.flake.homeModules.kerry-panza;
+      sebastiao.home-manager.users.kerry = config.flake.homeModules.kerry-sebastiao;
     };
     homeModules.kerry = {pkgs, ...}: {
       programs = {

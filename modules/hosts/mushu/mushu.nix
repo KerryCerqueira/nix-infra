@@ -1,5 +1,5 @@
 {
-  self,
+  config,
   inputs,
   ...
 }: {
@@ -9,13 +9,13 @@
     nixosModules.mushu.system.stateVersion = stateVersion;
     nixosConfigurations.mushu = inputs.nixpkgs-stable.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [self.nixosModules.mushu];
+      modules = [config.flake.nixosModules.mushu];
     };
     homeModules = {
       mushu.home.stateVersion = stateVersion;
-      erika-mushu.imports = [self.homeModules.mushu];
-      julie-mushu.imports = [self.homeModules.mushu];
-      kerry-mushu.imports = [self.homeModules.mushu];
+      erika-mushu.imports = [config.flake.homeModules.mushu];
+      julie-mushu.imports = [config.flake.homeModules.mushu];
+      kerry-mushu.imports = [config.flake.homeModules.mushu];
     };
   };
 }

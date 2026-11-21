@@ -1,4 +1,4 @@
-{self, ...}: {
+top@ {...}: {
   flake = {
     nixosModules = {
       erika.users.users.erika = {
@@ -6,8 +6,8 @@
         description = "Erika Titley";
         extraGroups = ["networkmanager" "wheel"];
       };
-      mushu.home-manager.users.erika = self.homeModules.erika-mushu;
-      panza.home-manager.users.erika = self.homeModules.erika-panza;
+      mushu.home-manager.users.erika = top.config.flake.homeModules.erika-mushu;
+      panza.home-manager.users.erika = top.config.flake.homeModules.erika-panza;
     };
     homeModules.erika = {pkgs, ...}: {
       programs = {

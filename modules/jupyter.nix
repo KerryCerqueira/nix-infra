@@ -1,4 +1,4 @@
-{self, ...}: {
+top @ {...}: {
   flake.lib = let
     kernelSpecFromEnv = pkgs: pythonEnv:
       pkgs.writeTextDir
@@ -49,10 +49,13 @@
     lib,
     ...
   }: let
-    shellFromEnv = self.lib.shellFromEnv pkgs;
+    shellFromEnv = top.config.flake.lib.shellFromEnv pkgs;
     jupyterAppFromEnv = env: {
       type = "app";
-      program = env |> (self.lib.jupyterAppFromEnv pkgs) |> lib.getExe;
+      program =
+        env
+        |> (top.config.flake.lib.jupyterAppFromEnv pkgs)
+        |> lib.getExe;
     };
     dataMungeEnv = pkgs.python3.withPackages (ps:
       with ps; [

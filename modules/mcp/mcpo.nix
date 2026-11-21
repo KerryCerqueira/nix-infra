@@ -1,9 +1,9 @@
-{self, inputs, ...}: {
+top @ {inputs, ...}: {
   perSystem = {pkgs, ...}: let
-  mkUvDrv = self.lib.mkUvDrv {
-    inherit pkgs;
-    inherit (inputs) uv2nix pyproject-build-systems;
-  };
+    mkUvDrv = top.config.flake.lib.mkUvDrv {
+      inherit pkgs;
+      inherit (inputs) uv2nix pyproject-build-systems;
+    };
   in {
     packages.mcpo = mkUvDrv {
       pname = "mcpo";
