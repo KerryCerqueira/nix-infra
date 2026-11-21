@@ -1,4 +1,8 @@
-top @ {inputs, ...}: {
+top @ {
+  inputs,
+  moduleWithSystem,
+  ...
+}: {
   flake = {
     mcp.pythonOverrides = [
       (final: prev: {
@@ -11,19 +15,20 @@ top @ {inputs, ...}: {
         });
       })
     ];
-    homeModules.mcp = {
-      config,
-      pkgs,
-      lib,
-      ...
-    }: {
-      programs.mcp.servers.arxiv = {
-        command =
-          lib.getExe
-          top.config.flake.packages.${pkgs.system}.arxiv-mcp-server;
-        args = ["--storage-path" "${config.xdg.dataHome}/arxiv-mcp-server"];
-      };
-    };
+    homeModules.mcp = moduleWithSystem (
+      perSystem @ {config}: {
+        config,
+        lib,
+        ...
+      }: {
+        programs.mcp.servers.arxiv = {
+          command =
+            lib.getExe
+            perSystem.config.packages.arxiv-mcp-server;
+          args = ["--storage-path" "${config.xdg.dataHome}/arxiv-mcp-server"];
+        };
+      }
+    );
   };
   perSystem = {
     pkgs,

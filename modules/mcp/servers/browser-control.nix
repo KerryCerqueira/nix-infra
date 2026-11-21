@@ -1,4 +1,8 @@
-top @ {lib, ...}: {
+{
+  lib,
+  moduleWithSystem,
+  ...
+}: {
   flake = {
     nixosModules =
       lib.genAttrs [
@@ -12,29 +16,31 @@ top @ {lib, ...}: {
           mode = "0400";
         };
       });
-    homeModules.mcp = {
-      osConfig,
-      pkgs,
-      lib,
-      ...
-    }: {
-      programs.mcp.servers.browser-control = {
-        args = [];
-        command = let
-          secretPath = osConfig.sops.secrets."mcp/browser-control".path;
-        in
-          lib.getExe
-          (
-            pkgs.writeShellScriptBin
-            "browser-control-mcp-wrapped"
-            ''
-              export EXTENSION_SECRET="$(cat ${secretPath})"
-              export EXTENSION_PORT="8089"
-              exec ${lib.getExe top.config.flake.packages.${pkgs.system}.browser-control-mcp} "$@"
-            ''
-          );
-      };
-    };
+    homeModules.mcp = moduleWithSystem (
+      perSystem @ {config}: {
+        osConfig,
+        pkgs,
+        lib,
+        ...
+      }: {
+        programs.mcp.servers.browser-control = {
+          args = [];
+          command = let
+            secretPath = osConfig.sops.secrets."mcp/browser-control".path;
+          in
+            lib.getExe
+            (
+              pkgs.writeShellScriptBin
+              "browser-control-mcp-wrapped"
+              ''
+                export EXTENSION_SECRET="$(cat ${secretPath})"
+                export EXTENSION_PORT="8089"
+                exec ${lib.getExe perSystem.config.packages.browser-control-mcp} "$@"
+              ''
+            );
+        };
+      }
+    );
   };
   perSystem = {pkgs, ...}: {
     packages.browser-control-mcp = pkgs.buildNpmPackage (finalAttrs: {

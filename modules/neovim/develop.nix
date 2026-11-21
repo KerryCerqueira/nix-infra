@@ -1,12 +1,12 @@
 {...}: {
   perSystem = {
-    self',
+    config,
     pkgs,
     ...
   }: {
     packages = {
       generate-luarc = let
-        wrapperCfg = self'.packages.neovim.passthru.configuration;
+        wrapperCfg = config.packages.neovim.passthru.configuration;
         luarcJson = wrapperCfg.aspects.lang.lua.luarc;
       in
         pkgs.writeShellScriptBin "generate-luarc" ''
@@ -71,10 +71,10 @@
     };
     devShells.default = pkgs.mkShell {
       packages = with pkgs; [
-          sops
-          age
-          ssh-to-age
-        (self'.packages.neovim.wrap {
+        sops
+        age
+        ssh-to-age
+        (config.packages.neovim.wrap {
           aspects.lang.lua.enable = true;
           aspects.lang.lua.passLuaRc = true;
           aspects.lang.nix.enable = true;

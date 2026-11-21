@@ -1,16 +1,18 @@
-top @ {inputs, ...}: {
-  flake.homeModules.mcp = {
-    pkgs,
-    lib,
-    ...
-  }: {
-    programs.mcp.servers.fetchaller = {
-      command =
-        lib.getExe
-        top.config.flake.packages.${pkgs.system}.fetchaller-mcp;
-      args = [];
-    };
-  };
+top @ {
+  inputs,
+  moduleWithSystem,
+  ...
+}: {
+  flake.homeModules.mcp = moduleWithSystem (
+    perSystem @ {config}: {lib, ...}: {
+      programs.mcp.servers.fetchaller = {
+        command =
+          lib.getExe
+          perSystem.config.packages.fetchaller-mcp;
+        args = [];
+      };
+    }
+  );
   perSystem = {pkgs, ...}: let
     mkPythonMcp = top.config.flake.lib.mkPythonMcp {
       inherit pkgs;

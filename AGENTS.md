@@ -61,6 +61,29 @@ flake-parts top-level `config`, bind the top-level arguments as
 `self` uses (`self.rev`, `self.outPath`, anything threaded into a config
 as `specialArgs`) stay as `self`.
 
+Package references inside module bodies take the deeper path: wrap
+the module with `moduleWithSystem` (a top-level flake-parts argument)
+and read the per-system *definition* from the injected `perSystem`
+arguments, keeping the dependency off the realized outputs and letting
+flake-parts select the system instead of indexing outputs by a
+`${system}` string:
+
+```{nix}
+{ moduleWithSystem, ... }: {
+  flake.nixosModules.example = moduleWithSystem (
+    perSystem @ { config }:
+    { pkgs, ... }: {
+      environment.systemPackages = [
+        perSystem.config.packages.example
+      ];
+    }
+  );
+}
+```
+
+Only the *named* parameters of the `perSystem` function are bound
+(`functionArgs` reflection); name exactly what the body uses.
+
 We prefer pushing module dependencies rather than pulling e.g. it is
 better to declare
 

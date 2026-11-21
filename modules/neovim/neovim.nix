@@ -1,31 +1,29 @@
-top @ {inputs, ...}: {
+top @ {
+  inputs,
+  moduleWithSystem,
+  ...
+}: {
   flake = {
-    nixosModules.neovim = {
-      pkgs,
-      lib,
-      ...
-    }: {
-      environment.systemPackages = let
-        system = pkgs.stdenv.hostPlatform.system;
-      in [top.config.flake.packages.${system}.neovim];
-      environment.variables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
-      };
-    };
-    homeModules.neovim = {
-      pkgs,
-      lib,
-      ...
-    }: {
-      home.packages = let
-        system = pkgs.stdenv.hostPlatform.system;
-      in [top.config.flake.packages.${system}.neovim];
-      home.sessionVariables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
-      };
-    };
+    nixosModules.neovim = moduleWithSystem (
+      perSystem @ {config}: {...}: {
+        environment.systemPackages = [
+          perSystem.config.packages.neovim
+        ];
+        environment.variables = {
+          EDITOR = "nvim";
+          VISUAL = "nvim";
+        };
+      }
+    );
+    homeModules.neovim = moduleWithSystem (
+      perSystem @ {config}: {...}: {
+        home.packages = [perSystem.config.packages.neovim];
+        home.sessionVariables = {
+          EDITOR = "nvim";
+          VISUAL = "nvim";
+        };
+      }
+    );
     wrappers.neovim = {...}: {
       imports = [top.config.flake.lib.wrapperModules.lazy-neovim];
       lazy.configSrc = ./src;
